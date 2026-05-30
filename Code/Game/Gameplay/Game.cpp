@@ -266,6 +266,8 @@ void Game::RenderEntities() const
 
 	m_grid->Render();
 
+	m_testObj->Render();
+
 	g_engine->m_render->EndCamera( *m_worldCamera );
 }
 
@@ -500,5 +502,9 @@ void Game::ObjTesting()
 {
 	VertexList verts;
 	IndexList indexes;
-	LoadObjFromFile( verts, indexes, "Data/Models/teapot.obj" );
+	LoadObjFromFile( verts, indexes, "Data/Models/luigi.obj" );
+
+	m_testObj = new Prop( Vec3( 50.f, 10.f, 17.5f ), EulerAngles( 180.f, 0.f, 90.f ) );
+	m_testObj->m_vertexes = verts;
+ 	m_testObj->m_texture = g_engine->m_render->CreateOrGetTextureFromFile( "Data/Images/luigi_grp.png" );
 }

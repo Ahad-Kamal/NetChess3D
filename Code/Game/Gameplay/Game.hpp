@@ -71,6 +71,7 @@ public:
 	Prop*		m_cube2 = nullptr;
 	Prop*		m_sphere = nullptr;
 	Prop*		m_grid = nullptr;
+	Prop*		m_testObj = nullptr;
 
 	Camera*		m_worldCamera;
 	Camera*		m_screenCamera;
