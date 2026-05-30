@@ -37,8 +37,4 @@ extern SoundID audio_selectSound;
 extern SoundID audio_testSound;
 
 //-----------------------------------------------------------------------------------------------
-void DebugDrawRing( Vec2 const& center, float radius, float thickness, Rgba8 const& color);
-void DebugDrawLine( Vec2 const& startPos, Vec2 const& endPos, float thickness, Rgba8 const& color);
-void DrawFadedRing( Vec2 center, float innerRadius, float outerRadius, Rgba8 innerColor, Rgba8 outerColor );
-void DrawGlow( Vec2 pos, Rgba8 color, float alpha, float radius );
 void CreateSounds();

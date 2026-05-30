@@ -46,11 +46,7 @@ private:
 	void RenderAttractMode() const;
 
 	void UpdateEntities( float deltaSeconds );
-	void UpdateCameras( float deltaSeconds );
 	void RenderEntities() const;
-
-	void ClampCamera( Vec2& minView, Vec2& maxView );
-	void ShakeCamera( float deltaSeconds );
 
 	//bool DoEntitiesOverlap( Entity const& a, Entity const& b);
 
@@ -59,8 +55,7 @@ private:
 
 	void InitializeStartTriangleVerts();
 	void AddDebugObjects();
-	void DebugRenderEntities() const;
-	void DebugDrawWorldBounds() const;
+
 	void DeleteGarbageEntities();
 
 	void AddCommandsToDevConsole();

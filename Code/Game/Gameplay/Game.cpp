@@ -115,8 +115,7 @@ void Game::Render() const
 
 	if ( m_debugDraw )
 	{
-		DebugRenderEntities();
-		DebugDrawWorldBounds();
+
 	}
 
 	if( g_engine->m_devConsole->IsOpen() )
@@ -255,12 +254,6 @@ void Game::UpdateEntities( float deltaSeconds )
 }
 
 //-----------------------------------------------------------------------------------------------
-void Game::UpdateCameras( [[maybe_unused]] float deltaSeconds )
-{
-
-}
-
-//-----------------------------------------------------------------------------------------------
 void Game::RenderEntities() const
 {
 	g_engine->m_render->BeginCamera( *m_worldCamera );
@@ -275,60 +268,6 @@ void Game::RenderEntities() const
 
 	g_engine->m_render->EndCamera( *m_worldCamera );
 }
-
-//-----------------------------------------------------------------------------------------------
-void Game::ClampCamera( Vec2& minView, Vec2& maxView )
-{
-	if( minView.x < 0.f )
-	{
-		minView.x = 0.f;
-		maxView.x = WORLD_VIEW_SIZE_X;
-	}
-	else if( maxView.x > WORLD_SIZE_X )
-	{
-		minView.x = WORLD_SIZE_X - WORLD_VIEW_SIZE_X;
-		maxView.x = WORLD_SIZE_X;
-	}
-	
-	if( minView.y < 0.f )
-	{
-		minView.y = 0.f;
-		maxView.y = WORLD_VIEW_SIZE_Y;
-	}
-	else if( maxView.y > WORLD_SIZE_Y )
-	{
-		minView.y = WORLD_SIZE_Y - WORLD_VIEW_SIZE_Y;
-		maxView.y = WORLD_SIZE_Y;
-	}
-}
-
-//-----------------------------------------------------------------------------------------------
-void Game::ShakeCamera( float deltaSeconds )
-{
-	float shakeX = g_rng->RollRandomFloatInRange( -m_screenShakeAmount, m_screenShakeAmount );
-	float shakeY = g_rng->RollRandomFloatInRange( -m_screenShakeAmount, m_screenShakeAmount );
-
-	m_worldCamera->Translate2D( Vec2( shakeX, shakeY ) );
-
-	m_screenShakeAmount -= SCREEN_SHAKE_REDUCTION * deltaSeconds;
-	m_screenShakeAmount = GetClamped( m_screenShakeAmount, 0.f, MAX_SCREEN_SHAKE_AMOUNT );
-
-	if( m_screenShakeAmount <= 0.f )
-	{
-		m_isShaking = false;
-	}
-}
-
-//-----------------------------------------------------------------------------------------------
-//bool Game::DoEntitiesOverlap(Entity const& a, Entity const& b)
-//{
-//	float dx = b.m_position.x - a.m_position.x;
-//	float dy = b.m_position.y - a.m_position.y;
-//	float distanceSquared = ( dx * dx ) + ( dy * dy );
-//	float combinedRadii = a.m_physicsRadius + b.m_physicsRadius;
-//	float radiiSquared = combinedRadii * combinedRadii;
-//	return distanceSquared < radiiSquared;
-//}
 
 //-----------------------------------------------------------------------------------------------
 void Game::UpdateKeyboardInput()
@@ -455,23 +394,6 @@ void Game::AddDebugObjects()
 	zMatrix.AppendYRotation( 180.f );
 	std::string zAxisText = " z - up";
 	DebugAddWorldText( zAxisText, zMatrix, 1.f, Vec2( 0.5f, 0.5f ), -1.f, Rgba8::BLUE, Rgba8::BLUE );
-}
-
-//-----------------------------------------------------------------------------------------------
-void Game::DebugRenderEntities() const
-{
-
-}
-
-//-----------------------------------------------------------------------------------------------
-void Game::DebugDrawWorldBounds() const
-{
-	DebugDrawLine( Vec2( 0.f, 0.f ), Vec2( WORLD_SIZE_X, WORLD_SIZE_Y ), 5.f, Rgba8( 255, 0, 255 ) );
-	DebugDrawLine( Vec2( 0.f, WORLD_SIZE_Y ), Vec2( WORLD_SIZE_X, 0.f ), 5.f, Rgba8( 255, 0, 255 ) );
-	DebugDrawLine( Vec2( 0.f, 0.f ), Vec2( WORLD_SIZE_X, 0.f ), 5.f, Rgba8( 255, 0, 255 ) );
-	DebugDrawLine( Vec2( 0.f, WORLD_SIZE_Y ), Vec2( WORLD_SIZE_X, WORLD_SIZE_Y ), 5.f, Rgba8( 255, 0, 255 ) );
-	DebugDrawLine( Vec2( 0.f, 0.f ), Vec2( 0.f, WORLD_SIZE_Y ), 5.f, Rgba8( 255, 0, 255 ) );
-	DebugDrawLine( Vec2( WORLD_SIZE_X, 0.f ), Vec2( WORLD_SIZE_X, WORLD_SIZE_Y ), 5.f, Rgba8( 255, 0, 255 ) );
 }
 
 //-----------------------------------------------------------------------------------------------
