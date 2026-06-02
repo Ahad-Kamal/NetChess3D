@@ -11,6 +11,8 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		DebugInline|x64 = DebugInline|x64
+		DebugInline|x86 = DebugInline|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
@@ -19,14 +21,22 @@ Global
 		{0D6C1A11-9EA7-462C-A2DE-A4A23B40A73E}.Debug|x64.Build.0 = Debug|x64
 		{0D6C1A11-9EA7-462C-A2DE-A4A23B40A73E}.Debug|x86.ActiveCfg = Debug|Win32
 		{0D6C1A11-9EA7-462C-A2DE-A4A23B40A73E}.Debug|x86.Build.0 = Debug|Win32
+		{0D6C1A11-9EA7-462C-A2DE-A4A23B40A73E}.DebugInline|x64.ActiveCfg = DebugInline|x64
+		{0D6C1A11-9EA7-462C-A2DE-A4A23B40A73E}.DebugInline|x64.Build.0 = DebugInline|x64
+		{0D6C1A11-9EA7-462C-A2DE-A4A23B40A73E}.DebugInline|x86.ActiveCfg = DebugInline|Win32
+		{0D6C1A11-9EA7-462C-A2DE-A4A23B40A73E}.DebugInline|x86.Build.0 = DebugInline|Win32
 		{0D6C1A11-9EA7-462C-A2DE-A4A23B40A73E}.Release|x64.ActiveCfg = Release|x64
 		{0D6C1A11-9EA7-462C-A2DE-A4A23B40A73E}.Release|x64.Build.0 = Release|x64
 		{0D6C1A11-9EA7-462C-A2DE-A4A23B40A73E}.Release|x86.ActiveCfg = Release|Win32
 		{0D6C1A11-9EA7-462C-A2DE-A4A23B40A73E}.Release|x86.Build.0 = Release|Win32
-		{3BACADB5-3484-43B6-8D51-BCFFA5D4CE7F}.Debug|x64.ActiveCfg = Debug|x64
-		{3BACADB5-3484-43B6-8D51-BCFFA5D4CE7F}.Debug|x64.Build.0 = Debug|x64
+		{3BACADB5-3484-43B6-8D51-BCFFA5D4CE7F}.Debug|x64.ActiveCfg = DebugInline|x64
+		{3BACADB5-3484-43B6-8D51-BCFFA5D4CE7F}.Debug|x64.Build.0 = DebugInline|x64
 		{3BACADB5-3484-43B6-8D51-BCFFA5D4CE7F}.Debug|x86.ActiveCfg = Debug|Win32
 		{3BACADB5-3484-43B6-8D51-BCFFA5D4CE7F}.Debug|x86.Build.0 = Debug|Win32
+		{3BACADB5-3484-43B6-8D51-BCFFA5D4CE7F}.DebugInline|x64.ActiveCfg = DebugInline|x64
+		{3BACADB5-3484-43B6-8D51-BCFFA5D4CE7F}.DebugInline|x64.Build.0 = DebugInline|x64
+		{3BACADB5-3484-43B6-8D51-BCFFA5D4CE7F}.DebugInline|x86.ActiveCfg = DebugInline|Win32
+		{3BACADB5-3484-43B6-8D51-BCFFA5D4CE7F}.DebugInline|x86.Build.0 = DebugInline|Win32
 		{3BACADB5-3484-43B6-8D51-BCFFA5D4CE7F}.Release|x64.ActiveCfg = Release|x64
 		{3BACADB5-3484-43B6-8D51-BCFFA5D4CE7F}.Release|x64.Build.0 = Release|x64
 		{3BACADB5-3484-43B6-8D51-BCFFA5D4CE7F}.Release|x86.ActiveCfg = Release|Win32
