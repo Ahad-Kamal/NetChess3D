@@ -61,7 +61,7 @@ void Game::Startup()
 
 	Vec2 worldCenter( WORLD_SIZE_X * 0.5f, WORLD_SIZE_Y * 0.5f );
 
- 	m_player = new Player( Vec3( -2.f, 0.f, 1.f ), EulerAngles() );
+ 	m_player = new Player( Vec3( -2.f, 0.f, 1.5f ), EulerAngles() );
 	m_worldCamera->SetPosition( m_player->m_position );
 	m_worldCamera->SetOrientation( m_player->m_orientation );
 

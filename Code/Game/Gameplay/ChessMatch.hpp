@@ -1,4 +1,5 @@
 #pragma once
+#include "Game/Gameplay/Entities/ChessBoard.hpp"
 
 
 //-----------------------------------------------------------------------------------------------
@@ -10,4 +11,7 @@ public:
 
 	void Update();
 	void Render() const;
+
+private:
+	ChessBoard m_chessBoard;
 };
