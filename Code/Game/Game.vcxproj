@@ -258,6 +258,11 @@
     <ClCompile Include="Framework\App.cpp" />
     <ClCompile Include="Framework\GameCommon.cpp" />
     <ClCompile Include="Framework\Main_Windows.cpp" />
+    <ClCompile Include="Gameplay\ChessMatch.cpp" />
+    <ClCompile Include="Gameplay\ChessPieceDefinitions.cpp" />
+    <ClCompile Include="Gameplay\Entities\ChessBoard.cpp" />
+    <ClCompile Include="Gameplay\Entities\ChessPiece.cpp" />
+    <ClCompile Include="Gameplay\Entities\ChessPlayer.cpp" />
     <ClCompile Include="Gameplay\Entities\Player.cpp" />
     <ClCompile Include="Gameplay\Entities\Prop.cpp" />
     <ClCompile Include="Gameplay\Entity.cpp" />
@@ -267,6 +272,11 @@
     <ClInclude Include="Framework\App.hpp" />
     <ClInclude Include="Framework\EngineBuildPreferences.hpp" />
     <ClInclude Include="Framework\GameCommon.hpp" />
+    <ClInclude Include="Gameplay\ChessMatch.hpp" />
+    <ClInclude Include="Gameplay\ChessPieceDefinitions.hpp" />
+    <ClInclude Include="Gameplay\Entities\ChessBoard.hpp" />
+    <ClInclude Include="Gameplay\Entities\ChessPiece.hpp" />
+    <ClInclude Include="Gameplay\Entities\ChessPlayer.hpp" />
     <ClInclude Include="Gameplay\Entities\Player.hpp" />
     <ClInclude Include="Gameplay\Entities\Prop.hpp" />
     <ClInclude Include="Gameplay\Entity.hpp" />

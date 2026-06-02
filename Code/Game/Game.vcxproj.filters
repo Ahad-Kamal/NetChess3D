@@ -34,6 +34,21 @@
     <ClCompile Include="Gameplay\Entities\Prop.cpp">
       <Filter>Gameplay\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Gameplay\ChessMatch.cpp">
+      <Filter>Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Gameplay\ChessPieceDefinitions.cpp">
+      <Filter>Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Gameplay\Entities\ChessBoard.cpp">
+      <Filter>Gameplay\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Gameplay\Entities\ChessPiece.cpp">
+      <Filter>Gameplay\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Gameplay\Entities\ChessPlayer.cpp">
+      <Filter>Gameplay\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\App.hpp">
@@ -55,6 +70,21 @@
       <Filter>Gameplay\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Gameplay\Entities\Prop.hpp">
+      <Filter>Gameplay\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Gameplay\ChessMatch.hpp">
+      <Filter>Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Gameplay\ChessPieceDefinitions.hpp">
+      <Filter>Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Gameplay\Entities\ChessBoard.hpp">
+      <Filter>Gameplay\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Gameplay\Entities\ChessPiece.hpp">
+      <Filter>Gameplay\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Gameplay\Entities\ChessPlayer.hpp">
       <Filter>Gameplay\Entities</Filter>
     </ClInclude>
   </ItemGroup>
