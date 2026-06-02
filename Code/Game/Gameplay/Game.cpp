@@ -2,7 +2,6 @@
 #include "Game/Gameplay/Entity.hpp"
 #include "Game/Gameplay/Entities/Player.hpp"
 #include "Game/Gameplay/Entities/Prop.hpp"
-#include "Game/Gameplay/Entities/BillboardText.hpp"
 #include "Game/Framework/App.hpp"
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Core/VertexUtils.hpp"
@@ -65,16 +64,6 @@ void Game::Startup()
 	m_worldCamera->SetPosition( m_player->m_position );
 	m_worldCamera->SetOrientation( m_player->m_orientation );
 
-	m_cube1 = new Prop( Vec3( 2.f, 2.f, 0.f ), EulerAngles() );
-	m_cube2 = new Prop( Vec3( -2.f, -2.f, 0.f ), EulerAngles() );
-	CreateCube( m_cube1 );
-	CreateCube( m_cube2 );
-
-	m_sphere = new Prop( Vec3( 10.f, -5.f, 1.f ), EulerAngles() );
-	Texture* uvTest = g_engine->m_render->CreateOrGetTextureFromFile( "Data/Images/TestUV.png" );
-	m_sphere->m_texture = uvTest;
-	AddVertsForSphere( m_sphere->m_vertexes, Vec3(), 1.f);
-
 	AddDebugObjects();
 	ObjTesting();
 }
@@ -117,15 +106,6 @@ void Game::Render() const
 	{
 
 	}
-
-	//if( g_engine->m_devConsole->IsOpen() )
-	//{
-	//	g_engine->m_render->BeginCamera( *m_screenCamera );
-	//	AABB2 screenBounds = AABB2( m_screenCamera->GetOrthoBottomLeft(), m_screenCamera->GetOrthoTopRight() );
-	//	g_engine->m_render->ChangeBlendMode( BlendMode::ALPHA );
-	//	g_engine->m_devConsole->Render( screenBounds );
-	//	g_engine->m_render->ChangeBlendMode( BlendMode::OPAQUE );
-	//}
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -214,17 +194,6 @@ void Game::RenderAttractMode() const
 	g_engine->m_render->SetBlendStateIfChanged();
 	g_engine->m_render->BindTexture( nullptr );
 	g_engine->m_render->DrawVertexArray( (int)textGoldDropShadowVerts.size(), textGoldDropShadowVerts.data() );
-
-	//// Draw Textured AABB2
-	//std::vector<Vertex> textureVerts;
-	//AABB2 textureBox = AABB2( 20.f, 100.f, 532.f, 612.f );
-	//AddVertsForAABB2D( textureVerts, textureBox, Rgba8( 255, 255, 255 ) );
-	//
-	//Texture* testTexture = g_engine->m_render->CreateOrGetTextureFromFile( "Data/Images/Test_StbiFlippedAndOpenGL.png" );
-	//g_engine->m_render->BindTexture( testTexture );
-	//g_engine->m_render->DrawVertexArray( textureVerts );
-	//
-	//g_engine->m_render->BindTexture( nullptr );	
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -234,14 +203,6 @@ void Game::UpdateEntities( float deltaSeconds )
 	m_startAlpha = 127.5f * cosf( m_time * 2.0f ) + 127.5f;
 
 	m_player->Update( deltaSeconds );
-
-	m_cube1->m_orientation.m_pitchDegrees += deltaSeconds * 30.f;
-	m_cube1->m_orientation.m_rollDegrees += deltaSeconds * 30.f;
-
-	unsigned int shade = static_cast<unsigned int>( m_startAlpha );
-	m_cube2->m_color = Rgba8( shade, shade, shade, 255 );
-
-	m_sphere->m_orientation.m_yawDegrees += deltaSeconds * 45.f;
 
 	AABB2 positionBox = AABB2( 1.f, 784.f, 800.f, 799.f );
 	std::string positionText = Stringf( "Position: %.2f, %.2f, %.2f", m_player->m_position.x, m_player->m_position.y, m_player->m_position.z );
@@ -261,10 +222,6 @@ void Game::RenderEntities() const
 	g_engine->m_render->BeginCamera( *m_worldCamera );
 
 	g_engine->m_render->BindTexture( nullptr );
-	m_cube1->Render();
-	m_cube2->Render();
-
-	m_sphere->Render();
 
 	m_grid->Render();
 
