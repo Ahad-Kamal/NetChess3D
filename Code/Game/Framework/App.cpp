@@ -5,8 +5,8 @@
 #include "Engine/Core/FileUtils.hpp"
 #include "Engine/Core/Clock.hpp"
 #include "Engine/Math/MathUtils.hpp"
-
 #include "Engine/Math/IntVec2.hpp"
+#include "Engine/Renderer/Camera.hpp"
 #include "ThirdParty/stb/stb_image.h"
 
 #include <math.h>
@@ -22,7 +22,7 @@ App::App()
 {
 	EngineConfig config;
 	config.m_windowConfig.m_clientAspect = 2.f;
-	config.m_windowConfig.m_windowTitle = "Protogame3D";
+	config.m_windowConfig.m_windowTitle = "NetChess3D";
 
 	g_engine = new Engine( config );
 	g_game = new Game();
@@ -72,6 +72,17 @@ void App::RunFrame()
 	}
 
 	DebugRenderEndFrame();
+
+	if( g_engine->m_devConsole->IsOpen() )
+	{
+		Camera* screenCamera = g_game->m_screenCamera;
+		g_engine->m_render->BeginCamera( *screenCamera );
+		AABB2 screenBounds = AABB2( screenCamera->GetOrthoBottomLeft(), screenCamera->GetOrthoTopRight() );
+		g_engine->m_render->ChangeBlendMode( BlendMode::ALPHA );
+		g_engine->m_devConsole->Render( screenBounds );
+		g_engine->m_render->ChangeBlendMode( BlendMode::OPAQUE );
+	}
+
 	g_engine->EndFrame(); // Allow engine subsystems to do post-frame stuff
 }
 

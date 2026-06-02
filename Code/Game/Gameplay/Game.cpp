@@ -118,12 +118,14 @@ void Game::Render() const
 
 	}
 
-	if( g_engine->m_devConsole->IsOpen() )
-	{
-		g_engine->m_render->BeginCamera( *m_screenCamera );
-		AABB2 screenBounds = AABB2( m_screenCamera->GetOrthoBottomLeft(), m_screenCamera->GetOrthoTopRight() );
-		g_engine->m_devConsole->Render( screenBounds );
-	}
+	//if( g_engine->m_devConsole->IsOpen() )
+	//{
+	//	g_engine->m_render->BeginCamera( *m_screenCamera );
+	//	AABB2 screenBounds = AABB2( m_screenCamera->GetOrthoBottomLeft(), m_screenCamera->GetOrthoTopRight() );
+	//	g_engine->m_render->ChangeBlendMode( BlendMode::ALPHA );
+	//	g_engine->m_devConsole->Render( screenBounds );
+	//	g_engine->m_render->ChangeBlendMode( BlendMode::OPAQUE );
+	//}
 }
 
 //-----------------------------------------------------------------------------------------------
