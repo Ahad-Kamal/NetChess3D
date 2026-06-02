@@ -180,7 +180,6 @@
     <ClCompile Include="Framework\App.cpp" />
     <ClCompile Include="Framework\GameCommon.cpp" />
     <ClCompile Include="Framework\Main_Windows.cpp" />
-    <ClCompile Include="Gameplay\Entities\BillboardText.cpp" />
     <ClCompile Include="Gameplay\Entities\Player.cpp" />
     <ClCompile Include="Gameplay\Entities\Prop.cpp" />
     <ClCompile Include="Gameplay\Entity.cpp" />
@@ -190,7 +189,6 @@
     <ClInclude Include="Framework\App.hpp" />
     <ClInclude Include="Framework\EngineBuildPreferences.hpp" />
     <ClInclude Include="Framework\GameCommon.hpp" />
-    <ClInclude Include="Gameplay\Entities\BillboardText.hpp" />
     <ClInclude Include="Gameplay\Entities\Player.hpp" />
     <ClInclude Include="Gameplay\Entities\Prop.hpp" />
     <ClInclude Include="Gameplay\Entity.hpp" />

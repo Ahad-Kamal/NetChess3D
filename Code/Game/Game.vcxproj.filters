@@ -34,9 +34,6 @@
     <ClCompile Include="Gameplay\Entities\Prop.cpp">
       <Filter>Gameplay\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Gameplay\Entities\BillboardText.cpp">
-      <Filter>Gameplay\Entities</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\App.hpp">
@@ -58,9 +55,6 @@
       <Filter>Gameplay\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Gameplay\Entities\Prop.hpp">
-      <Filter>Gameplay\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Gameplay\Entities\BillboardText.hpp">
       <Filter>Gameplay\Entities</Filter>
     </ClInclude>
   </ItemGroup>
