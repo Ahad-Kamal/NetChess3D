@@ -2,6 +2,7 @@
 #include "Game/Gameplay/Entity.hpp"
 #include "Game/Gameplay/Entities/Player.hpp"
 #include "Game/Gameplay/Entities/Prop.hpp"
+#include "Game/Gameplay/ChessMatch.hpp"
 #include "Game/Framework/App.hpp"
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Core/VertexUtils.hpp"
@@ -66,6 +67,8 @@ void Game::Startup()
 
 	AddDebugObjects();
 	ObjTesting();
+
+	m_chessMatch = new ChessMatch();
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -83,7 +86,8 @@ void Game::Update()
 		return;
 	}
 
-	UpdateEntities( deltaSeconds );
+	UpdateNonChessEntities( deltaSeconds );
+	m_chessMatch->Update();
 
 	DeleteGarbageEntities();
 
@@ -100,7 +104,8 @@ void Game::Render() const
 		return;
 	}
 
-	RenderEntities();
+	RenderNonChessEntities();
+	m_chessMatch->Render();
 
 	if ( m_debugDraw )
 	{
@@ -197,7 +202,7 @@ void Game::RenderAttractMode() const
 }
 
 //-----------------------------------------------------------------------------------------------
-void Game::UpdateEntities( float deltaSeconds )
+void Game::UpdateNonChessEntities( float deltaSeconds )
 {
 	m_time += deltaSeconds;
 	m_startAlpha = 127.5f * cosf( m_time * 2.0f ) + 127.5f;
@@ -217,7 +222,7 @@ void Game::UpdateEntities( float deltaSeconds )
 }
 
 //-----------------------------------------------------------------------------------------------
-void Game::RenderEntities() const
+void Game::RenderNonChessEntities() const
 {
 	g_engine->m_render->BeginCamera( *m_worldCamera );
 
@@ -329,32 +334,32 @@ void Game::AddDebugObjects()
 {
 	// Grid
 	m_grid = new Prop( Vec3(), EulerAngles() );
-	CreateGrid();
+	//CreateGrid();
 
 	// World Basis
-	DebugAddWorldBasis( Mat44(), -1.f );
+	DebugAddWorldBasis( Mat44(), -1.f, 0.15f );
 
-	// X axis text
-	Mat44 xMatrix = Mat44();
-	xMatrix.AppendTranslation3D( Vec3( 6.f, 0.f, 1.f ) );
-	xMatrix.AppendZRotation( -90.f );
-	std::string xAxisText = "x - forward";
-	DebugAddWorldText( xAxisText, xMatrix, 1.f, Vec2( 0.5f, 0.5f ), -1.f, Rgba8::RED, Rgba8::RED );
+	//// X axis text
+	//Mat44 xMatrix = Mat44();
+	//xMatrix.AppendTranslation3D( Vec3( 6.f, 0.f, 1.f ) );
+	//xMatrix.AppendZRotation( -90.f );
+	//std::string xAxisText = "x - forward";
+	//DebugAddWorldText( xAxisText, xMatrix, 1.f, Vec2( 0.5f, 0.5f ), -1.f, Rgba8::RED, Rgba8::RED );
 
-	// Y axis text
-	Mat44 yMatrix = Mat44();
-	yMatrix.AppendTranslation3D( Vec3( 0.f, 4.f, 1.f ) );
-	yMatrix.AppendZRotation( 180.f );
-	std::string yAxisText = "y - left ";
-	DebugAddWorldText( yAxisText, yMatrix, 1.f, Vec2( 0.5f, 0.5f ), -1.f, Rgba8::GREEN, Rgba8::GREEN );
+	//// Y axis text
+	//Mat44 yMatrix = Mat44();
+	//yMatrix.AppendTranslation3D( Vec3( 0.f, 4.f, 1.f ) );
+	//yMatrix.AppendZRotation( 180.f );
+	//std::string yAxisText = "y - left ";
+	//DebugAddWorldText( yAxisText, yMatrix, 1.f, Vec2( 0.5f, 0.5f ), -1.f, Rgba8::GREEN, Rgba8::GREEN );
 
-	// Z axis text
-	Mat44 zMatrix = Mat44();
-	zMatrix.AppendTranslation3D( Vec3( 0.f, -1.f, 3.f ) );
-	zMatrix.AppendXRotation( 90.f );
-	zMatrix.AppendYRotation( 180.f );
-	std::string zAxisText = " z - up";
-	DebugAddWorldText( zAxisText, zMatrix, 1.f, Vec2( 0.5f, 0.5f ), -1.f, Rgba8::BLUE, Rgba8::BLUE );
+	//// Z axis text
+	//Mat44 zMatrix = Mat44();
+	//zMatrix.AppendTranslation3D( Vec3( 0.f, -1.f, 3.f ) );
+	//zMatrix.AppendXRotation( 90.f );
+	//zMatrix.AppendYRotation( 180.f );
+	//std::string zAxisText = " z - up";
+	//DebugAddWorldText( zAxisText, zMatrix, 1.f, Vec2( 0.5f, 0.5f ), -1.f, Rgba8::BLUE, Rgba8::BLUE );
 }
 
 //-----------------------------------------------------------------------------------------------

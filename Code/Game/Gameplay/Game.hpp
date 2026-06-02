@@ -14,7 +14,7 @@ class Clock;
 class Player;
 class Prop;
 class BitmapFont;
-class BillboardText;
+class ChessMatch;
 
 //-----------------------------------------------------------------------------------------------
 extern Game* g_game;
@@ -45,8 +45,8 @@ private:
 	void UpdateAttractMode( float deltaSeconds );
 	void RenderAttractMode() const;
 
-	void UpdateEntities( float deltaSeconds );
-	void RenderEntities() const;
+	void UpdateNonChessEntities( float deltaSeconds );
+	void RenderNonChessEntities() const;
 
 	//bool DoEntitiesOverlap( Entity const& a, Entity const& b);
 
@@ -66,8 +66,9 @@ private:
 	void ObjTesting();
 
 public:
-	Player*		m_player = nullptr;
+	ChessMatch* m_chessMatch = nullptr;
 
+	Player*		m_player = nullptr;
 	Prop*		m_grid = nullptr;
 	Prop*		m_testObj = nullptr;
 

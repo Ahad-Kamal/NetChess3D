@@ -106,17 +106,17 @@ void Player::CameraControlsKeyboard( float deltaSeconds )
 		m_orientation.m_pitchDegrees = GetClamped( m_orientation.m_pitchDegrees, -85.f, 85.f );
 	}
 
-	// Roll
-	if( g_engine->m_input->IsKeyDown( 'E' ) )
-	{
-		m_orientation.m_rollDegrees += 90.f * deltaSeconds;
-		m_orientation.m_rollDegrees = GetClamped( m_orientation.m_rollDegrees, -45.f, 45.f );
-	}
-	if( g_engine->m_input->IsKeyDown( 'Q' ) )
-	{
-		m_orientation.m_rollDegrees -= 90.f * deltaSeconds;
-		m_orientation.m_rollDegrees = GetClamped( m_orientation.m_rollDegrees, -45.f, 45.f );
-	}
+	//// Roll
+	//if( g_engine->m_input->IsKeyDown( 'E' ) )
+	//{
+	//	m_orientation.m_rollDegrees += 90.f * deltaSeconds;
+	//	m_orientation.m_rollDegrees = GetClamped( m_orientation.m_rollDegrees, -45.f, 45.f );
+	//}
+	//if( g_engine->m_input->IsKeyDown( 'Q' ) )
+	//{
+	//	m_orientation.m_rollDegrees -= 90.f * deltaSeconds;
+	//	m_orientation.m_rollDegrees = GetClamped( m_orientation.m_rollDegrees, -45.f, 45.f );
+	//}
 
 	// Reset
 	if( g_engine->m_input->WasKeyJustPressed( 'H' ) )
