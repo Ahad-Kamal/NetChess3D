@@ -11,6 +11,9 @@
     <Filter Include="Gameplay\Entities">
       <UniqueIdentifier>{27b29b5a-4fa1-4543-ba60-f18f0bd343b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{b7d0196d-ee66-4bf1-825b-55795fdbc0f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\App.cpp">
@@ -87,5 +90,10 @@
     <ClInclude Include="Gameplay\Entities\ChessPlayer.hpp">
       <Filter>Gameplay\Entities</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\Run\Data\Definitions\PieceDefinitions.xml">
+      <Filter>Data</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

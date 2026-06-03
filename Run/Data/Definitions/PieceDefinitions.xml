@@ -1,0 +1,10 @@
+<Definitions>
+  <!--  -->
+	<ActorDefinition name="Pawn"> </ActorDefinition>
+	<ActorDefinition name="Rook"> </ActorDefinition>
+	<ActorDefinition name="Knight"> </ActorDefinition>
+	<ActorDefinition name="Bishop"> </ActorDefinition>
+	<ActorDefinition name="Queen"> </ActorDefinition>
+	<ActorDefinition name="King"> </ActorDefinition>	
+</Definitions>
+

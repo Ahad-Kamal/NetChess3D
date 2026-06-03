@@ -282,6 +282,9 @@
     <ClInclude Include="Gameplay\Entity.hpp" />
     <ClInclude Include="Gameplay\Game.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\Run\Data\Definitions\PieceDefinitions.xml" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

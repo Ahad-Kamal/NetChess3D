@@ -17,6 +17,7 @@
 #include "Engine/Renderer/SimpleTriangleFont.hpp"
 #include "Engine/Renderer/Camera.hpp"
 #include "Engine/Renderer/BitmapFont.hpp"
+#include "ChessPieceDefinitions.hpp"
 
 
 //-----------------------------------------------------------------------------------------------
@@ -68,6 +69,7 @@ void Game::Startup()
 	AddDebugObjects();
 	ObjTesting();
 
+	ChessPieceDefinition::InitializePieceDefs();
 	m_chessMatch = new ChessMatch();
 }
 
