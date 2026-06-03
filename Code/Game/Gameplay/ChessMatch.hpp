@@ -1,6 +1,10 @@
 #pragma once
 #include "Game/Gameplay/Entities/ChessBoard.hpp"
+#include <vector>
 
+
+//-----------------------------------------------------------------------------------------------
+class ChessPiece;
 
 //-----------------------------------------------------------------------------------------------
 class ChessMatch
@@ -14,4 +18,5 @@ public:
 
 private:
 	ChessBoard m_chessBoard;
+	std::vector<ChessPiece*> m_chessPieces;
 };
