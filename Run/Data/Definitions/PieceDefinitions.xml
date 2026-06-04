@@ -1,10 +1,22 @@
 <Definitions>
   <!--  -->
-	<ActorDefinition name="Pawn"> </ActorDefinition>
-	<ActorDefinition name="Rook"> </ActorDefinition>
-	<ActorDefinition name="Knight"> </ActorDefinition>
-	<ActorDefinition name="Bishop"> </ActorDefinition>
-	<ActorDefinition name="Queen"> </ActorDefinition>
-	<ActorDefinition name="King"> </ActorDefinition>	
+	<ActorDefinition name="Pawn">
+		<Geometry></Geometry>
+	</ActorDefinition>
+	<ActorDefinition name="Rook">
+		<Geometry></Geometry>
+	</ActorDefinition>
+	<ActorDefinition name="Knight">
+		<Geometry></Geometry>
+	</ActorDefinition>
+	<ActorDefinition name="Bishop">
+		<Geometry></Geometry>
+	</ActorDefinition>
+	<ActorDefinition name="Queen">
+		<Geometry></Geometry>
+	</ActorDefinition>
+	<ActorDefinition name="King">
+		<Geometry></Geometry>
+	</ActorDefinition>	
 </Definitions>
 

@@ -22,4 +22,5 @@ public:
 private:
 	VertexList m_vertexes;
 	TeamColor m_team = TEAM_COLOR_INAVLID;
+	Vec3 m_position;
 };
