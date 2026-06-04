@@ -1,26 +1,35 @@
 #pragma once
 #include "Engine/Core/VertexUtils.hpp"
+#include "Game/Gameplay/ChessPieceDefinitions.hpp"
+
 
 //-----------------------------------------------------------------------------------------------
-enum TeamColor
+enum Team
 {
-	TEAM_COLOR_INAVLID = -1,
-	TEAM_COLOR_WHITE,
-	TEAM_COLOR_BLACK
+	TEAM_INAVLID = -1,
+	TEAM_PLAYER_0,
+	TEAM_PLAYER_1
 };
 
 //-----------------------------------------------------------------------------------------------
 class ChessPiece
 {
 public:
-	ChessPiece();
+	ChessPiece( ChessPieceDefinition* definition, Team player );
 	~ChessPiece();
 
 	void Update();
 	void Render() const;
 
+	
+
 private:
 	VertexList m_vertexes;
-	TeamColor m_team = TEAM_COLOR_INAVLID;
+	IndexList m_indexes;
+
+	Team m_team = TEAM_INAVLID;
 	Vec3 m_position;
+	ChessGeometry* m_base = nullptr;
+
+	ChessPieceDefinition* m_definition = nullptr;
 };

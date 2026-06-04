@@ -48,6 +48,73 @@ void ChessPieceDefinition::InitializePieceDefs()
 			currentPieceDef.m_pieceType = ChessPieceType::KING;
 		}
 
+		XmlElement* geoElement = currentElement->FirstChildElement();
+		while( geoElement )
+		{
+			NamedStrings geoBlackboard;
+			geoBlackboard.PopulateFromXmlElementAttributes( *geoElement );
+
+			std::string shape = geoBlackboard.GetValue( "shape", "" );
+
+			if( shape == "Sphere" )
+			{
+				ChessSphere* newSphere = new ChessSphere();
+
+				Vec3 center = geoBlackboard.GetValue( "center", Vec3() );
+				float radius = geoBlackboard.GetValue( "radius", 0.f );
+
+				newSphere->m_shape = shape;
+				newSphere->m_center = center;
+				newSphere->m_radius = radius;
+
+				currentPieceDef.m_geometry.push_back( newSphere );
+			}
+			else if( shape == "Cylinder" )
+			{
+				ChessCylinder* newCylinder = new ChessCylinder();
+
+				Vec3 center = geoBlackboard.GetValue( "center", Vec3() );
+				float radius = geoBlackboard.GetValue( "radius", 0.f );
+				float height = geoBlackboard.GetValue( "height", 0.f );
+
+				newCylinder->m_shape = shape;
+				newCylinder->m_center = center;
+				newCylinder->m_radius = radius;
+				newCylinder->m_height = height;
+
+				currentPieceDef.m_geometry.push_back( newCylinder );
+			}
+			else if( shape == "AABB3" )
+			{
+				ChessAABB3* newAABB3 = new ChessAABB3();
+
+				Vec3 mins = geoBlackboard.GetValue( "mins", Vec3() );
+				Vec3 maxs = geoBlackboard.GetValue( "maxs", Vec3() );
+
+				newAABB3->m_shape = shape;
+				newAABB3->m_abb3 = AABB3( mins, maxs );
+
+				currentPieceDef.m_geometry.push_back( newAABB3 );
+			}
+			else if( shape == "OBB3" )
+			{
+				ChessOBB3* newOBB3 = new ChessOBB3();
+
+				Vec3 center = geoBlackboard.GetValue( "center", Vec3() );
+				Vec3 iBasis = geoBlackboard.GetValue( "iBasis", Vec3() );
+				Vec3 jBasis = geoBlackboard.GetValue( "jBasis", Vec3() );
+				Vec3 kBasis = geoBlackboard.GetValue( "kBasis", Vec3() );
+				Vec3 halfDimensions = geoBlackboard.GetValue( "halfDimensions", Vec3() );
+
+				newOBB3->m_shape = shape;
+				newOBB3->m_obb3 = OBB3( center, iBasis, jBasis, kBasis, halfDimensions );
+
+				currentPieceDef.m_geometry.push_back( newOBB3 );
+			}
+
+			geoElement = geoElement->NextSiblingElement();
+		}
+
 		currentElement = currentElement->NextSiblingElement();
 	}
 }

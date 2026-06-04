@@ -1,10 +1,12 @@
 #include "Game/Gameplay/ChessMatch.hpp"
+#include "Game/Gameplay/ChessPieceDefinitions.hpp"
 #include "Game/Gameplay/Entities/ChessPiece.hpp"
 
 //-----------------------------------------------------------------------------------------------
 ChessMatch::ChessMatch()
 {
-
+	ChessPiece* pawn = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 0 ], TEAM_PLAYER_0 );
+	m_chessPieces.push_back( pawn );
 }
 
 //-----------------------------------------------------------------------------------------------

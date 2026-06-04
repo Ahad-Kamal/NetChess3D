@@ -4,6 +4,7 @@
 #include "Engine/Math/AABB3.hpp"
 #include "Engine/Math/OBB3.hpp"
 #include <vector>
+#include <string>
 
 
 //-----------------------------------------------------------------------------------------------
@@ -21,7 +22,7 @@ enum class ChessPieceType
 //-----------------------------------------------------------------------------------------------
 struct ChessGeometry
 {
-
+	std::string m_shape;
 };
 
 //-----------------------------------------------------------------------------------------------
@@ -40,7 +41,7 @@ struct ChessAABB3 : public ChessGeometry
 //-----------------------------------------------------------------------------------------------
 struct ChessCylinder : public ChessGeometry
 {
-	Vec2 m_center;
+	Vec3 m_center;
 	float m_radius = 0.f;
 	float m_height = 0.f;
 };
