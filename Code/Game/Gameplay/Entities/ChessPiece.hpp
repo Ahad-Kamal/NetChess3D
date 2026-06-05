@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/Core/VertexUtils.hpp"
 #include "Game/Gameplay/ChessPieceDefinitions.hpp"
+#include "Engine/Math/EulerAngles.hpp"
 
 
 //-----------------------------------------------------------------------------------------------
@@ -25,6 +26,7 @@ public:
 	void Render() const;
 
 	void TranslatePieceToCoord( IntVec2 coord );
+	void RotatePiece( EulerAngles rotationAmt );
 
 private:
 	VertexList m_vertexes;

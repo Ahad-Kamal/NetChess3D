@@ -23,5 +23,6 @@ private:
 
 private:
 	ChessBoard m_chessBoard;
-	std::vector<ChessPiece*> m_chessPieces;
+	std::vector<ChessPiece*> m_p0ChessPieces;
+	std::vector<ChessPiece*> m_p1ChessPieces;
 };

@@ -335,7 +335,7 @@ void Game::AddDebugObjects()
 	//CreateGrid();
 
 	// World Basis
-	DebugAddWorldBasis( Mat44(), -1.f, 0.15f );
+	DebugAddWorldBasis( Mat44(), -1.f, 0.05f, 1.f );
 
 	//// X axis text
 	//Mat44 xMatrix = Mat44();

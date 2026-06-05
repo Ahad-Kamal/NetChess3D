@@ -15,6 +15,9 @@
 	</ActorDefinition>
 	<ActorDefinition name="Knight">
 		<Geometry shape="Cylinder" center="0,0,0" radius="0.2" height="0.8"> </Geometry>
+		<Geometry shape="Cylinder" center="0,0,0.8" radius="0.3" height="0.1"> </Geometry>
+		<Geometry shape="AABB3" mins="-0.15,-0.1,0.9" maxs="0.15,0.1,1.3"> </Geometry>
+		<Geometry shape="OBB3" center="0,0.13,1.15" iBasis="1,0,0" jBasis="0,-0.9,0.4359" kBasis="0,-0.4359,-0.9" halfDimensions="0.05,0.15,0.05"> </Geometry>
 	</ActorDefinition>
 	<ActorDefinition name="Bishop">
 		<Geometry shape="Cylinder" center="0,0,0" radius="0.2" height="0.8"> </Geometry>

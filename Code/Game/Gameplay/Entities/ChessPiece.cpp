@@ -106,3 +106,15 @@ void ChessPiece::TranslatePieceToCoord( IntVec2 coord )
 		box->m_abb3.Translate( Vec3( translation ) );
 	}
 }
+
+//-----------------------------------------------------------------------------------------------
+void ChessPiece::RotatePiece( EulerAngles rotationAmt )
+{
+	Mat44 rotationMatrix;
+	rotationMatrix.AppendXRotation( rotationAmt.m_rollDegrees );
+	rotationMatrix.AppendYRotation( rotationAmt.m_pitchDegrees );
+	rotationMatrix.AppendZRotation( rotationAmt.m_yawDegrees );
+
+	TransformVertexArray3D( m_vertexes, rotationMatrix );
+	RotateVertexArrayNormals3D( m_vertexes, rotationMatrix );
+}
