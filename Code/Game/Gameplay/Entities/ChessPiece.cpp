@@ -80,7 +80,7 @@ void ChessPiece::Render() const
 	g_engine->m_render->RenderSetup();
 	Vec3 normalizedLighting = g_game->m_sunDirection.GetNormalized();
 	g_engine->m_render->SetLightConstants( normalizedLighting, g_game->m_sunIntensity, g_game->m_ambientIntensity );
-	g_engine->m_render->DrawVertexArray( m_vertexes, m_indexes );
+	g_engine->m_render->DrawVertexArray( m_vertexes, m_indexes, m_definition->GetVertexBuffer(), m_definition->GetIndexBuffer() );
 }
 
 //-----------------------------------------------------------------------------------------------

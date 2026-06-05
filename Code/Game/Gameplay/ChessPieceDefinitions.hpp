@@ -3,6 +3,8 @@
 #include "Engine/Math/Vec3.hpp"
 #include "Engine/Math/AABB3.hpp"
 #include "Engine/Math/OBB3.hpp"
+#include "Engine/Renderer/VertexBuffer.hpp"
+#include "Engine/Renderer/IndexBuffer.hpp"
 #include <vector>
 #include <string>
 
@@ -61,6 +63,8 @@ public:
 
 	ChessPieceType GetPieceType() const;
 	std::vector<ChessGeometry*> GetChessGeometry() const;
+	VertexBuffer* GetVertexBuffer() const;
+	IndexBuffer* GetIndexBuffer() const;
 
 public:
 	static std::vector<ChessPieceDefinition> s_pieceDefs;
@@ -68,4 +72,6 @@ public:
 private:
 	std::vector<ChessGeometry*> m_geometry;
 	ChessPieceType m_pieceType;
+	VertexBuffer* m_vertexBuffer = nullptr;
+	IndexBuffer* m_indexBuffer = nullptr;
 };

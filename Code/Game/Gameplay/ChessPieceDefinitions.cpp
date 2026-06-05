@@ -1,6 +1,8 @@
 #include "Game/Gameplay/ChessPieceDefinitions.hpp"
 #include "Engine/Core/XmlUtils.hpp"
 #include "Engine/Core/NamedStrings.hpp"
+#include "Engine/Core/Engine.hpp"
+#include "Engine/Core/Vertex.hpp"
 
 
 //-----------------------------------------------------------------------------------------------
@@ -115,6 +117,13 @@ void ChessPieceDefinition::InitializePieceDefs()
 			geoElement = geoElement->NextSiblingElement();
 		}
 
+		// Create Vertex Buffer
+		unsigned int vertexSize = sizeof( Vertex );
+		currentPieceDef.m_vertexBuffer = g_engine->m_render->CreateVertexBuffer( 1, vertexSize );
+
+		// Create Index Buffer
+		currentPieceDef.m_indexBuffer = g_engine->m_render->CreateIndexBuffer( 1 );
+
 		currentElement = currentElement->NextSiblingElement();
 	}
 }
@@ -135,4 +144,15 @@ ChessPieceType ChessPieceDefinition::GetPieceType() const
 std::vector<ChessGeometry*> ChessPieceDefinition::GetChessGeometry() const
 {
 	return m_geometry;
+}
+
+//-----------------------------------------------------------------------------------------------
+VertexBuffer* ChessPieceDefinition::GetVertexBuffer() const
+{
+	return m_vertexBuffer;
+}
+
+IndexBuffer* ChessPieceDefinition::GetIndexBuffer() const
+{
+	return m_indexBuffer;
 }
