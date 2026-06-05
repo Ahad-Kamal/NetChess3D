@@ -4,6 +4,9 @@
 
 
 //-----------------------------------------------------------------------------------------------
+class ChessMatch;
+
+//-----------------------------------------------------------------------------------------------
 enum Team
 {
 	TEAM_INAVLID = -1,
@@ -15,13 +18,13 @@ enum Team
 class ChessPiece
 {
 public:
-	ChessPiece( ChessPieceDefinition* definition, Team player );
+	ChessPiece( ChessPieceDefinition* definition, Team player, ChessMatch* owner );
 	~ChessPiece();
 
 	void Update();
 	void Render() const;
 
-	
+	void TranslatePieceToCoord( IntVec2 coord );
 
 private:
 	VertexList m_vertexes;
@@ -31,5 +34,6 @@ private:
 	Vec3 m_position;
 	ChessGeometry* m_base = nullptr;
 
+	ChessMatch*	m_owner = nullptr;
 	ChessPieceDefinition* m_definition = nullptr;
 };

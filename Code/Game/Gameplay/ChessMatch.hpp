@@ -16,6 +16,8 @@ public:
 	void Update();
 	void Render() const;
 
+	Vec2 GetTileCenterFromCoord( IntVec2 coord );
+
 private:
 	ChessBoard m_chessBoard;
 	std::vector<ChessPiece*> m_chessPieces;
