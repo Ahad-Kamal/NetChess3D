@@ -2,23 +2,28 @@
   <!--  -->
 	<ActorDefinition name="Pawn">
 		<Geometry shape="Cylinder" center="0,0,0.1" radius="0.15" height="0.5"> </Geometry>
-		<Geometry shape="Cylinder" center="0,0,0.6" radius="0.20" height="0.1"> </Geometry>
+		<Geometry shape="Cylinder" center="0,0,0.6" radius="0.2" height="0.1"> </Geometry>
 		<Geometry shape="Sphere" center="0,0,0.9" radius="0.25"> </Geometry>
 	</ActorDefinition>
 	<ActorDefinition name="Rook">
-		<Geometry shape="Cylinder" center="1,0,0" radius="0.35" height="0.8"> </Geometry>
+		<Geometry shape="Cylinder" center="0,0,0" radius="0.2" height="0.8"> </Geometry>
+		<Geometry shape="Cylinder" center="0,0,0.8" radius="0.3" height="0.2"> </Geometry>
+		<Geometry shape="AABB3" mins="-0.25,-0.1,1" maxs="-0.15,0.1,1.15"> </Geometry>
+		<Geometry shape="AABB3" mins="0.15,-0.1,1" maxs="0.25,0.1,1.15"> </Geometry>
+		<Geometry shape="AABB3" mins="-0.1,-0.25,1" maxs="0.1,-0.15,1.15"> </Geometry>
+		<Geometry shape="AABB3" mins="-0.1,0.15,1" maxs="0.1,0.25,1.15"> </Geometry>
 	</ActorDefinition>
 	<ActorDefinition name="Knight">
-		<Geometry shape="Cylinder" center="2,0,0" radius="0.35" height="0.8"> </Geometry>
+		<Geometry shape="Cylinder" center="0,0,0" radius="0.2" height="0.8"> </Geometry>
 	</ActorDefinition>
 	<ActorDefinition name="Bishop">
-		<Geometry shape="Cylinder" center="3,0,0" radius="0.35" height="0.8"> </Geometry>
+		<Geometry shape="Cylinder" center="0,0,0" radius="0.2" height="0.8"> </Geometry>
 	</ActorDefinition>
 	<ActorDefinition name="Queen">
-		<Geometry shape="Cylinder" center="4,0,0" radius="0.35" height="0.8"> </Geometry>
+		<Geometry shape="Cylinder" center="0,0,0" radius="0.2" height="0.8"> </Geometry>
 	</ActorDefinition>
 	<ActorDefinition name="King">
-		<Geometry shape="Cylinder" center="5,0,0" radius="0.35" height="0.8"> </Geometry>
+		<Geometry shape="Cylinder" center="0,0,0" radius="0.2" height="0.8"> </Geometry>
 	</ActorDefinition>	
 </Definitions>
 

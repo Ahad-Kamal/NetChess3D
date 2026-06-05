@@ -5,21 +5,7 @@
 //-----------------------------------------------------------------------------------------------
 ChessMatch::ChessMatch()
 {
-	// Add player 0 pieces
-	for( int pawnIndex = 0; pawnIndex < 8; pawnIndex++ )
-	{
-		ChessPiece* pawn = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 0 ], TEAM_PLAYER_0, this );
-		pawn->TranslatePieceToCoord( IntVec2( pawnIndex, 1 ) );
-		m_chessPieces.push_back( pawn );
-	}
-
-	// Add player 1 pieces
-	for( int pawnIndex = 0; pawnIndex < 8; pawnIndex++ )
-	{
-		ChessPiece* pawn = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 0 ], TEAM_PLAYER_1, this );
-		pawn->TranslatePieceToCoord( IntVec2( pawnIndex, 6 ) );
-		m_chessPieces.push_back( pawn );
-	}
+	AddPiecesToBoard();
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -57,4 +43,40 @@ Vec2 ChessMatch::GetTileCenterFromCoord( IntVec2 coord )
 	float yPos = static_cast<float>( coord.y ) + 0.5f;
 
 	return Vec2( xPos, yPos );
+}
+
+//-----------------------------------------------------------------------------------------------
+void ChessMatch::AddPiecesToBoard()
+{
+	// Add player 0 pieces
+	for( int pawnIndex = 0; pawnIndex < 8; pawnIndex++ )
+	{
+		ChessPiece* pawn = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 0 ], TEAM_PLAYER_0, this );
+		pawn->TranslatePieceToCoord( IntVec2( pawnIndex, 1 ) );
+		m_chessPieces.push_back( pawn );
+	}
+
+	ChessPiece* rook01 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 1 ], TEAM_PLAYER_0, this );
+	rook01->TranslatePieceToCoord( IntVec2( 0, 0 ) );
+	m_chessPieces.push_back( rook01 );
+
+	ChessPiece* rook02 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 1 ], TEAM_PLAYER_0, this );
+	rook02->TranslatePieceToCoord( IntVec2( 7, 0 ) );
+	m_chessPieces.push_back( rook02 );
+
+	// Add player 1 pieces
+	for( int pawnIndex = 0; pawnIndex < 8; pawnIndex++ )
+	{
+		ChessPiece* pawn = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 0 ], TEAM_PLAYER_1, this );
+		pawn->TranslatePieceToCoord( IntVec2( pawnIndex, 6 ) );
+		m_chessPieces.push_back( pawn );
+	}
+
+	ChessPiece* rook11 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 1 ], TEAM_PLAYER_1, this );
+	rook11->TranslatePieceToCoord( IntVec2( 0, 7 ) );
+	m_chessPieces.push_back( rook11 );
+
+	ChessPiece* rook12 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 1 ], TEAM_PLAYER_1, this );
+	rook12->TranslatePieceToCoord( IntVec2( 7, 7 ) );
+	m_chessPieces.push_back( rook12 );
 }

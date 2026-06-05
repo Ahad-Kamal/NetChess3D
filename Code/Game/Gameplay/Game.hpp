@@ -22,10 +22,6 @@ extern RandomNumberGenerator* g_rng;
 extern BitmapFont* g_bitmapFont;
 
 //-----------------------------------------------------------------------------------------------
-constexpr float MAX_SCREEN_SHAKE_AMOUNT = 5.f;
-constexpr float SCREEN_SHAKE_REDUCTION = 5.f;
-
-//-----------------------------------------------------------------------------------------------
 class Game
 {
 public:
@@ -47,8 +43,6 @@ private:
 
 	void UpdateNonChessEntities( float deltaSeconds );
 	void RenderNonChessEntities() const;
-
-	//bool DoEntitiesOverlap( Entity const& a, Entity const& b);
 
 	void UpdateKeyboardInput();
 	void UpdateControllerInput();
@@ -80,6 +74,9 @@ public:
 	GameState	m_currentState = GAME_STATE_INVALID;
 	GameState	m_nextState = GAME_STATE_ATTRACT;
 
+	Vec3 m_sunDirection = Vec3( 2.f, 2.f, -1.f );
+	float m_sunIntensity = 0.85f;
+	float m_ambientIntensity = 0.35f;
 
 private:
 	Vertex m_startVerts[ 3 ];

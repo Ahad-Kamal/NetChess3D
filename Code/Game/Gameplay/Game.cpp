@@ -42,6 +42,9 @@ void Game::Startup()
 {
 	m_gameClock = new Clock( Clock::GetSystemClock() );
 
+	Shader* diffuseShader = g_engine->m_render->CreateOrGetShader( "Data/Shaders/Diffuse", VertexType::VERTEX_PCUTBN );
+	g_engine->m_render->BindShader( diffuseShader );
+
 	m_worldCamera = new Camera();
 	m_screenCamera = new Camera();
 
@@ -181,25 +184,18 @@ void Game::RenderAttractMode() const
 	//g_engine->m_render->ClearScreen( m_clearColor );
 
 	// Draw Start Button
-	g_engine->m_render->SetModelConstants();
-	g_engine->m_render->SetBlendMode( BlendMode::ALPHA );
-	g_engine->m_render->SetBlendStateIfChanged();
-	g_engine->m_render->BindTexture( nullptr );
+	g_engine->m_render->RenderSetup();
 	g_engine->m_render->DrawVertexArray( 3, m_startVerts );
 
 	// Draw Text
 	std::vector<Vertex> textStarshipDropShadowVerts;
 	AddVertsForTextTriangles2D( textStarshipDropShadowVerts, "Attract", Vec2( 600.f, 700.f ), 40.f, Rgba8( 255, 0, 0 ) );
-	g_engine->m_render->SetModelConstants();
-	g_engine->m_render->SetBlendStateIfChanged();
-	g_engine->m_render->BindTexture( nullptr );
+	g_engine->m_render->RenderSetup();
 	g_engine->m_render->DrawVertexArray( (int)textStarshipDropShadowVerts.size(), textStarshipDropShadowVerts.data() );
 
 	std::vector<Vertex> textGoldDropShadowVerts;
 	AddVertsForTextTriangles2D( textGoldDropShadowVerts, "Screen", Vec2( 800.f, 700.f ), 40.f, Rgba8( 0, 0, 255 ) );
-	g_engine->m_render->SetModelConstants();
-	g_engine->m_render->SetBlendStateIfChanged();
-	g_engine->m_render->BindTexture( nullptr );
+	g_engine->m_render->RenderSetup();;
 	g_engine->m_render->DrawVertexArray( (int)textGoldDropShadowVerts.size(), textGoldDropShadowVerts.data() );
 }
 

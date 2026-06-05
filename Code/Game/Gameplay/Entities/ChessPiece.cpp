@@ -1,6 +1,7 @@
 #include "Game/Gameplay//Entities/ChessPiece.hpp"
 #include "Game/Gameplay/ChessPieceDefinitions.hpp"
 #include "Game/Gameplay/ChessMatch.hpp"
+#include "Game/Gameplay/Game.hpp"
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Math/Mat44.hpp"
 
@@ -77,6 +78,8 @@ void ChessPiece::Update()
 void ChessPiece::Render() const
 {
 	g_engine->m_render->RenderSetup();
+	Vec3 normalizedLighting = g_game->m_sunDirection.GetNormalized();
+	g_engine->m_render->SetLightConstants( normalizedLighting, g_game->m_sunIntensity, g_game->m_ambientIntensity );
 	g_engine->m_render->DrawVertexArray( m_vertexes, m_indexes );
 }
 

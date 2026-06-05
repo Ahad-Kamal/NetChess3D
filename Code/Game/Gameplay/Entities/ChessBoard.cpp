@@ -1,4 +1,5 @@
 #include "Game/Gameplay/Entities/ChessBoard.hpp"
+#include "Game/Gameplay/Game.hpp"
 #include "Engine/Core/Engine.hpp"
 
 //-----------------------------------------------------------------------------------------------
@@ -43,5 +44,7 @@ void ChessBoard::Update()
 void ChessBoard::Render() const
 {
 	g_engine->m_render->RenderSetup();
+	Vec3 normalizedLighting = g_game->m_sunDirection.GetNormalized();
+	g_engine->m_render->SetLightConstants( normalizedLighting, g_game->m_sunIntensity, g_game->m_ambientIntensity );
 	g_engine->m_render->DrawVertexArray( m_vertexes, m_indexes );
 }
