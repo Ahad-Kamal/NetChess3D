@@ -32,8 +32,6 @@ public:
 	void Render() const;
 	void Shutdown();
 
-	void AddCameraShake( float shakeAmount );
-
 	void SetGameMusicSpeed( float speed );
 
 private:
@@ -84,8 +82,5 @@ private:
 	float m_time = 0.f;
 	Rgba8 m_clearColor = Rgba8( 0, 0, 0, 1 );
 	SoundPlaybackID m_music;
-
-	float m_screenShakeAmount = 0.f;
-	bool m_isShaking = false;
-	bool m_debugDraw = false;
+	int debugShaderID = 0;
 };

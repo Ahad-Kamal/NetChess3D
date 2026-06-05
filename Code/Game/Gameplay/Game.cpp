@@ -45,7 +45,7 @@ void Game::Startup()
 	Shader* diffuseShader = g_engine->m_render->CreateOrGetShader( "Data/Shaders/Diffuse", VertexType::VERTEX_PCUTBN );
 	g_engine->m_render->BindShader( diffuseShader );
 
-	g_engine->m_render->SetPerFrameConstants( 0 );
+	g_engine->m_render->SetPerFrameConstants( debugShaderID );
 
 	m_worldCamera = new Camera();
 	m_screenCamera = new Camera();
@@ -113,11 +113,6 @@ void Game::Render() const
 
 	RenderNonChessEntities();
 	m_chessMatch->Render();
-
-	if ( m_debugDraw )
-	{
-
-	}
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -133,18 +128,12 @@ void Game::Shutdown()
 }
 
 //-----------------------------------------------------------------------------------------------
-void Game::AddCameraShake( float shakeAmount )
-{
-	m_isShaking = true;
-	m_screenShakeAmount += shakeAmount;
-}
-
-//-----------------------------------------------------------------------------------------------
 void Game::SetGameMusicSpeed( float speed )
 {
 	g_engine->m_audio->SetSoundPlaybackSpeed( m_music, speed );
 }
 
+//-----------------------------------------------------------------------------------------------
 void Game::UpdateStates()
 {
 	if( m_currentState != m_nextState )
@@ -238,18 +227,6 @@ void Game::RenderNonChessEntities() const
 //-----------------------------------------------------------------------------------------------
 void Game::UpdateKeyboardInput()
 {
-	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( KEYCODE_F1 ) )
-	{
-		if( !m_debugDraw )
-		{
-			m_debugDraw = true;
-		}
-		else
-		{
-			m_debugDraw = false;
-		}
-	}
-
 	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( '1' ) )
 	{
 		Vec3 endPosition = m_player->m_position + ( m_player->GetModelToWorldTransform().GetIBasis3D() * 20.f );
