@@ -45,6 +45,8 @@ void Game::Startup()
 	Shader* diffuseShader = g_engine->m_render->CreateOrGetShader( "Data/Shaders/Diffuse", VertexType::VERTEX_PCUTBN );
 	g_engine->m_render->BindShader( diffuseShader );
 
+	g_engine->m_render->SetPerFrameConstants( 0 );
+
 	m_worldCamera = new Camera();
 	m_screenCamera = new Camera();
 

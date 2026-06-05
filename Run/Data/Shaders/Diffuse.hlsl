@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------
-struct vs_input_t
+struct vertexShaderInput
 {
 	float3 modelPosition : POSITION;
 	float4 color : COLOR;
@@ -10,7 +10,7 @@ struct vs_input_t
 };
 
 //------------------------------------------------------------------------------------------------
-struct v2p_t
+struct pixelShaderInput
 {
 	float4 clipPosition : SV_Position;
 	float4 color : COLOR;
@@ -18,6 +18,13 @@ struct v2p_t
 	float4 worldTangent : TANGENT;
 	float4 worldBitangent : BITANGENT;
 	float4 worldNormal : NORMAL;
+    int debugId : DEBUG_ID;
+};
+
+//------------------------------------------------------------------------------------------------
+cbuffer PerFrameConstants : register(b4)
+{
+    int DebugID;
 };
 
 //------------------------------------------------------------------------------------------------
@@ -50,7 +57,7 @@ Texture2D diffuseTexture : register(t0);
 SamplerState samplerState : register(s0);
 
 //------------------------------------------------------------------------------------------------
-v2p_t VertexMain(vs_input_t input)
+pixelShaderInput VertexMain(vertexShaderInput input)
 {
 	float4 modelPosition = float4(input.modelPosition, 1);
 	float4 worldPosition = mul(ModelToWorldTransform, modelPosition);
@@ -62,18 +69,19 @@ v2p_t VertexMain(vs_input_t input)
 	float4 worldBitangent = mul(ModelToWorldTransform, float4(input.modelNormal, 0.0f));
 	float4 worldNormal = mul(ModelToWorldTransform, float4(input.modelNormal, 0.0f));
 
-	v2p_t v2p;
-	v2p.clipPosition = clipPosition;
-	v2p.color = input.color;
-	v2p.uv = input.uv;
-	v2p.worldTangent = worldTangent;
-	v2p.worldBitangent = worldBitangent;
-	v2p.worldNormal = worldNormal;
-	return v2p;
+	pixelShaderInput vsOutput;
+	vsOutput.clipPosition = clipPosition;
+	vsOutput.color = input.color;
+	vsOutput.uv = input.uv;
+	vsOutput.worldTangent = worldTangent;
+	vsOutput.worldBitangent = worldBitangent;
+	vsOutput.worldNormal = worldNormal;
+    vsOutput.debugId = DebugID;
+	return vsOutput;
 }
 
 //------------------------------------------------------------------------------------------------
-float4 PixelMain(v2p_t input) : SV_Target0
+float4 PixelMain(pixelShaderInput input) : SV_Target0
 {
 	float ambient = AmbientIntensity;
 	float directional = SunIntensity * saturate(dot(normalize(input.worldNormal.xyz), -SunDirection));
