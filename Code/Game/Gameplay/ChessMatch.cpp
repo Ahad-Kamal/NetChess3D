@@ -93,6 +93,11 @@ void ChessMatch::AddPiecesToBoard()
 	bishop02->TranslatePieceToCoord( IntVec2( 5, 0 ) );
 	m_p0ChessPieces.push_back( bishop02 );
 
+	// Queen
+	ChessPiece* queen0 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 4 ], TEAM_PLAYER_0, this );
+	queen0->TranslatePieceToCoord( IntVec2( 3, 0 ) );
+	m_p0ChessPieces.push_back( queen0 );
+
 	// Add player 1 pieces
 	// Pawns
 	for( int pawnIndex = 0; pawnIndex < 8; pawnIndex++ )
@@ -130,4 +135,9 @@ void ChessMatch::AddPiecesToBoard()
 	ChessPiece* bishop12 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 3 ], TEAM_PLAYER_1, this );
 	bishop12->TranslatePieceToCoord( IntVec2( 5, 7 ) );
 	m_p1ChessPieces.push_back( bishop12 );
+
+	// Queen
+	ChessPiece* queen1 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 4 ], TEAM_PLAYER_1, this );
+	queen1->TranslatePieceToCoord( IntVec2( 3, 7 ) );
+	m_p1ChessPieces.push_back( queen1 );
 }
