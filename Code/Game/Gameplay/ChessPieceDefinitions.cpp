@@ -131,6 +131,15 @@ void ChessPieceDefinition::InitializePieceDefs()
 //-----------------------------------------------------------------------------------------------
 void ChessPieceDefinition::ClearPieceDefs()
 {
+	for( unsigned int defIndex = 0; defIndex < s_pieceDefs.size(); defIndex++ )
+	{
+		delete s_pieceDefs[ defIndex ].m_vertexBuffer;
+		s_pieceDefs[ defIndex ].m_vertexBuffer = nullptr;
+
+		delete s_pieceDefs[ defIndex ].m_indexBuffer;
+		s_pieceDefs[ defIndex ].m_indexBuffer = nullptr;
+	}
+
 	s_pieceDefs.clear();
 }
 
