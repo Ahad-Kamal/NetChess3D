@@ -250,6 +250,7 @@ bool ChessMatch::Event_ChessMove( EventArgs& args )
 	if( fromChessCoord == toChessCoord )
 	{
 		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, "The \"from\" and \"to\" coordinates can't be the same tile!" );
+		return true;
 	}
 
 	IntVec2 fromCoord = ConvertChessCoordToIntCoord( fromChessCoord );
@@ -283,13 +284,17 @@ bool ChessMatch::Event_ChessMove( EventArgs& args )
 		}
 		std::string errorString = "The " + fromPiece->m_definition->GetPieceName() + " at " + fromChessCoord + " belongs to player " + currentPlayer + " (White); it is currently player " + nextPlayer + " (Black)'s turn";
 		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, errorString );
+		return true;
 	}
 	// Check if from and to pieces are on different teams
 	if( fromPiece->m_team == toPiece->m_team )
 	{
 		std::string errorString = "Can't move to " + fromChessCoord + ", since it is occupied by your own " + toPiece->m_definition->GetPieceName() + "!";
 		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, errorString );
+		return true;
 	}
+
+
 
 	return true;
 }
