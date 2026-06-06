@@ -38,6 +38,14 @@ void ChessMatch::Render() const
 void ChessMatch::PrintBoardState()
 {
 	g_engine->m_devConsole->AddLine( Rgba8::ORANGE, "=====================" );
+	if( m_currentPlayerTurn == TEAM_PLAYER_1 )
+	{
+		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, "It is currently player 1 (White)'s turn" );
+	}
+	else
+	{
+		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, "It is currently player 2 (Black)'s turn" );
+	}
 
 	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, "  ABCDEFGH  " );
 	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, " +--------+ " );
@@ -238,6 +246,11 @@ bool ChessMatch::Event_ChessMove( EventArgs& args )
 		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, " Examples: C2, F5; A1 is bottom left and H8 is top-right" );
 		return true;
 	}
+	// Different coords check
+	if( fromChessCoord == toChessCoord )
+	{
+		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, "The \"from\" and \"to\" coordinates can't be the same tile!" );
+	}
 
 	IntVec2 fromCoord = ConvertChessCoordToIntCoord( fromChessCoord );
 	IntVec2 toCoord = ConvertChessCoordToIntCoord( toChessCoord );
@@ -269,6 +282,12 @@ bool ChessMatch::Event_ChessMove( EventArgs& args )
 			nextPlayer = '1';
 		}
 		std::string errorString = "The " + fromPiece->m_definition->GetPieceName() + " at " + fromChessCoord + " belongs to player " + currentPlayer + " (White); it is currently player " + nextPlayer + " (Black)'s turn";
+		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, errorString );
+	}
+	// Check if from and to pieces are on different teams
+	if( fromPiece->m_team == toPiece->m_team )
+	{
+		std::string errorString = "Can't move to " + fromChessCoord + ", since it is occupied by your own " + toPiece->m_definition->GetPieceName() + "!";
 		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, errorString );
 	}
 
