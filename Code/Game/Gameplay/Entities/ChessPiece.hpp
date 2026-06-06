@@ -5,7 +5,7 @@
 
 
 //-----------------------------------------------------------------------------------------------
-class ChessMatch;
+class ChessBoard;
 
 //-----------------------------------------------------------------------------------------------
 enum Team
@@ -19,7 +19,7 @@ enum Team
 class ChessPiece
 {
 public:
-	ChessPiece( ChessPieceDefinition* definition, Team player, ChessMatch* owner );
+	ChessPiece( ChessPieceDefinition* definition, Team player, ChessBoard* board );
 	~ChessPiece();
 
 	void Update();
@@ -36,6 +36,6 @@ private:
 	Vec3 m_position;
 	ChessGeometry* m_base = nullptr;
 
-	ChessMatch*	m_owner = nullptr;
+	ChessBoard*	m_board = nullptr;
 	ChessPieceDefinition* m_definition = nullptr;
 };

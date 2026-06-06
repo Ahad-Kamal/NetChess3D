@@ -1,4 +1,5 @@
 #include "Game/Gameplay//Entities/ChessPiece.hpp"
+#include "Game/Gameplay/Entities/ChessBoard.hpp"
 #include "Game/Gameplay/ChessPieceDefinitions.hpp"
 #include "Game/Gameplay/ChessMatch.hpp"
 #include "Game/Gameplay/Game.hpp"
@@ -7,10 +8,10 @@
 
 
 //-----------------------------------------------------------------------------------------------
-ChessPiece::ChessPiece( ChessPieceDefinition* definition, Team player, ChessMatch* owner )
+ChessPiece::ChessPiece( ChessPieceDefinition* definition, Team player, ChessBoard* board )
 	: m_definition( definition )
 	, m_team( player )
-	, m_owner( owner )
+	, m_board( board )
 {
 	std::vector<ChessGeometry*> geoList = m_definition->GetChessGeometry();
 
@@ -87,7 +88,7 @@ void ChessPiece::Render() const
 void ChessPiece::TranslatePieceToCoord( IntVec2 coord )
 {
 	// NOTE: add logic to handle change in z?
-	Vec2 newPosition = m_owner->GetTileCenterFromCoord( coord );
+	Vec2 newPosition = m_board->GetTileCenterFromCoord( coord );
 	Vec2 translation = newPosition - Vec2( m_position );
 
 	Mat44 translationMatrix;
