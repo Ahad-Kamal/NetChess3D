@@ -140,6 +140,12 @@ void ChessPieceDefinition::ClearPieceDefs()
 
 		delete s_pieceDefs[ defIndex ].m_indexBufferP0;
 		s_pieceDefs[ defIndex ].m_indexBufferP0 = nullptr;
+
+		delete s_pieceDefs[ defIndex ].m_vertexBufferP1;
+		s_pieceDefs[ defIndex ].m_vertexBufferP1 = nullptr;
+
+		delete s_pieceDefs[ defIndex ].m_indexBufferP1;
+		s_pieceDefs[ defIndex ].m_indexBufferP1 = nullptr;
 	}
 
 	s_pieceDefs.clear();
