@@ -17,7 +17,11 @@ public:
 	void Update();
 	void Render() const;
 
-	Vec2 GetTileCenterFromCoord( IntVec2 coord );
+	//IntVec2 GetTileCoordsFromIndex( int index ) const;
+	//IntVec2 GetCoordFromPosition( Vec2 position ) const;
+	int GetIndexFromCoord( IntVec2 coord );
+	ChessPiece* GetPieceAtCoord( IntVec2 coord );
+	Vec2 GetTileCenterFromCoord( IntVec2 coord ) const;
 
 private:
 	void AddPiecesToBoard();
@@ -26,6 +30,7 @@ protected:
 	ChessMatch* m_owner;
 
 private:
+	std::vector<ChessPiece*> m_piecesOnBoard;
 	std::vector<ChessPiece*> m_p0ChessPieces;
 	std::vector<ChessPiece*> m_p1ChessPieces;
 

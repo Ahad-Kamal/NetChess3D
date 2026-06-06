@@ -8,7 +8,7 @@
 class ChessBoard;
 
 //-----------------------------------------------------------------------------------------------
-enum Team
+enum ChessTeam
 {
 	TEAM_INAVLID = -1,
 	TEAM_PLAYER_0,
@@ -19,7 +19,7 @@ enum Team
 class ChessPiece
 {
 public:
-	ChessPiece( ChessPieceDefinition* definition, Team player, ChessBoard* board );
+	ChessPiece( ChessPieceDefinition* definition, ChessTeam player, ChessBoard* board );
 	~ChessPiece();
 
 	void Update();
@@ -28,14 +28,16 @@ public:
 	void TranslatePieceToCoord( IntVec2 coord );
 	void RotatePiece( EulerAngles rotationAmt );
 
+public:
+	ChessTeam m_team = TEAM_INAVLID;
+	Vec3 m_position;
+	ChessPieceDefinition* m_definition = nullptr;
+
 private:
 	VertexList m_vertexes;
 	IndexList m_indexes;
 
-	Team m_team = TEAM_INAVLID;
-	Vec3 m_position;
 	ChessGeometry* m_base = nullptr;
 
 	ChessBoard*	m_board = nullptr;
-	ChessPieceDefinition* m_definition = nullptr;
 };

@@ -17,5 +17,9 @@ public:
 	void Render() const;
 
 private:
+	void PrintBoardState();
+	void GetPiecesOnRow( std::string& rowString, int rowNumber );
+
+private:
 	ChessBoard* m_chessBoard;
 };

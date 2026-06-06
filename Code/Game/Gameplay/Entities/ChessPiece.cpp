@@ -8,7 +8,7 @@
 
 
 //-----------------------------------------------------------------------------------------------
-ChessPiece::ChessPiece( ChessPieceDefinition* definition, Team player, ChessBoard* board )
+ChessPiece::ChessPiece( ChessPieceDefinition* definition, ChessTeam player, ChessBoard* board )
 	: m_definition( definition )
 	, m_team( player )
 	, m_board( board )
