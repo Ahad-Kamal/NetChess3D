@@ -25,6 +25,7 @@ void ChessPieceDefinition::InitializePieceDefs()
 		ChessPieceDefinition& currentPieceDef = s_pieceDefs[ elementIndex ];
 
 		std::string name = pieceDefBlackboard.GetValue( "name", "" );
+		currentPieceDef.m_pieceName = name;
 		if( name == "Pawn" )
 		{
 			currentPieceDef.m_pieceType = ChessPieceType::PAWN;
@@ -149,6 +150,12 @@ void ChessPieceDefinition::ClearPieceDefs()
 	}
 
 	s_pieceDefs.clear();
+}
+
+//-----------------------------------------------------------------------------------------------
+std::string ChessPieceDefinition::GetPieceName() const
+{
+	return m_pieceName;
 }
 
 //-----------------------------------------------------------------------------------------------

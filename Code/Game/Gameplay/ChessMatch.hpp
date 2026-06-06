@@ -1,11 +1,9 @@
 #pragma once
 #include "Game/Gameplay/Entities/ChessBoard.hpp"
+#include "Game/Gameplay/Entities/ChessPiece.hpp"
 #include "Engine/Core/EventSystem.hpp"
 #include <vector>
 
-
-//-----------------------------------------------------------------------------------------------
-class ChessPiece;
 
 //-----------------------------------------------------------------------------------------------
 class ChessMatch
@@ -27,4 +25,5 @@ private:
 
 private:
 	ChessBoard* m_chessBoard;
+	ChessTeam m_currentPlayerTurn = TEAM_PLAYER_1;
 };

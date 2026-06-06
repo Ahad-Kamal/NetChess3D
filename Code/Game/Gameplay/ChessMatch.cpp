@@ -1,10 +1,10 @@
 #include "Game/Gameplay/ChessMatch.hpp"
 #include "Game/Gameplay/ChessPieceDefinitions.hpp"
-#include "Game/Gameplay/Entities/ChessPiece.hpp"
-#include "Engine/Math/EulerAngles.hpp"
+#include "Game/Gameplay/Game.hpp"
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Core/StringUtils.hpp"
 #include "Engine/Core/NamedStrings.hpp"
+#include "Engine/Math/EulerAngles.hpp"
 
 //-----------------------------------------------------------------------------------------------
 ChessMatch::ChessMatch()
@@ -242,7 +242,35 @@ bool ChessMatch::Event_ChessMove( EventArgs& args )
 	IntVec2 fromCoord = ConvertChessCoordToIntCoord( fromChessCoord );
 	IntVec2 toCoord = ConvertChessCoordToIntCoord( toChessCoord );
 
+	ChessMatch* chessMatch = g_game->m_chessMatch;
 
+	ChessPiece* fromPiece = chessMatch->m_chessBoard->GetPieceAtCoord( fromCoord );
+	ChessPiece* toPiece = chessMatch->m_chessBoard->GetPieceAtCoord( toCoord );
+
+	// Check for if there is a piece at from coord
+	if( fromPiece == nullptr )
+	{
+		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, "There is no piece at " + fromChessCoord + "!" );
+		return true;
+	}
+	// Check for if piece at from coord belongs to the current player
+	if( fromPiece->m_team != chessMatch->m_currentPlayerTurn )
+	{
+		int playerInt = static_cast<int>( chessMatch->m_currentPlayerTurn ) + 1;
+		char currentPlayer, nextPlayer;
+		if( playerInt == 1 )
+		{
+			currentPlayer = '1';
+			nextPlayer = '2';
+		}
+		else
+		{
+			currentPlayer = '2';
+			nextPlayer = '1';
+		}
+		std::string errorString = "The " + fromPiece->m_definition->GetPieceName() + " at " + fromChessCoord + " belongs to player " + currentPlayer + " (White); it is currently player " + nextPlayer + " (Black)'s turn";
+		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, errorString );
+	}
 
 	return true;
 }

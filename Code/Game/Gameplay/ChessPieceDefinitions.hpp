@@ -61,6 +61,7 @@ public:
 	static void InitializePieceDefs();
 	static void ClearPieceDefs();
 
+	std::string GetPieceName() const;
 	ChessPieceType GetPieceType() const;
 	std::vector<ChessGeometry*> GetChessGeometry() const;
 
@@ -75,6 +76,7 @@ public:
 
 private:
 	std::vector<ChessGeometry*> m_geometry;
+	std::string m_pieceName;
 	ChessPieceType m_pieceType;
 
 	VertexBuffer* m_vertexBufferP1 = nullptr;
