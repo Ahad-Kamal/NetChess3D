@@ -45,7 +45,7 @@ void Game::Startup()
 	Shader* diffuseShader = g_engine->m_render->CreateOrGetShader( "Data/Shaders/Diffuse", VertexType::VERTEX_PCUTBN );
 	g_engine->m_render->BindShader( diffuseShader );
 
-	g_engine->m_render->SetPerFrameConstants( debugShaderID );
+	g_engine->m_render->SetPerFrameConstants( 0 );
 
 	m_worldCamera = new Camera();
 	m_screenCamera = new Camera();
@@ -227,7 +227,22 @@ void Game::RenderNonChessEntities() const
 //-----------------------------------------------------------------------------------------------
 void Game::UpdateKeyboardInput()
 {
-	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( '1' ) )
+	if( m_currentState != GAME_STATE_PLAY )
+	{
+		return;
+	}
+
+	if( g_engine->m_input->WasKeyJustPressed( '0' ) )
+	{
+		g_engine->m_render->SetPerFrameConstants( 0 );
+	}
+
+	if( g_engine->m_input->WasKeyJustPressed( '1' ) )
+	{
+		g_engine->m_render->SetPerFrameConstants( 1 );
+	}
+
+	/*if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( '1' ) )
 	{
 		Vec3 endPosition = m_player->m_position + ( m_player->GetModelToWorldTransform().GetIBasis3D() * 20.f );
 		DebugAddWorldCylinder( Vec3( m_player->m_position ), endPosition,
@@ -269,7 +284,7 @@ void Game::UpdateKeyboardInput()
 		AABB2 textBox = AABB2( 1.f, 770.f, 800.f, 785.f );
 		std::string text = Stringf( "Camera Orientation: %.2f, %.2f, %.2f", m_worldCamera->GetOrientation().m_rollDegrees, m_worldCamera->GetOrientation().m_pitchDegrees, m_worldCamera->GetOrientation().m_yawDegrees );
 		DebugAddScreenText( text, textBox, 15.f, Vec2( 0.f, 1.f ), 5.f );
-	}
+	}*/
 }
 
 //-----------------------------------------------------------------------------------------------

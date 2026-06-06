@@ -82,5 +82,4 @@ private:
 	float m_time = 0.f;
 	Rgba8 m_clearColor = Rgba8( 0, 0, 0, 1 );
 	SoundPlaybackID m_music;
-	int debugShaderID = 0;
 };
