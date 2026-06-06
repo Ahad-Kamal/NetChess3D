@@ -63,8 +63,12 @@ public:
 
 	ChessPieceType GetPieceType() const;
 	std::vector<ChessGeometry*> GetChessGeometry() const;
-	VertexBuffer* GetVertexBuffer() const;
-	IndexBuffer* GetIndexBuffer() const;
+
+	VertexBuffer* GetVertexBufferP0() const;
+	IndexBuffer* GetIndexBufferP0() const;
+
+	VertexBuffer* GetVertexBufferP1() const;
+	IndexBuffer* GetIndexBufferP1() const;
 
 public:
 	static std::vector<ChessPieceDefinition> s_pieceDefs;
@@ -72,6 +76,10 @@ public:
 private:
 	std::vector<ChessGeometry*> m_geometry;
 	ChessPieceType m_pieceType;
-	VertexBuffer* m_vertexBuffer = nullptr;
-	IndexBuffer* m_indexBuffer = nullptr;
+
+	VertexBuffer* m_vertexBufferP0 = nullptr;
+	IndexBuffer* m_indexBufferP0 = nullptr;
+
+	VertexBuffer* m_vertexBufferP1 = nullptr;
+	IndexBuffer* m_indexBufferP1 = nullptr;
 };
