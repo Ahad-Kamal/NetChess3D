@@ -137,14 +137,110 @@ void ChessMatch::GetPiecesOnRow( std::string& rowString, int rowNumber )
 	}
 }
 
+//-----------------------------------------------------------------------------------------------
+IntVec2 ChessMatch::ConvertChessCoordToIntCoord( std::string chessCoord )
+{
+	char letter = chessCoord[ 0 ];
+	int row = atoi( &chessCoord[ 1 ] ) - 1;
+
+	if( letter == 'a' || letter == 'A' )
+	{
+		return IntVec2( 0, row );
+	}
+	if( letter == 'b' || letter == 'B' )
+	{
+		return IntVec2( 1, row );
+	}
+	if( letter == 'c' || letter == 'C' )
+	{
+		return IntVec2( 2, row );
+	}
+	if( letter == 'd' || letter == 'D' )
+	{
+		return IntVec2( 3, row );
+	}
+	if( letter == 'e' || letter == 'E' )
+	{
+		return IntVec2( 4, row );
+	}
+	if( letter == 'f' || letter == 'F' )
+	{
+		return IntVec2( 5, row );
+	}
+	if( letter == 'g' || letter == 'G' )
+	{
+		return IntVec2( 6, row );
+	}
+	if( letter == 'h' || letter == 'H' )
+	{
+		return IntVec2( 7, row );
+	}
+
+	return IntVec2();
+}
+
 bool ChessMatch::Event_ChessMove( EventArgs& args )
 {
+	// Number of args check
 	if( args.GetNumPairs() < 2 )
 	{
 		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, "Illegal chess move; must have from= and to= arguments!" );
 		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, " Example: ChessMove from=a2 to a4" );
 		return true;
 	}
+
+	std::string fromChessCoord = args.GetValue( "from", "" );
+	std::string toChessCoord = args.GetValue( "to", "" );
+
+	// Valid coords checks
+	// Coords length check
+	if( fromChessCoord.size() != 2 )
+	{
+		std::string errorString = "Illegal \"from=\" square \"" + fromChessCoord + "\"; must be a two-letter [Column][Rank] ";
+		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, errorString );
+		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, " Examples: C2, F5; A1 is bottom left and H8 is top-right" );
+		return true;
+	}
+	if( toChessCoord.size() != 2 )
+	{
+		std::string errorString = "Illegal \"to=\" square \"" + toChessCoord + "\"; must be a two-letter [Column][Rank] ";
+		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, errorString );
+		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, " Examples: C2, F5; A1 is bottom left and H8 is top-right" );
+		return true;
+	}
+	// Coords letter check
+	if( !( fromChessCoord[ 0 ] >= 65 && fromChessCoord[ 0 ] <= 72 ) && !( fromChessCoord[ 0 ] >= 97 && fromChessCoord[ 0 ] <= 104 ) )
+	{
+		std::string errorString = "Illegal \"from=\" square \"" + fromChessCoord + "\"; must be a two-letter [Column][Rank] ";
+		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, errorString );
+		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, " Examples: C2, F5; A1 is bottom left and H8 is top-right" );
+		return true;
+	}
+	if( !( toChessCoord[ 0 ] >= 65 && toChessCoord[ 0 ] <= 72 ) && !( toChessCoord[ 0 ] >= 97 && toChessCoord[ 0 ] <= 104 ) )
+	{
+		std::string errorString = "Illegal \"to=\" square \"" + toChessCoord + "\"; must be a two-letter [Column][Rank] ";
+		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, errorString );
+		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, " Examples: C2, F5; A1 is bottom left and H8 is top-right" );
+		return true;
+	}
+	// Coords number check
+	if( !( fromChessCoord[ 1 ] >= 49 && fromChessCoord[ 1 ] <= 56 ) )
+	{
+		std::string errorString = "Illegal \"from=\" square \"" + fromChessCoord + "\"; must be a two-letter [Column][Rank] ";
+		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, errorString );
+		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, " Examples: C2, F5; A1 is bottom left and H8 is top-right" );
+		return true;
+	}
+	if( !( toChessCoord[ 1 ] >= 49 && toChessCoord[ 1 ] <= 56 ) )
+	{
+		std::string errorString = "Illegal \"to=\" square \"" + toChessCoord + "\"; must be a two-letter [Column][Rank] ";
+		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, errorString );
+		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, " Examples: C2, F5; A1 is bottom left and H8 is top-right" );
+		return true;
+	}
+
+	IntVec2 fromCoord = ConvertChessCoordToIntCoord( fromChessCoord );
+	IntVec2 toCoord = ConvertChessCoordToIntCoord( toChessCoord );
 
 	return false;
 }
