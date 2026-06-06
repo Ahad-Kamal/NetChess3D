@@ -72,7 +72,7 @@ public:
 	GameState	m_currentState = GAME_STATE_INVALID;
 	GameState	m_nextState = GAME_STATE_ATTRACT;
 
-	Vec3 m_sunDirection = Vec3( 2.f, 2.f, -1.f );
+	Vec3 m_sunDirection = Vec3( 3.f, 1.f, -2.f );
 	float m_sunIntensity = 0.85f;
 	float m_ambientIntensity = 0.35f;
 
