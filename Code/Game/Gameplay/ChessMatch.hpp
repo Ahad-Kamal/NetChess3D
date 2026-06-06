@@ -20,7 +20,8 @@ public:
 private:
 	void PrintBoardState();
 	void GetPiecesOnRow( std::string& rowString, int rowNumber );
-	IntVec2 ConvertChessCoordToInts( std::string chessCoord );
+	
+	static IntVec2 ConvertChessCoordToIntCoord( std::string chessCoord );
 
 	static bool Event_ChessMove( EventArgs& args );
 

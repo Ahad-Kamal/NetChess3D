@@ -119,12 +119,12 @@ void ChessPieceDefinition::InitializePieceDefs()
 
 		// Create Vertex Buffers
 		unsigned int vertexSize = sizeof( Vertex );
-		currentPieceDef.m_vertexBufferP0 = g_engine->m_render->CreateVertexBuffer( 1, vertexSize );
 		currentPieceDef.m_vertexBufferP1 = g_engine->m_render->CreateVertexBuffer( 1, vertexSize );
+		currentPieceDef.m_vertexBufferP2 = g_engine->m_render->CreateVertexBuffer( 1, vertexSize );
 
 		// Create Index Buffers
-		currentPieceDef.m_indexBufferP0 = g_engine->m_render->CreateIndexBuffer( 1 );
 		currentPieceDef.m_indexBufferP1 = g_engine->m_render->CreateIndexBuffer( 1 );
+		currentPieceDef.m_indexBufferP2 = g_engine->m_render->CreateIndexBuffer( 1 );
 
 		currentElement = currentElement->NextSiblingElement();
 	}
@@ -135,17 +135,17 @@ void ChessPieceDefinition::ClearPieceDefs()
 {
 	for( unsigned int defIndex = 0; defIndex < s_pieceDefs.size(); defIndex++ )
 	{
-		delete s_pieceDefs[ defIndex ].m_vertexBufferP0;
-		s_pieceDefs[ defIndex ].m_vertexBufferP0 = nullptr;
-
-		delete s_pieceDefs[ defIndex ].m_indexBufferP0;
-		s_pieceDefs[ defIndex ].m_indexBufferP0 = nullptr;
-
 		delete s_pieceDefs[ defIndex ].m_vertexBufferP1;
 		s_pieceDefs[ defIndex ].m_vertexBufferP1 = nullptr;
 
 		delete s_pieceDefs[ defIndex ].m_indexBufferP1;
 		s_pieceDefs[ defIndex ].m_indexBufferP1 = nullptr;
+
+		delete s_pieceDefs[ defIndex ].m_vertexBufferP2;
+		s_pieceDefs[ defIndex ].m_vertexBufferP2 = nullptr;
+
+		delete s_pieceDefs[ defIndex ].m_indexBufferP2;
+		s_pieceDefs[ defIndex ].m_indexBufferP2 = nullptr;
 	}
 
 	s_pieceDefs.clear();
@@ -166,20 +166,20 @@ std::vector<ChessGeometry*> ChessPieceDefinition::GetChessGeometry() const
 //-----------------------------------------------------------------------------------------------
 VertexBuffer* ChessPieceDefinition::GetVertexBufferP0() const
 {
-	return m_vertexBufferP0;
+	return m_vertexBufferP1;
 }
 
 IndexBuffer* ChessPieceDefinition::GetIndexBufferP0() const
 {
-	return m_indexBufferP0;
+	return m_indexBufferP1;
 }
 
 VertexBuffer* ChessPieceDefinition::GetVertexBufferP1() const
 {
-	return m_vertexBufferP1;
+	return m_vertexBufferP2;
 }
 
 IndexBuffer* ChessPieceDefinition::GetIndexBufferP1() const
 {
-	return m_indexBufferP1;
+	return m_indexBufferP2;
 }

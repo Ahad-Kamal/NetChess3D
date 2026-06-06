@@ -11,8 +11,8 @@ class ChessBoard;
 enum ChessTeam
 {
 	TEAM_INAVLID = -1,
-	TEAM_PLAYER_0,
-	TEAM_PLAYER_1
+	TEAM_PLAYER_1,
+	TEAM_PLAYER_2
 };
 
 //-----------------------------------------------------------------------------------------------

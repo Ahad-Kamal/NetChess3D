@@ -77,9 +77,9 @@ private:
 	std::vector<ChessGeometry*> m_geometry;
 	ChessPieceType m_pieceType;
 
-	VertexBuffer* m_vertexBufferP0 = nullptr;
-	IndexBuffer* m_indexBufferP0 = nullptr;
-
 	VertexBuffer* m_vertexBufferP1 = nullptr;
 	IndexBuffer* m_indexBufferP1 = nullptr;
+
+	VertexBuffer* m_vertexBufferP2 = nullptr;
+	IndexBuffer* m_indexBufferP2 = nullptr;
 };

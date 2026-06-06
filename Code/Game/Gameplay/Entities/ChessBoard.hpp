@@ -31,8 +31,8 @@ protected:
 
 private:
 	std::vector<ChessPiece*> m_piecesOnBoard;
-	std::vector<ChessPiece*> m_p0ChessPieces;
 	std::vector<ChessPiece*> m_p1ChessPieces;
+	std::vector<ChessPiece*> m_p2ChessPieces;
 
 	VertexList m_vertexes;
 	IndexList m_indexes;

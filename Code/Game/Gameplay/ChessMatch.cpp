@@ -70,7 +70,7 @@ void ChessMatch::GetPiecesOnRow( std::string& rowString, int rowNumber )
 		ChessTeam team = piece->m_team;
 		if( type == ChessPieceType::PAWN )
 		{
-			if( team == TEAM_PLAYER_0 )
+			if( team == TEAM_PLAYER_1 )
 			{
 				rowString[ tileIndex + 2 ] = 'P';
 			}
@@ -81,7 +81,7 @@ void ChessMatch::GetPiecesOnRow( std::string& rowString, int rowNumber )
 		}
 		else if( type == ChessPieceType::ROOK )
 		{
-			if( team == TEAM_PLAYER_0 )
+			if( team == TEAM_PLAYER_1 )
 			{
 				rowString[ tileIndex + 2 ] = 'R';
 			}
@@ -92,7 +92,7 @@ void ChessMatch::GetPiecesOnRow( std::string& rowString, int rowNumber )
 		}
 		else if( type == ChessPieceType::KNIGHT )
 		{
-			if( team == TEAM_PLAYER_0 )
+			if( team == TEAM_PLAYER_1 )
 			{
 				rowString[ tileIndex + 2 ] = 'N';
 			}
@@ -103,7 +103,7 @@ void ChessMatch::GetPiecesOnRow( std::string& rowString, int rowNumber )
 		}
 		else if( type == ChessPieceType::BISHOP )
 		{
-			if( team == TEAM_PLAYER_0 )
+			if( team == TEAM_PLAYER_1 )
 			{
 				rowString[ tileIndex + 2 ] = 'B';
 			}
@@ -114,7 +114,7 @@ void ChessMatch::GetPiecesOnRow( std::string& rowString, int rowNumber )
 		}
 		else if( type == ChessPieceType::QUEEN )
 		{
-			if( team == TEAM_PLAYER_0 )
+			if( team == TEAM_PLAYER_1 )
 			{
 				rowString[ tileIndex + 2 ] = 'Q';
 			}
@@ -125,7 +125,7 @@ void ChessMatch::GetPiecesOnRow( std::string& rowString, int rowNumber )
 		}
 		else if( type == ChessPieceType::KING )
 		{
-			if( team == TEAM_PLAYER_0 )
+			if( team == TEAM_PLAYER_1 )
 			{
 				rowString[ tileIndex + 2 ] = 'K';
 			}
@@ -242,5 +242,7 @@ bool ChessMatch::Event_ChessMove( EventArgs& args )
 	IntVec2 fromCoord = ConvertChessCoordToIntCoord( fromChessCoord );
 	IntVec2 toCoord = ConvertChessCoordToIntCoord( toChessCoord );
 
-	return false;
+
+
+	return true;
 }

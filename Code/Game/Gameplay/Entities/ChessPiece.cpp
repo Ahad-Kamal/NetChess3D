@@ -16,7 +16,7 @@ ChessPiece::ChessPiece( ChessPieceDefinition* definition, ChessTeam player, Ches
 	std::vector<ChessGeometry*> geoList = m_definition->GetChessGeometry();
 
 	Rgba8 color;
-	if( m_team == TEAM_PLAYER_0 )
+	if( m_team == TEAM_PLAYER_1 )
 	{
 		ChessCylinder* cylinderBase = new ChessCylinder();
 		cylinderBase->m_radius = 0.35f;
@@ -82,7 +82,7 @@ void ChessPiece::Render() const
 	Vec3 normalizedLighting = g_game->m_sunDirection.GetNormalized();
 	g_engine->m_render->SetLightConstants( normalizedLighting, g_game->m_sunIntensity, g_game->m_ambientIntensity );
 
-	if( m_team == TEAM_PLAYER_0 )
+	if( m_team == TEAM_PLAYER_1 )
 	{
 		g_engine->m_render->DrawVertexArray( m_vertexes, m_indexes, m_definition->GetVertexBufferP0(), m_definition->GetIndexBufferP0() );
 	}
@@ -104,7 +104,7 @@ void ChessPiece::TranslatePieceToCoord( IntVec2 coord )
 
 	TransformVertexArray3D( m_vertexes, translationMatrix );
 
-	if( m_team == TEAM_PLAYER_0 )
+	if( m_team == TEAM_PLAYER_1 )
 	{
 		ChessCylinder* cylinder = static_cast<ChessCylinder*>( m_base );
 		cylinder->m_center += Vec3( translation );
