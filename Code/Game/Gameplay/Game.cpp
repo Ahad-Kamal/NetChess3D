@@ -58,9 +58,9 @@ void Game::Startup()
 
 	g_bitmapFont = g_engine->m_render->CreateOrGetBitmapFont( "Data/Images/SquirrelFixedFont" );
 
-	/*g_engine->m_devConsole->PrintCommandsToConsole();
+	g_engine->m_devConsole->PrintCommandsToConsole();
 	AddCommandsToDevConsole();
-	AddControlsToDevConsole();*/
+	//AddControlsToDevConsole();
 
 	InitializeStartTriangleVerts();
 	TransformVertexArrayXY3D( 3, m_startVerts, 1.f, 0.f, Vec2( SCREEN_CENTER_X, SCREEN_CENTER_Y ) );
@@ -363,7 +363,7 @@ void Game::DeleteGarbageEntities()
 //-----------------------------------------------------------------------------------------------
 void Game::AddCommandsToDevConsole()
 {
-
+	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, " ChessMove" );
 }
 
 //-----------------------------------------------------------------------------------------------

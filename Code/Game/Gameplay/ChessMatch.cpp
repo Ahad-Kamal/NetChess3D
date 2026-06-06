@@ -4,6 +4,7 @@
 #include "Engine/Math/EulerAngles.hpp"
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Core/StringUtils.hpp"
+#include "Engine/Core/NamedStrings.hpp"
 
 //-----------------------------------------------------------------------------------------------
 ChessMatch::ChessMatch()
@@ -11,6 +12,8 @@ ChessMatch::ChessMatch()
 	m_chessBoard = new ChessBoard( this );
 
 	PrintBoardState();
+	SubscribeEventCallbackFunction( "ChessMove", Event_ChessMove );
+	g_engine->m_devConsole->AddValidCommand( "ChessMove" );
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -132,4 +135,16 @@ void ChessMatch::GetPiecesOnRow( std::string& rowString, int rowNumber )
 			}
 		}
 	}
+}
+
+bool ChessMatch::Event_ChessMove( EventArgs& args )
+{
+	if( args.GetNumPairs() < 2 )
+	{
+		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, "Illegal chess move; must have from= and to= arguments!" );
+		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, " Example: ChessMove from=a2 to a4" );
+		return true;
+	}
+
+	return false;
 }
