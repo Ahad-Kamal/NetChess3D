@@ -3,6 +3,14 @@
 
 
 //-----------------------------------------------------------------------------------------------
+enum class CameraMode
+{
+	POV,
+	SPECTATOR,
+	FREE
+};
+
+//-----------------------------------------------------------------------------------------------
 struct EulerAngles;
 
 //-----------------------------------------------------------------------------------------------
@@ -15,6 +23,11 @@ public:
 	void Update( float deltaSeconds ) override;
 	void Render() const override;
 
+	void ToggleCameraMode();
+	void TogglePOVSide();
 	void CameraControlsKeyboard( float deltaSeconds );
 	void CameraControlsController( float deltaSeconds );
+
+private:
+	CameraMode m_cameraMode = CameraMode::POV;
 };

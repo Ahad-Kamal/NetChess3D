@@ -1,6 +1,7 @@
 #include "Game/Gameplay/ChessMatch.hpp"
 #include "Game/Gameplay/ChessPieceDefinitions.hpp"
 #include "Game/Gameplay/Game.hpp"
+#include "Game/Gameplay/Entities/ChessPlayer.hpp"
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Core/StringUtils.hpp"
 #include "Engine/Core/NamedStrings.hpp"
@@ -317,6 +318,7 @@ bool ChessMatch::Event_ChessMove( EventArgs& args )
 	{
 		chessMatch->m_currentPlayerTurn = TEAM_PLAYER_1;
 	}
+	g_game->m_player->TogglePOVSide();
 	chessMatch->PrintBoardState();
 
 	return true;

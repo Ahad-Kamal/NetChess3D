@@ -1,6 +1,7 @@
 #include "Game/Gameplay/Entities/ChessPlayer.hpp"
 #include "Game/Gameplay/Game.hpp"
 #include "Game/Gameplay/Entity.hpp"
+#include "Game/Gameplay/ChessMatch.hpp"
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Core/Clock.hpp"
 #include "Engine/Renderer/Camera.hpp"
@@ -13,6 +14,19 @@ ChessPlayer::ChessPlayer( Vec3 const& startingPosition, EulerAngles orientation 
 {
 	m_orientation = orientation;
 	m_velocity = startingPosition;
+
+	if( m_cameraMode == CameraMode::POV )
+	{
+		m_velocity = Vec3();
+		m_position = Vec3( 4.f, -3.25f, 4.f );
+		m_orientation = EulerAngles( 90.f, 30.f, 0.f );
+	}
+	else if( m_cameraMode == CameraMode::SPECTATOR )
+	{
+		m_velocity = Vec3();
+		m_position = Vec3( 4.f, 3.3f, 8.f );
+		m_orientation = EulerAngles( 90.f, 85.f, 0.f );
+	}
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -29,6 +43,11 @@ void ChessPlayer::Update( [[maybe_unused]] float deltaSeconds )
 
 	if( g_game->m_currentState == GAME_STATE_PLAY )
 	{
+		if( g_engine->m_input->WasKeyJustPressed( KEYCODE_F4 ) )
+		{
+			ToggleCameraMode();
+		}
+
 		CameraControlsKeyboard( systemDeltaSeconds );
 		CameraControlsController( systemDeltaSeconds );
 	}
@@ -44,8 +63,67 @@ void ChessPlayer::Render() const
 }
 
 //-----------------------------------------------------------------------------------------------
+void ChessPlayer::ToggleCameraMode()
+{
+	switch( m_cameraMode )
+	{
+		case CameraMode::POV:
+			m_cameraMode = CameraMode::SPECTATOR;
+			break;
+
+		case CameraMode::SPECTATOR:
+			m_cameraMode = CameraMode::FREE;
+			break;
+
+		case CameraMode::FREE:
+			m_cameraMode = CameraMode::POV;
+			break;
+	}
+
+	if( m_cameraMode == CameraMode::POV )
+	{
+		if( g_game->m_chessMatch->m_currentPlayerTurn == TEAM_PLAYER_1 )
+		{
+			m_position = Vec3( 4.f, -3.25f, 4.f );
+			m_orientation = EulerAngles( 90.f, 30.f, 0.f );
+		}
+		else
+		{
+			m_position = Vec3( 4.f, 11.25f, 4.f );
+			m_orientation = EulerAngles( 90.f, 30.f, 270.f );
+		}
+	}
+	else if( m_cameraMode == CameraMode::SPECTATOR )
+	{
+		m_position = Vec3( 4.f, 3.3f, 8.f );
+		m_orientation = EulerAngles( 90.f, 85.f, 0.f );
+	}
+}
+
+//-----------------------------------------------------------------------------------------------
+void ChessPlayer::TogglePOVSide()
+{
+	if( g_game->m_chessMatch->m_currentPlayerTurn == TEAM_PLAYER_1 )
+	{
+		m_position = Vec3( 4.f, -3.25f, 4.f );
+		m_orientation = EulerAngles( 90.f, 30.f, 0.f );
+	}
+	else
+	{
+		m_position = Vec3( 4.f, 11.25f, 4.f );
+		m_orientation = EulerAngles( 270.f, 30.f, 0.f );
+	}
+}
+
+//-----------------------------------------------------------------------------------------------
 void ChessPlayer::CameraControlsKeyboard( float deltaSeconds )
 {
+	if( m_cameraMode != CameraMode::FREE )
+	{
+		m_velocity = Vec3();
+		return;
+	}
+
 	Vec3 forwardVector = m_orientation.GetForwardDir_IFwd_JLeft_KUp();
 	float speedFactor = 5.f;
 
@@ -130,6 +208,12 @@ void ChessPlayer::CameraControlsKeyboard( float deltaSeconds )
 //-----------------------------------------------------------------------------------------------
 void ChessPlayer::CameraControlsController( float deltaSeconds )
 {
+	if( m_cameraMode != CameraMode::FREE )
+	{
+		m_velocity = Vec3();
+		return;
+	}
+
 	XboxController const& controller = g_engine->m_input->m_controllers[ 0 ];
 	Vec3 forwardVector = m_orientation.GetForwardDir_IFwd_JLeft_KUp();
 	float speedFactor = 5.f;

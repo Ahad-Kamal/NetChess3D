@@ -98,6 +98,7 @@ void Game::Update()
 	}
 
 	UpdateNonChessEntities( deltaSeconds );
+	m_player->Update( deltaSeconds );
 	m_chessMatch->Update();
 
 	DeleteGarbageEntities();
@@ -225,8 +226,6 @@ void Game::UpdateNonChessEntities( float deltaSeconds )
 	m_time += deltaSeconds;
 	m_startAlpha = 127.5f * cosf( m_time * 2.0f ) + 127.5f;
 
-	m_player->Update( deltaSeconds );
-
 	AABB2 positionBox = AABB2( 1.f, 784.f, 800.f, 799.f );
 	std::string positionText = Stringf( "Position: %.2f, %.2f, %.2f", m_player->m_position.x, m_player->m_position.y, m_player->m_position.z );
 	DebugAddScreenText( positionText, positionBox, 15.f, Vec2( 0.f, 1.f ), 0.f );
@@ -313,11 +312,6 @@ void Game::UpdateKeyboardInput()
 		AABB2 textBox = AABB2( 1.f, 770.f, 800.f, 785.f );
 		std::string text = Stringf( "Camera Orientation: %.2f, %.2f, %.2f", m_worldCamera->GetOrientation().m_rollDegrees, m_worldCamera->GetOrientation().m_pitchDegrees, m_worldCamera->GetOrientation().m_yawDegrees );
 		DebugAddScreenText( text, textBox, 15.f, Vec2( 0.f, 1.f ), 5.f );
-	}
-
-	if( g_engine->m_input->WasKeyJustPressed( KEYCODE_F4 ) )
-	{
-		
 	}
 }
 
