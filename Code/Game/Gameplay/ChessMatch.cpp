@@ -37,7 +37,7 @@ void ChessMatch::Render() const
 //-----------------------------------------------------------------------------------------------
 void ChessMatch::PrintBoardState()
 {
-	g_engine->m_devConsole->AddLine( Rgba8::ORANGE, "=====================" );
+	g_engine->m_devConsole->AddLine( Rgba8::ORANGE, "============================================" );
 	if( m_currentPlayerTurn == TEAM_PLAYER_1 )
 	{
 		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, "It is currently player 1 (White)'s turn" );
@@ -270,31 +270,40 @@ bool ChessMatch::Event_ChessMove( EventArgs& args )
 	// Check for if piece at from coord belongs to the current player
 	if( fromPiece->m_team != chessMatch->m_currentPlayerTurn )
 	{
-		int playerInt = static_cast<int>( chessMatch->m_currentPlayerTurn ) + 1;
-		char currentPlayer, nextPlayer;
-		if( playerInt == 1 )
+		int currentPlayer = static_cast<int>( chessMatch->m_currentPlayerTurn ) + 1;
+		std::string errorString;
+		if( currentPlayer == 1 )
 		{
-			currentPlayer = '1';
-			nextPlayer = '2';
+			errorString = "The " + fromPiece->m_definition->GetPieceName() + " at " + fromChessCoord + " belongs to player 2 (Black); it is currently player 1 (White)'s turn";
 		}
 		else
 		{
-			currentPlayer = '2';
-			nextPlayer = '1';
+			errorString = "The " + fromPiece->m_definition->GetPieceName() + " at " + fromChessCoord + " belongs to player 1 (White); it is currently player 2 (Black)'s turn";
 		}
-		std::string errorString = "The " + fromPiece->m_definition->GetPieceName() + " at " + fromChessCoord + " belongs to player " + currentPlayer + " (White); it is currently player " + nextPlayer + " (Black)'s turn";
+		
 		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, errorString );
 		return true;
 	}
 	// Check if from and to pieces are on different teams
-	if( fromPiece->m_team == toPiece->m_team )
+	if( toPiece != nullptr && fromPiece->m_team == toPiece->m_team )
 	{
 		std::string errorString = "Can't move to " + fromChessCoord + ", since it is occupied by your own " + toPiece->m_definition->GetPieceName() + "!";
 		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, errorString );
 		return true;
 	}
 
+	// Valid move logic
 
+	// Switch turns
+	if( chessMatch->m_currentPlayerTurn == TEAM_PLAYER_1 )
+	{
+		chessMatch->m_currentPlayerTurn = TEAM_PLAYER_2;
+	}
+	else
+	{
+		chessMatch->m_currentPlayerTurn = TEAM_PLAYER_1;
+	}
+	chessMatch->PrintBoardState();
 
 	return true;
 }
