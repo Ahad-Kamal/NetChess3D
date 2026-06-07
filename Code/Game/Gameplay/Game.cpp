@@ -1,6 +1,6 @@
 #include "Game/Gameplay/Game.hpp"
 #include "Game/Gameplay/Entity.hpp"
-#include "Game/Gameplay/Entities/Player.hpp"
+#include "Game/Gameplay/Entities/ChessPlayer.hpp"
 #include "Game/Gameplay/Entities/Prop.hpp"
 #include "Game/Gameplay/ChessMatch.hpp"
 #include "Game/Framework/App.hpp"
@@ -67,7 +67,7 @@ void Game::Startup()
 
 	Vec2 worldCenter( WORLD_SIZE_X * 0.5f, WORLD_SIZE_Y * 0.5f );
 
- 	m_player = new Player( Vec3( -2.f, 0.f, 1.5f ), EulerAngles() );
+ 	m_player = new ChessPlayer( Vec3( -2.f, 0.f, 1.5f ), EulerAngles() );
 	m_worldCamera->SetPosition( m_player->m_position );
 	m_worldCamera->SetOrientation( m_player->m_orientation );
 

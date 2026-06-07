@@ -6,11 +6,11 @@
 struct EulerAngles;
 
 //-----------------------------------------------------------------------------------------------
-class Player : public Entity
+class ChessPlayer : public Entity
 {
 public:
-	Player( Vec3 const& startingPosition, EulerAngles orientation );
-	~Player();
+	ChessPlayer( Vec3 const& startingPosition, EulerAngles orientation );
+	~ChessPlayer();
 
 	void Update( float deltaSeconds ) override;
 	void Render() const override;

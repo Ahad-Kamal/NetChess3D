@@ -34,7 +34,7 @@
     <ClCompile Include="Gameplay\Game.cpp">
       <Filter>Gameplay</Filter>
     </ClCompile>
-    <ClCompile Include="Gameplay\Entities\Player.cpp">
+    <ClCompile Include="Gameplay\Entities\ChessPlayer.cpp">
       <Filter>Gameplay\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Gameplay\Entities\Prop.cpp">
@@ -50,9 +50,6 @@
       <Filter>Gameplay\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Gameplay\Entities\ChessPiece.cpp">
-      <Filter>Gameplay\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Gameplay\Entities\ChessPlayer.cpp">
       <Filter>Gameplay\Entities</Filter>
     </ClCompile>
   </ItemGroup>
@@ -72,9 +69,6 @@
     <ClInclude Include="Gameplay\Game.hpp">
       <Filter>Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="Gameplay\Entities\ChessPlayer.hpp">
-      <Filter>Gameplay\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Gameplay\Entities\Prop.hpp">
       <Filter>Gameplay\Entities</Filter>
     </ClInclude>
@@ -90,7 +84,7 @@
     <ClInclude Include="Gameplay\Entities\ChessPiece.hpp">
       <Filter>Gameplay\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Gameplay\Entities\Player.hpp">
+    <ClInclude Include="Gameplay\Entities\ChessPlayer.hpp">
       <Filter>Gameplay\Entities</Filter>
     </ClInclude>
   </ItemGroup>

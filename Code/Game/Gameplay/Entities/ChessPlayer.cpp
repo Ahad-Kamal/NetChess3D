@@ -1,4 +1,4 @@
-#include "Game/Gameplay/Entities/Player.hpp"
+#include "Game/Gameplay/Entities/ChessPlayer.hpp"
 #include "Game/Gameplay/Game.hpp"
 #include "Game/Gameplay/Entity.hpp"
 #include "Engine/Core/Engine.hpp"
@@ -8,7 +8,7 @@
 
 
 //-----------------------------------------------------------------------------------------------
-Player::Player( Vec3 const& startingPosition, EulerAngles orientation )
+ChessPlayer::ChessPlayer( Vec3 const& startingPosition, EulerAngles orientation )
 	:	Entity( g_game, startingPosition )
 {
 	m_orientation = orientation;
@@ -16,13 +16,13 @@ Player::Player( Vec3 const& startingPosition, EulerAngles orientation )
 }
 
 //-----------------------------------------------------------------------------------------------
-Player::~Player()
+ChessPlayer::~ChessPlayer()
 {
 
 }
 
 //-----------------------------------------------------------------------------------------------
-void Player::Update( [[maybe_unused]] float deltaSeconds )
+void ChessPlayer::Update( [[maybe_unused]] float deltaSeconds )
 {
 	float systemDeltaSeconds = static_cast<float>( Clock::GetSystemClock().GetDeltaSeconds() );
 	m_position += m_velocity;
@@ -38,13 +38,13 @@ void Player::Update( [[maybe_unused]] float deltaSeconds )
 }
 
 //-----------------------------------------------------------------------------------------------
-void Player::Render() const
+void ChessPlayer::Render() const
 {
 
 }
 
 //-----------------------------------------------------------------------------------------------
-void Player::CameraControlsKeyboard( float deltaSeconds )
+void ChessPlayer::CameraControlsKeyboard( float deltaSeconds )
 {
 	Vec3 forwardVector = m_orientation.GetForwardDir_IFwd_JLeft_KUp();
 	float speedFactor = 5.f;
@@ -128,7 +128,7 @@ void Player::CameraControlsKeyboard( float deltaSeconds )
 }
 
 //-----------------------------------------------------------------------------------------------
-void Player::CameraControlsController( float deltaSeconds )
+void ChessPlayer::CameraControlsController( float deltaSeconds )
 {
 	XboxController const& controller = g_engine->m_input->m_controllers[ 0 ];
 	Vec3 forwardVector = m_orientation.GetForwardDir_IFwd_JLeft_KUp();

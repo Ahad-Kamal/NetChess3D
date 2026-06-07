@@ -11,7 +11,7 @@ class App;
 class Camera;
 class Entity;
 class Clock;
-class Player;
+class ChessPlayer;
 class Prop;
 class BitmapFont;
 class ChessMatch;
@@ -62,7 +62,7 @@ private:
 public:
 	ChessMatch* m_chessMatch = nullptr;
 
-	Player*		m_player = nullptr;
+	ChessPlayer*		m_player = nullptr;
 	Prop*		m_grid = nullptr;
 	Prop*		m_testObj = nullptr;
 

@@ -263,7 +263,6 @@
     <ClCompile Include="Gameplay\Entities\ChessBoard.cpp" />
     <ClCompile Include="Gameplay\Entities\ChessPiece.cpp" />
     <ClCompile Include="Gameplay\Entities\ChessPlayer.cpp" />
-    <ClCompile Include="Gameplay\Entities\Player.cpp" />
     <ClCompile Include="Gameplay\Entities\Prop.cpp" />
     <ClCompile Include="Gameplay\Entity.cpp" />
     <ClCompile Include="Gameplay\Game.cpp" />
@@ -277,7 +276,6 @@
     <ClInclude Include="Gameplay\Entities\ChessBoard.hpp" />
     <ClInclude Include="Gameplay\Entities\ChessPiece.hpp" />
     <ClInclude Include="Gameplay\Entities\ChessPlayer.hpp" />
-    <ClInclude Include="Gameplay\Entities\Player.hpp" />
     <ClInclude Include="Gameplay\Entities\Prop.hpp" />
     <ClInclude Include="Gameplay\Entity.hpp" />
     <ClInclude Include="Gameplay\Game.hpp" />
