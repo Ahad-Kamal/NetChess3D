@@ -264,10 +264,17 @@ void Game::UpdateKeyboardInput()
 	{
 		g_engine->m_render->SetPerFrameConstants( 0 );
 	}
-
 	if( g_engine->m_input->WasKeyJustPressed( '1' ) )
 	{
 		g_engine->m_render->SetPerFrameConstants( 1 );
+	}
+	if( g_engine->m_input->WasKeyJustPressed( '2' ) )
+	{
+		g_engine->m_render->SetPerFrameConstants( 2 );
+	}
+	if( g_engine->m_input->WasKeyJustPressed( '3' ) )
+	{
+		g_engine->m_render->SetPerFrameConstants( 3 );
 	}
 
 	/*if( g_engine->m_input->WasKeyJustPressed( '1' ) )
