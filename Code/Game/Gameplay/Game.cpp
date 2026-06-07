@@ -92,6 +92,10 @@ void Game::Update()
 		UpdateAttractMode( deltaSeconds );
 		return;
 	}
+	if( m_currentState == GAME_STATE_VICTORY )
+	{
+		return;
+	}
 
 	UpdateNonChessEntities( deltaSeconds );
 	m_chessMatch->Update();
@@ -108,6 +112,11 @@ void Game::Render() const
 	if( m_currentState == GAME_STATE_ATTRACT )
 	{
 		RenderAttractMode();
+		return;
+	}
+	if( m_currentState == GAME_STATE_VICTORY )
+	{
+		RenderVictoryScreen();
 		return;
 	}
 
@@ -186,8 +195,28 @@ void Game::RenderAttractMode() const
 
 	std::vector<Vertex> textGoldDropShadowVerts;
 	AddVertsForTextTriangles2D( textGoldDropShadowVerts, "Screen", Vec2( 800.f, 700.f ), 40.f, Rgba8( 0, 0, 255 ) );
-	g_engine->m_render->RenderSetup();;
+	g_engine->m_render->RenderSetup();
 	g_engine->m_render->DrawVertexArray( (int)textGoldDropShadowVerts.size(), textGoldDropShadowVerts.data() );
+}
+
+//-----------------------------------------------------------------------------------------------
+void Game::RenderVictoryScreen() const
+{
+	g_engine->m_render->BeginCamera( *m_screenCamera );
+
+	std::vector<Vertex> winTextVerts;
+	std::string victoryString;
+	if( m_chessMatch->m_currentPlayerTurn == TEAM_PLAYER_1 )
+	{
+		victoryString = "Player 1 Wins!";
+	}
+	else
+	{
+		victoryString = "Player 2 Wins!";
+	}
+	AddVertsForTextTriangles2D( winTextVerts, victoryString, Vec2( 600.f, 400.f ), 40.f, Rgba8( 255, 255, 255 ) );
+	g_engine->m_render->RenderSetup();
+	g_engine->m_render->DrawVertexArray( (int)winTextVerts.size(), winTextVerts.data() );
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -277,14 +306,14 @@ void Game::UpdateKeyboardInput()
 	{
 		DebugAddWorldWireCylinder( Vec3( m_player->m_position.x, m_player->m_position.y, m_player->m_position.z - 0.5f ), 
 			Vec3( m_player->m_position.x, m_player->m_position.y, m_player->m_position.z + 0.5f ), 0.5f, 10.f, Rgba8::WHITE, Rgba8::RED );
-	}
+	}*/
 
 	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( '7' ) )
 	{
 		AABB2 textBox = AABB2( 1.f, 770.f, 800.f, 785.f );
 		std::string text = Stringf( "Camera Orientation: %.2f, %.2f, %.2f", m_worldCamera->GetOrientation().m_rollDegrees, m_worldCamera->GetOrientation().m_pitchDegrees, m_worldCamera->GetOrientation().m_yawDegrees );
 		DebugAddScreenText( text, textBox, 15.f, Vec2( 0.f, 1.f ), 5.f );
-	}*/
+	}
 }
 
 //-----------------------------------------------------------------------------------------------

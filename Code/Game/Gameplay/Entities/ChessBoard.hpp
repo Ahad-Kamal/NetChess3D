@@ -1,10 +1,10 @@
 #pragma once
+#include "Game/Gameplay/Entities/ChessPiece.hpp"
 #include "Engine/Core/VertexUtils.hpp"
 #include "Engine/Math/AABB3.hpp"
 
 
 //-----------------------------------------------------------------------------------------------
-class ChessPiece;
 class ChessMatch;
 
 //-----------------------------------------------------------------------------------------------
@@ -25,6 +25,7 @@ public:
 
 	void MovePiece( ChessPiece*& pieceToMove, IntVec2 coord );
 	void RemovePiece( ChessPiece*& pieceToRemove );
+	bool CheckForCapturedKing( ChessTeam currentPlayer );
 
 private:
 	void AddPiecesToBoard();

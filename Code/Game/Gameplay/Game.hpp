@@ -39,6 +39,8 @@ private:
 	void UpdateAttractMode( float deltaSeconds );
 	void RenderAttractMode() const;
 
+	void RenderVictoryScreen() const;
+
 	void UpdateNonChessEntities( float deltaSeconds );
 	void RenderNonChessEntities() const;
 

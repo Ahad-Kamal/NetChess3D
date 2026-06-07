@@ -65,7 +65,7 @@ void App::RunFrame()
 	DebugRenderBeginFrame();
 	Render();		
 
-	if( g_game->m_currentState != GAME_STATE_ATTRACT )
+	if( g_game->m_currentState == GAME_STATE_PLAY )
 	{
 		DebugRenderWorld( *g_game->m_worldCamera );
 		DebugRenderScreen( *g_game->m_screenCamera );
@@ -163,9 +163,15 @@ bool App::EventQuit( [[maybe_unused]] EventArgs& args )
 //-----------------------------------------------------------------------------------------------
 void App::UpdateKeyboardInput()
 {
-	if(g_game->m_currentState == GAME_STATE_ATTRACT && g_engine->m_input->WasKeyJustPressed( ' ' ) || g_engine->m_input->WasKeyJustPressed( 'N' ) )
+	if(g_game->m_currentState == GAME_STATE_ATTRACT && ( g_engine->m_input->WasKeyJustPressed( ' ' ) || g_engine->m_input->WasKeyJustPressed( 'N' ) ) )
 	{
 		g_game->m_nextState = GAME_STATE_PLAY;
+	}
+
+	if( g_game->m_currentState == GAME_STATE_VICTORY && ( g_engine->m_input->WasKeyJustPressed( ' ' ) || g_engine->m_input->WasKeyJustPressed( KEYCODE_ESC ) ) )
+	{
+		RestartGame();
+		g_game->m_nextState = GAME_STATE_ATTRACT;
 	}
 
 	if( g_game->m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( KEYCODE_F8 ) )

@@ -1,5 +1,4 @@
 #include "Game/Gameplay/Entities/ChessBoard.hpp"
-#include "Game/Gameplay/Entities/ChessPiece.hpp"
 #include "Game/Gameplay/ChessMatch.hpp"
 #include "Game/Gameplay/ChessPieceDefinitions.hpp"
 #include "Game/Gameplay/Game.hpp"
@@ -180,6 +179,36 @@ void ChessBoard::RemovePiece( ChessPiece*& pieceToRemove )
 	{
 		m_p2ChessPieces[ teamIndex ] = nullptr;
 	}
+}
+
+//-----------------------------------------------------------------------------------------------
+bool ChessBoard::CheckForCapturedKing( ChessTeam currentPlayer )
+{
+	bool isKing = false;
+	if( currentPlayer == TEAM_PLAYER_1 )
+	{
+		for( unsigned int pieceIndex = 0; pieceIndex < m_p2ChessPieces.size(); pieceIndex++ )
+		{
+			if( m_p2ChessPieces[ pieceIndex ] && m_p2ChessPieces[ pieceIndex ]->m_definition->GetPieceType() == ChessPieceType::KING )
+			{
+				isKing = true;
+				break;
+			}
+		}
+	}
+	else
+	{
+		for( unsigned int pieceIndex = 0; pieceIndex < m_p1ChessPieces.size(); pieceIndex++ )
+		{
+			if( m_p1ChessPieces[ pieceIndex ] && m_p1ChessPieces[ pieceIndex ]->m_definition->GetPieceType() == ChessPieceType::KING )
+			{
+				isKing = true;
+				break;
+			}
+		}
+	}
+
+	return isKing;
 }
 
 //-----------------------------------------------------------------------------------------------

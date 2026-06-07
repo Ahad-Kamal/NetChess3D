@@ -301,6 +301,13 @@ bool ChessMatch::Event_ChessMove( EventArgs& args )
 	// Move piece
 	chessMatch->m_chessBoard->MovePiece( fromPiece, toCoord );
 
+	// Check for victory state
+	if( !chessMatch->m_chessBoard->CheckForCapturedKing( chessMatch->m_currentPlayerTurn ) )
+	{
+		g_game->m_nextState = GAME_STATE_VICTORY;
+		return true;
+	}
+
 	// Switch turns
 	if( chessMatch->m_currentPlayerTurn == TEAM_PLAYER_1 )
 	{

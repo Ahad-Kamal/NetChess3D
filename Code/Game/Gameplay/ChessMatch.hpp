@@ -18,12 +18,14 @@ public:
 private:
 	void PrintBoardState();
 	void GetPiecesOnRow( std::string& rowString, int rowNumber );
-	
+
 	static IntVec2 ConvertChessCoordToIntCoord( std::string chessCoord );
 
 	static bool Event_ChessMove( EventArgs& args );
 
+public:
+	ChessTeam m_currentPlayerTurn = TEAM_PLAYER_1;
+
 private:
 	ChessBoard* m_chessBoard;
-	ChessTeam m_currentPlayerTurn = TEAM_PLAYER_1;
 };
