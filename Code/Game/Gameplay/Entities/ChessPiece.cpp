@@ -114,6 +114,8 @@ void ChessPiece::TranslatePieceToCoord( IntVec2 coord )
 		ChessAABB3* box = static_cast<ChessAABB3*>( m_base );
 		box->m_abb3.Translate( Vec3( translation ) );
 	}
+
+	m_position = Vec3( newPosition );
 }
 
 //-----------------------------------------------------------------------------------------------

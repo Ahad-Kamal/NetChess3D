@@ -293,6 +293,13 @@ bool ChessMatch::Event_ChessMove( EventArgs& args )
 	}
 
 	// Valid move logic
+	// Capture Piece, if one was captured
+	if( toPiece != nullptr )
+	{
+		chessMatch->m_chessBoard->RemovePiece( toPiece );
+	}
+	// Move piece
+	chessMatch->m_chessBoard->MovePiece( fromPiece, toCoord );
 
 	// Switch turns
 	if( chessMatch->m_currentPlayerTurn == TEAM_PLAYER_1 )

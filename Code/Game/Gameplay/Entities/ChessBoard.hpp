@@ -18,10 +18,13 @@ public:
 	void Render() const;
 
 	//IntVec2 GetTileCoordsFromIndex( int index ) const;
-	//IntVec2 GetCoordFromPosition( Vec2 position ) const;
-	int GetIndexFromCoord( IntVec2 coord );
+	IntVec2 GetCoordFromPosition( Vec2 position ) const;
+	int GetIndexFromCoord( IntVec2 coord ) const;
 	ChessPiece* GetPieceAtCoord( IntVec2 coord );
 	Vec2 GetTileCenterFromCoord( IntVec2 coord ) const;
+
+	void MovePiece( ChessPiece*& pieceToMove, IntVec2 coord );
+	void RemovePiece( ChessPiece*& pieceToRemove );
 
 private:
 	void AddPiecesToBoard();

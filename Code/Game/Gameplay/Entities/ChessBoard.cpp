@@ -5,6 +5,7 @@
 #include "Game/Gameplay/Game.hpp"
 #include "Engine/Core/Engine.hpp"
 #include "Engine/Math/MathUtils.hpp"
+#include "Engine/Core/ErrorWarningAssert.hpp"
 
 //-----------------------------------------------------------------------------------------------
 ChessBoard::ChessBoard( ChessMatch* owner )
@@ -65,16 +66,28 @@ void ChessBoard::Render() const
 
 	for( unsigned int pieceIndex = 0; pieceIndex < m_p1ChessPieces.size(); pieceIndex++ )
 	{
-		m_p1ChessPieces[ pieceIndex ]->Render();
+		if( m_p1ChessPieces[ pieceIndex ] )
+		{
+			m_p1ChessPieces[ pieceIndex ]->Render();
+		}
 	}
 	for( unsigned int pieceIndex = 0; pieceIndex < m_p2ChessPieces.size(); pieceIndex++ )
 	{
-		m_p2ChessPieces[ pieceIndex ]->Render();
+		if( m_p2ChessPieces[ pieceIndex ] )
+		{
+			m_p2ChessPieces[ pieceIndex ]->Render();
+		}
 	}
 }
 
 //-----------------------------------------------------------------------------------------------
-int ChessBoard::GetIndexFromCoord( IntVec2 coord )
+IntVec2 ChessBoard::GetCoordFromPosition( Vec2 position ) const
+{
+	return IntVec2( RoundDownToInt( position.x ), RoundDownToInt( position.y ) );
+}
+
+//-----------------------------------------------------------------------------------------------
+int ChessBoard::GetIndexFromCoord( IntVec2 coord ) const
 {
 	return ( coord.y * 8 ) + coord.x;
 }
@@ -97,6 +110,7 @@ ChessPiece* ChessBoard::GetPieceAtCoord( IntVec2 coord )
 //	return GetCoordFromPosition( Vec2( m_piecesOnBoard[ index ]->m_position ) );
 //}
 
+
 //-----------------------------------------------------------------------------------------------
 Vec2 ChessBoard::GetTileCenterFromCoord( IntVec2 coord ) const
 {
@@ -107,10 +121,66 @@ Vec2 ChessBoard::GetTileCenterFromCoord( IntVec2 coord ) const
 }
 
 //-----------------------------------------------------------------------------------------------
-//IntVec2 ChessBoard::GetCoordFromPosition( Vec2 position ) const
-//{
-//	return IntVec2( RoundDownToInt( position.x ), RoundDownToInt( position.y ) );
-//}
+void ChessBoard::MovePiece( ChessPiece*& pieceToMove, IntVec2 coord )
+{
+	int oldTileIndex = GetIndexFromCoord( GetCoordFromPosition( Vec2( pieceToMove->m_position ) ) );
+	int newTileIndex = GetIndexFromCoord( coord );
+
+	m_piecesOnBoard[ newTileIndex ] = pieceToMove;
+	m_piecesOnBoard[ oldTileIndex ] = nullptr;
+
+	pieceToMove->TranslatePieceToCoord( coord );
+}
+
+//-----------------------------------------------------------------------------------------------
+void ChessBoard::RemovePiece( ChessPiece*& pieceToRemove )
+{
+	int boardIndex = GetIndexFromCoord( GetCoordFromPosition( Vec2( pieceToRemove->m_position ) ) );
+	int teamIndex = -1;
+	ChessTeam pieceTeam = pieceToRemove->m_team;
+	if( pieceTeam == TEAM_PLAYER_1 )
+	{
+		for( unsigned int pieceIndex = 0; pieceIndex < m_p1ChessPieces.size(); pieceIndex++ )
+		{
+			if( pieceToRemove == m_p1ChessPieces[ pieceIndex ] )
+			{
+				teamIndex = pieceIndex;
+				break;
+			}
+		}
+	}
+	else
+	{
+		for( unsigned int pieceIndex = 0; pieceIndex < m_p2ChessPieces.size(); pieceIndex++ )
+		{
+			if( pieceToRemove == m_p2ChessPieces[ pieceIndex ] )
+			{
+				teamIndex = pieceIndex;
+				break;
+			}
+		}
+	}
+
+	delete pieceToRemove;
+	pieceToRemove = nullptr;
+
+	m_piecesOnBoard[ boardIndex ] = nullptr;
+
+	// This shouldn't happen, but this catch is here if it does
+	if( teamIndex == -1 )
+	{
+		ERROR_AND_DIE( "Piece could not be removed");
+	}
+
+	if( pieceTeam == TEAM_PLAYER_1 )
+	{
+		m_p1ChessPieces[ teamIndex ] = nullptr;
+	}
+	else
+	{
+		m_p2ChessPieces[ teamIndex ] = nullptr;
+	}
+}
 
 //-----------------------------------------------------------------------------------------------
 void ChessBoard::AddPiecesToBoard()
