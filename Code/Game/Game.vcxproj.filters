@@ -72,7 +72,7 @@
     <ClInclude Include="Gameplay\Game.hpp">
       <Filter>Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="Gameplay\Entities\Player.hpp">
+    <ClInclude Include="Gameplay\Entities\ChessPlayer.hpp">
       <Filter>Gameplay\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Gameplay\Entities\Prop.hpp">
@@ -90,7 +90,7 @@
     <ClInclude Include="Gameplay\Entities\ChessPiece.hpp">
       <Filter>Gameplay\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="Gameplay\Entities\ChessPlayer.hpp">
+    <ClInclude Include="Gameplay\Entities\Player.hpp">
       <Filter>Gameplay\Entities</Filter>
     </ClInclude>
   </ItemGroup>

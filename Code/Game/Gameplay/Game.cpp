@@ -271,48 +271,53 @@ void Game::UpdateKeyboardInput()
 		g_engine->m_render->SetPerFrameConstants( 1 );
 	}
 
-	/*if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( '1' ) )
+	/*if( g_engine->m_input->WasKeyJustPressed( '1' ) )
 	{
 		Vec3 endPosition = m_player->m_position + ( m_player->GetModelToWorldTransform().GetIBasis3D() * 20.f );
 		DebugAddWorldCylinder( Vec3( m_player->m_position ), endPosition,
 			0.0625f, 10.f, Rgba8::YELLOW, Rgba8::YELLOW, DebugRenderMode::X_RAY );
 	}
 
-	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->IsKeyDown( '2' ) )
+	if( g_engine->m_input->IsKeyDown( '2' ) )
 	{
 		DebugAddWorldSphere( Vec3( m_player->m_position.x, m_player->m_position.y, 0.f ), 0.5f, 60.f, Rgba8( 150, 75, 0 ), Rgba8( 150, 75, 0 ) );
 	}
 
-	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( '3' ) )
+	if( g_engine->m_input->WasKeyJustPressed( '3' ) )
 	{
 		Mat44 playerMat = m_player->GetModelToWorldTransform();
 		playerMat.AppendTranslation2D( Vec2( 2.f, 0.f ) );
 		DebugAddWorldWireSphere( playerMat.GetTranslation3D(), 1.f, 5.f, Rgba8::GREEN, Rgba8::RED );
 	}
 
-	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( '4' ) )
+	if( g_engine->m_input->WasKeyJustPressed( '4' ) )
 	{
 		DebugAddBasis( m_player->GetModelToWorldTransform(), 20.f, 1.f, 0.125f );
 	}
 
-	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( '5' ) )
+	if( g_engine->m_input->WasKeyJustPressed( '5' ) )
 	{
 		Vec3 position = m_player->GetModelToWorldTransform().GetTranslation3D() + m_player->GetModelToWorldTransform().GetIBasis3D() * 10.f;
 		std::string text = Stringf("Position: %.2f, %.2f, %.2f", m_player->m_position.x, m_player->m_position.y, m_player->m_position.z );
 		DebugAddWorldBillboardText( text, position, 1.f, Vec2( 0.5f, 0.5f ), 5.f, Rgba8::WHITE, Rgba8::RED );
 	}
 
-	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( '6' ) )
+	if( g_engine->m_input->WasKeyJustPressed( '6' ) )
 	{
 		DebugAddWorldWireCylinder( Vec3( m_player->m_position.x, m_player->m_position.y, m_player->m_position.z - 0.5f ), 
 			Vec3( m_player->m_position.x, m_player->m_position.y, m_player->m_position.z + 0.5f ), 0.5f, 10.f, Rgba8::WHITE, Rgba8::RED );
 	}*/
 
-	if( m_currentState == GAME_STATE_PLAY && g_engine->m_input->WasKeyJustPressed( '7' ) )
+	if( g_engine->m_input->WasKeyJustPressed( '7' ) )
 	{
 		AABB2 textBox = AABB2( 1.f, 770.f, 800.f, 785.f );
 		std::string text = Stringf( "Camera Orientation: %.2f, %.2f, %.2f", m_worldCamera->GetOrientation().m_rollDegrees, m_worldCamera->GetOrientation().m_pitchDegrees, m_worldCamera->GetOrientation().m_yawDegrees );
 		DebugAddScreenText( text, textBox, 15.f, Vec2( 0.f, 1.f ), 5.f );
+	}
+
+	if( g_engine->m_input->WasKeyJustPressed( KEYCODE_F4 ) )
+	{
+		
 	}
 }
 
