@@ -58,7 +58,8 @@ void ChessBoard::Update()
 //-----------------------------------------------------------------------------------------------
 void ChessBoard::Render() const
 {
-	g_engine->m_render->RenderSetup();
+	Texture* texture = g_engine->m_render->CreateOrGetTextureFromFile( "Data/Images/Wood.png" );
+	g_engine->m_render->RenderSetup( texture );
 	Vec3 normalizedLighting = g_game->m_sunDirection.GetNormalized();
 	g_engine->m_render->SetLightConstants( normalizedLighting, g_game->m_sunIntensity, g_game->m_ambientIntensity );
 	g_engine->m_render->DrawVertexArray( m_vertexes, m_indexes );
