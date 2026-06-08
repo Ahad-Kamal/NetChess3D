@@ -29,5 +29,5 @@ public:
 	void CameraControlsController( float deltaSeconds );
 
 private:
-	CameraMode m_cameraMode = CameraMode::FREE;
+	CameraMode m_cameraMode = CameraMode::POV;
 };
