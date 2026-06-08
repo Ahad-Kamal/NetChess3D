@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------
-struct vertexShaderInput
+struct vs_input_t
 {
 	float3 modelPosition : POSITION;
 	float4 color : COLOR;
@@ -10,7 +10,7 @@ struct vertexShaderInput
 };
 
 //------------------------------------------------------------------------------------------------
-struct pixelShaderInput
+struct v2p_t
 {
 	float4 clipPosition : SV_Position;
 	float4 color : COLOR;
@@ -57,7 +57,7 @@ Texture2D diffuseTexture : register(t0);
 SamplerState samplerState : register(s0);
 
 //------------------------------------------------------------------------------------------------
-pixelShaderInput VertexMain(vertexShaderInput input)
+v2p_t VertexMain(vs_input_t input)
 {
 	float4 modelPosition = float4(input.modelPosition, 1);
 	float4 worldPosition = mul(ModelToWorldTransform, modelPosition);
@@ -65,11 +65,11 @@ pixelShaderInput VertexMain(vertexShaderInput input)
 	float4 renderPosition = mul(CameraToRenderTransform, cameraPosition);
 	float4 clipPosition = mul(RenderToClipTransform, renderPosition);
 
-	float4 worldTangent = mul(ModelToWorldTransform, float4(input.modelNormal, 0.0f));
-	float4 worldBitangent = mul(ModelToWorldTransform, float4(input.modelNormal, 0.0f));
+	float4 worldTangent = mul(ModelToWorldTransform, float4(input.modelTangent, 0.0f));
+	float4 worldBitangent = mul(ModelToWorldTransform, float4(input.modelBitangent, 0.0f));
 	float4 worldNormal = mul(ModelToWorldTransform, float4(input.modelNormal, 0.0f));
 
-	pixelShaderInput vsOutput;
+	v2p_t vsOutput;
 	vsOutput.clipPosition = clipPosition;
 	vsOutput.color = input.color;
 	vsOutput.uv = input.uv;
@@ -81,7 +81,7 @@ pixelShaderInput VertexMain(vertexShaderInput input)
 }
 
 //------------------------------------------------------------------------------------------------
-float4 PixelMain(pixelShaderInput input) : SV_Target0
+float4 PixelMain(v2p_t input) : SV_Target0
 {
 	float ambient = AmbientIntensity;
 	float directional = SunIntensity * saturate(dot(normalize(input.worldNormal.xyz), -SunDirection));
@@ -91,6 +91,25 @@ float4 PixelMain(pixelShaderInput input) : SV_Target0
 	float4 modelColor = ModelColor;
 	float4 color = lightColor * textureColor * vertexColor * modelColor;
 	clip(color.a - 0.01f);
+	
+	if( input.debugId == 1 )
+    {
+        color.rgb = input.worldNormal.xyz;
+        color.rgb += 1.f;
+        color.rgb *= 0.5f;
+    }
+	else if( input.debugId == 2 )
+    {
+        color.rgb = input.worldTangent.xyz;
+        color.rgb += 1.f;
+        color.rgb *= 0.5f;
+    }
+	else if( input.debugId == 3 )
+    {
+        color.rgb = input.worldBitangent.xyz;
+        color.rgb += 1.f;
+        color.rgb *= 0.5f;
+    }
 	
 	return color;
 }
