@@ -7,6 +7,7 @@
 
 //-----------------------------------------------------------------------------------------------
 std::vector<ChessPieceDefinition> ChessPieceDefinition::s_pieceDefs;
+ChessPieceDefinition ChessPieceDefinition::s_invalidDef;
 
 //-----------------------------------------------------------------------------------------------
 void ChessPieceDefinition::InitializePieceDefs()
@@ -191,49 +192,47 @@ IndexBuffer* ChessPieceDefinition::GetIndexBufferP2() const
 	return m_indexBufferP2;
 }
 
-ChessPieceDefinition ChessPieceDefinition::GetPieceDefFromChar( char pieceChar )
+ChessPieceDefinition* ChessPieceDefinition::GetPieceDefFromChar( char pieceChar )
 {
 	switch( pieceChar )
 	{
 		case 'p':
-			return s_pieceDefs[ 0 ];
+			return &s_pieceDefs[ 0 ];
 
 		case 'P':
-			return s_pieceDefs[ 0 ];
+			return &s_pieceDefs[ 0 ];
 
 		case 'r':
-			return s_pieceDefs[ 1 ];
+			return &s_pieceDefs[ 1 ];
 
 		case 'R':
-			return s_pieceDefs[ 1 ];
+			return &s_pieceDefs[ 1 ];
 
 		case 'n':
-			return s_pieceDefs[ 2 ];
+			return &s_pieceDefs[ 2 ];
 
 		case 'N':
-			return s_pieceDefs[ 2 ];
+			return &s_pieceDefs[ 2 ];
 
 		case 'b':
-			return s_pieceDefs[ 3 ];
+			return &s_pieceDefs[ 3 ];
 
 		case 'B':
-			return s_pieceDefs[ 3 ];
+			return &s_pieceDefs[ 3 ];
 
 		case 'q':
-			return s_pieceDefs[ 4 ];
+			return &s_pieceDefs[ 4 ];
 
 		case 'Q':
-			return s_pieceDefs[ 4 ];
+			return &s_pieceDefs[ 4 ];
 
 		case 'k':
-			return s_pieceDefs[ 5 ];
+			return &s_pieceDefs[ 5 ];
 
 		case 'K':
-			return s_pieceDefs[ 5 ];
+			return &s_pieceDefs[ 5 ];
 
 		default:
-			ChessPieceDefinition invalid;
-			invalid.m_pieceType = ChessPieceType::INVALID;
-			return invalid;
+			return &s_invalidDef;
 	}
 }

@@ -71,15 +71,16 @@ public:
 	VertexBuffer* GetVertexBufferP2() const;
 	IndexBuffer* GetIndexBufferP2() const;
 
-	static ChessPieceDefinition GetPieceDefFromChar( char pieceChar );
+	static ChessPieceDefinition* GetPieceDefFromChar( char pieceChar );
 
 public:
 	static std::vector<ChessPieceDefinition> s_pieceDefs;
+	static ChessPieceDefinition s_invalidDef;
 
 private:
 	std::vector<ChessGeometry*> m_geometry;
 	std::string m_pieceName;
-	ChessPieceType m_pieceType;
+	ChessPieceType m_pieceType = ChessPieceType::INVALID;
 
 	VertexBuffer* m_vertexBufferP1 = nullptr;
 	IndexBuffer* m_indexBufferP1 = nullptr;

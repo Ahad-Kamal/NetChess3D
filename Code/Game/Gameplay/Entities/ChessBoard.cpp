@@ -246,8 +246,8 @@ void ChessBoard::SetPiecesOnBoard( std::string const& boardString )
 		IntVec2 coord = GetCoordFromIndex( tileIndex );
 		ChessPiece* currentPiece = GetPieceAtCoord( coord );
 
-		ChessPieceDefinition defOfPieceToAdd = ChessPieceDefinition::GetPieceDefFromChar( boardString[ tileIndex ] );
-		ChessPieceType pieceTypeToAdd = defOfPieceToAdd.GetPieceType();
+		ChessPieceDefinition* defOfPieceToAdd = ChessPieceDefinition::GetPieceDefFromChar( boardString[ tileIndex ] );
+		ChessPieceType pieceTypeToAdd = defOfPieceToAdd->GetPieceType();
 		ChessTeam pieceTeamToAdd = ChessPiece::GetTeamFromChar( boardString[ tileIndex ] );
 
 		// Do nothing, cause the piece at this tile is the same as what we would like to add
@@ -271,13 +271,13 @@ void ChessBoard::SetPiecesOnBoard( std::string const& boardString )
 		// Placing a piece on an empty tile
 		if( currentPiece == nullptr )
 		{
-			ChessPiece* piece = new ChessPiece( &defOfPieceToAdd, pieceTeamToAdd, this );
+			ChessPiece* piece = new ChessPiece( defOfPieceToAdd, pieceTeamToAdd, this );
 			AddPiece( piece, coord );
 			continue;
 		}
 
 		// Replacing a piece on a tile with another piece
-		ChessPiece* piece = new ChessPiece( &defOfPieceToAdd, pieceTeamToAdd, this );
+		ChessPiece* piece = new ChessPiece( defOfPieceToAdd, pieceTeamToAdd, this );
 		RemovePiece( currentPiece );
 		AddPiece( piece, coord );
 	}
