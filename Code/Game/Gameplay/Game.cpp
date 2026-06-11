@@ -399,6 +399,7 @@ void Game::DeleteGarbageEntities()
 void Game::AddCommandsToDevConsole()
 {
 	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, " ChessMove" );
+	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, " ChessOverride" );
 }
 
 //-----------------------------------------------------------------------------------------------

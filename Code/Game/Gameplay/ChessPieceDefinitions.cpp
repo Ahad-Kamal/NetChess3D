@@ -171,22 +171,68 @@ std::vector<ChessGeometry*> ChessPieceDefinition::GetChessGeometry() const
 }
 
 //-----------------------------------------------------------------------------------------------
-VertexBuffer* ChessPieceDefinition::GetVertexBufferP0() const
+VertexBuffer* ChessPieceDefinition::GetVertexBufferP1() const
 {
 	return m_vertexBufferP1;
 }
 
-IndexBuffer* ChessPieceDefinition::GetIndexBufferP0() const
+IndexBuffer* ChessPieceDefinition::GetIndexBufferP1() const
 {
 	return m_indexBufferP1;
 }
 
-VertexBuffer* ChessPieceDefinition::GetVertexBufferP1() const
+VertexBuffer* ChessPieceDefinition::GetVertexBufferP2() const
 {
 	return m_vertexBufferP2;
 }
 
-IndexBuffer* ChessPieceDefinition::GetIndexBufferP1() const
+IndexBuffer* ChessPieceDefinition::GetIndexBufferP2() const
 {
 	return m_indexBufferP2;
+}
+
+ChessPieceDefinition ChessPieceDefinition::GetPieceDefFromChar( char pieceChar )
+{
+	switch( pieceChar )
+	{
+		case 'p':
+			return s_pieceDefs[ 0 ];
+
+		case 'P':
+			return s_pieceDefs[ 0 ];
+
+		case 'r':
+			return s_pieceDefs[ 1 ];
+
+		case 'R':
+			return s_pieceDefs[ 1 ];
+
+		case 'n':
+			return s_pieceDefs[ 2 ];
+
+		case 'N':
+			return s_pieceDefs[ 2 ];
+
+		case 'b':
+			return s_pieceDefs[ 3 ];
+
+		case 'B':
+			return s_pieceDefs[ 3 ];
+
+		case 'q':
+			return s_pieceDefs[ 4 ];
+
+		case 'Q':
+			return s_pieceDefs[ 4 ];
+
+		case 'k':
+			return s_pieceDefs[ 5 ];
+
+		case 'K':
+			return s_pieceDefs[ 5 ];
+
+		default:
+			// This will totally cause an error, but it should also never happen
+			return s_pieceDefs[ -1 ];
+	}
 }

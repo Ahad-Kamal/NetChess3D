@@ -65,11 +65,13 @@ public:
 	ChessPieceType GetPieceType() const;
 	std::vector<ChessGeometry*> GetChessGeometry() const;
 
-	VertexBuffer* GetVertexBufferP0() const;
-	IndexBuffer* GetIndexBufferP0() const;
-
 	VertexBuffer* GetVertexBufferP1() const;
 	IndexBuffer* GetIndexBufferP1() const;
+
+	VertexBuffer* GetVertexBufferP2() const;
+	IndexBuffer* GetIndexBufferP2() const;
+
+	static ChessPieceDefinition GetPieceDefFromChar( char pieceChar );
 
 public:
 	static std::vector<ChessPieceDefinition> s_pieceDefs;

@@ -81,6 +81,17 @@ void ChessBoard::Render() const
 }
 
 //-----------------------------------------------------------------------------------------------
+IntVec2 ChessBoard::GetCoordFromIndex( int index ) const
+{
+	if( m_piecesOnBoard[ index ] == nullptr )
+	{
+		return IntVec2( -1, -1 );
+	}
+
+	return GetCoordFromPosition( Vec2( m_piecesOnBoard[ index ]->m_position ) );
+}
+
+//-----------------------------------------------------------------------------------------------
 IntVec2 ChessBoard::GetCoordFromPosition( Vec2 position ) const
 {
 	return IntVec2( RoundDownToInt( position.x ), RoundDownToInt( position.y ) );
@@ -98,18 +109,6 @@ ChessPiece* ChessBoard::GetPieceAtCoord( IntVec2 coord )
 	int index = ( coord.y * 8 ) + coord.x;
 	return m_piecesOnBoard[ index ];
 }
-
-//-----------------------------------------------------------------------------------------------
-//IntVec2 ChessBoard::GetTileCoordsFromIndex( int index ) const
-//{
-//	if( m_piecesOnBoard[ index ] == nullptr )
-//	{
-//		return IntVec2( -1, -1 );
-//	}
-//
-//	return GetCoordFromPosition( Vec2( m_piecesOnBoard[ index ]->m_position ) );
-//}
-
 
 //-----------------------------------------------------------------------------------------------
 Vec2 ChessBoard::GetTileCenterFromCoord( IntVec2 coord ) const
@@ -130,6 +129,27 @@ void ChessBoard::MovePiece( ChessPiece*& pieceToMove, IntVec2 coord )
 	m_piecesOnBoard[ oldTileIndex ] = nullptr;
 
 	pieceToMove->TranslatePieceToCoord( coord );
+}
+
+//-----------------------------------------------------------------------------------------------
+void ChessBoard::AddPiece( ChessPiece*& pieceToAdd, IntVec2 coord )
+{
+	ChessTeam team = pieceToAdd->m_team;
+	if( team == TEAM_PLAYER_2 && pieceToAdd->m_definition->GetPieceType() == ChessPieceType::KNIGHT )
+	{
+		pieceToAdd->RotatePiece( EulerAngles( 180.f, 0.f, 0.f ) );
+	}
+
+	if( team == TEAM_PLAYER_1 )
+	{
+		m_p1ChessPieces.push_back( pieceToAdd );
+	}
+	else
+	{
+		m_p2ChessPieces.push_back( pieceToAdd );
+	}
+
+	m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = pieceToAdd;
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -210,6 +230,42 @@ bool ChessBoard::CheckForCapturedKing( ChessTeam currentPlayer )
 	}
 
 	return isKing;
+}
+
+//-----------------------------------------------------------------------------------------------
+void ChessBoard::SetPiecesOnBoard( std::string const& boardString )
+{
+	for( int tileIndex = 0; tileIndex < 64; tileIndex++ )
+	{
+		IntVec2 coord = GetCoordFromIndex( tileIndex );
+		ChessPiece* currentPiece = GetPieceAtCoord( coord );
+
+		ChessPieceDefinition defOfPieceToAdd = ChessPieceDefinition::GetPieceDefFromChar( boardString[ tileIndex ] );
+		ChessPieceType pieceTypeToAdd = defOfPieceToAdd.GetPieceType();
+		ChessTeam pieceTeamToAdd = ChessPiece::GetTeamFromChar( boardString[ tileIndex ] );
+
+		// Do nothing, cause the piece at this tile is the same as what we would like to add
+		if( currentPiece != nullptr && currentPiece->m_team == pieceTeamToAdd && currentPiece->m_definition->GetPieceType() == pieceTypeToAdd )
+		{
+			continue;
+		}
+		// Do nothing, cause there is not a piece here and we are not adding one
+		if( currentPiece == nullptr && pieceTypeToAdd == ChessPieceType::INVALID )
+		{
+			continue;
+		}
+
+		// Placing a piece on an empty tile
+		if( currentPiece == nullptr )
+		{
+			ChessPiece* piece = new ChessPiece( &defOfPieceToAdd, pieceTeamToAdd, this );
+			AddPiece( piece, coord );
+		}
+
+		// Removing a piece on a tile
+
+		// Replacing a piece on a tile with another piece
+	}
 }
 
 //-----------------------------------------------------------------------------------------------

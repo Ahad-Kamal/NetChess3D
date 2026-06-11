@@ -28,6 +28,8 @@ public:
 	void TranslatePieceToCoord( IntVec2 coord );
 	void RotatePiece( EulerAngles rotationAmt );
 
+	static ChessTeam GetTeamFromChar( char pieceChar );
+
 public:
 	ChessTeam m_team = TEAM_INAVLID;
 	Vec3 m_position;

@@ -86,11 +86,11 @@ void ChessPiece::Render() const
 
 	if( m_team == TEAM_PLAYER_1 )
 	{
-		g_engine->m_render->DrawVertexArray( m_vertexes, m_indexes, m_definition->GetVertexBufferP0(), m_definition->GetIndexBufferP0() );
+		g_engine->m_render->DrawVertexArray( m_vertexes, m_indexes, m_definition->GetVertexBufferP1(), m_definition->GetIndexBufferP1() );
 	}
 	else
 	{
-		g_engine->m_render->DrawVertexArray( m_vertexes, m_indexes, m_definition->GetVertexBufferP1(), m_definition->GetIndexBufferP1() );
+		g_engine->m_render->DrawVertexArray( m_vertexes, m_indexes, m_definition->GetVertexBufferP2(), m_definition->GetIndexBufferP2() );
 	}
 }
 
@@ -130,4 +130,50 @@ void ChessPiece::RotatePiece( EulerAngles rotationAmt )
 
 	TransformVertexArray3D( m_vertexes, rotationMatrix );
 	RotateVertexArrayNormals3D( m_vertexes, rotationMatrix );
+}
+
+//-----------------------------------------------------------------------------------------------
+ChessTeam ChessPiece::GetTeamFromChar( char pieceChar )
+{
+	switch( pieceChar )
+	{
+		case 'p':
+			return TEAM_PLAYER_2;
+
+		case 'P':
+			return TEAM_PLAYER_1;
+
+		case 'r':
+			return TEAM_PLAYER_2;
+
+		case 'R':
+			return TEAM_PLAYER_1;
+
+		case 'n':
+			return TEAM_PLAYER_2;
+
+		case 'N':
+			return TEAM_PLAYER_1;
+
+		case 'b':
+			return TEAM_PLAYER_2;
+
+		case 'B':
+			return TEAM_PLAYER_1;
+
+		case 'q':
+			return TEAM_PLAYER_2;
+
+		case 'Q':
+			return TEAM_PLAYER_1;
+
+		case 'k':
+			return TEAM_PLAYER_2;
+
+		case 'K':
+			return TEAM_PLAYER_1;
+
+		default:
+			return TEAM_INAVLID;
+	}
 }

@@ -14,7 +14,9 @@ ChessMatch::ChessMatch()
 
 	PrintBoardState();
 	SubscribeEventCallbackFunction( "ChessMove", Event_ChessMove );
+	SubscribeEventCallbackFunction( "ChessOverride", Event_ChessOverride );
 	g_engine->m_devConsole->AddValidCommand( "ChessMove" );
+	g_engine->m_devConsole->AddValidCommand( "ChessOverride" );
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -147,7 +149,7 @@ void ChessMatch::GetPiecesOnRow( std::string& rowString, int rowNumber )
 }
 
 //-----------------------------------------------------------------------------------------------
-IntVec2 ChessMatch::ConvertChessCoordToIntCoord( std::string chessCoord )
+IntVec2 ChessMatch::ConvertChessCoordToIntCoord( std::string const& chessCoord )
 {
 	char letter = chessCoord[ 0 ];
 	int row = atoi( &chessCoord[ 1 ] ) - 1;
@@ -188,18 +190,76 @@ IntVec2 ChessMatch::ConvertChessCoordToIntCoord( std::string chessCoord )
 	return IntVec2();
 }
 
+//-----------------------------------------------------------------------------------------------
+bool ChessMatch::IsChessOverrideValid( std::string const& boardString )
+{
+	bool isValid = true;
+	for( unsigned charIndex = 0; charIndex < boardString.size(); charIndex++ )
+	{
+		switch( boardString[ charIndex ] )
+		{
+			case 'p':
+				continue;
+
+			case 'P':
+				continue;
+
+			case 'r':
+				continue;
+
+			case 'R':
+				continue;
+
+			case 'n':
+				continue;
+
+			case 'N':
+				continue;
+
+			case 'b':
+				continue;
+
+			case 'B':
+				continue;
+
+			case 'q':
+				continue;
+
+			case 'Q':
+				continue;
+
+			case 'k':
+				continue;
+
+			case 'K':
+				continue;
+
+			case '.':
+				continue;
+
+			default:
+				isValid = false;
+				break;
+		}
+	}
+
+	return isValid;
+}
+
+//-----------------------------------------------------------------------------------------------
 bool ChessMatch::Event_ChessMove( EventArgs& args )
 {
-	// Number of args check
-	if( args.GetNumPairs() < 2 )
+	// "from" and "to" args check
+	std::string fromChessCoord = args.GetValue( "from", "" );
+	std::string toChessCoord = args.GetValue( "to", "" );
+	bool isTeleporting = args.GetValue( "teleport", false );
+
+	if( fromChessCoord == "" || toChessCoord == "" )
 	{
 		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, "Illegal chess move; must have from= and to= arguments!" );
 		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, " Example: ChessMove from=a2 to a4" );
 		return true;
-	}
-
-	std::string fromChessCoord = args.GetValue( "from", "" );
-	std::string toChessCoord = args.GetValue( "to", "" );
+	}	
 
 	// Valid coords checks
 	// Coords length check
@@ -322,4 +382,34 @@ bool ChessMatch::Event_ChessMove( EventArgs& args )
 	chessMatch->PrintBoardState();
 
 	return true;
+}
+
+//-----------------------------------------------------------------------------------------------
+bool ChessMatch::Event_ChessOverride( EventArgs& args )
+{
+	std::string boardString = args.GetValue( "board", "" );
+
+	// Check for 64 characters
+	if( boardString.size() < 64 )
+	{
+		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, "Illegal board: too few characters provided" );
+		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, " Example: ChessOverride board=RNBQKBNRPPPPPPPP................................pppppppprnbqkbnr" );
+		return true;
+	}
+	if( boardString.size() > 64 )
+	{
+		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, "Illegal board: too many characters provided" );
+		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, " Example: ChessOverride board=RNBQKBNRPPPPPPPP................................pppppppprnbqkbnr" );
+		return true;
+	}
+
+	// Check for invalid characters
+	if( !IsChessOverrideValid( boardString ) )
+	{
+		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, "Illegal board: invalid character detected" );
+		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, " Valid characters are: '.','p','P','r','R','n','N','b','B','q','Q','k','K'" );
+		return true;
+	}
+
+	return false;
 }
