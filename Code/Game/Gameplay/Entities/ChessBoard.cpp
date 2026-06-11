@@ -83,12 +83,15 @@ void ChessBoard::Render() const
 //-----------------------------------------------------------------------------------------------
 IntVec2 ChessBoard::GetCoordFromIndex( int index ) const
 {
-	if( m_piecesOnBoard[ index ] == nullptr )
-	{
-		return IntVec2( -1, -1 );
-	}
+	//if( m_piecesOnBoard[ index ] == nullptr )
+	//{
+	//	return IntVec2( -1, -1 );
+	//}
 
-	return GetCoordFromPosition( Vec2( m_piecesOnBoard[ index ]->m_position ) );
+	//return GetCoordFromPosition( Vec2( m_piecesOnBoard[ index ]->m_position ) );
+	int yCoord = index / 8;
+	int xCoord = index % 8;
+	return IntVec2( xCoord, yCoord );
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -139,6 +142,7 @@ void ChessBoard::AddPiece( ChessPiece*& pieceToAdd, IntVec2 coord )
 	{
 		pieceToAdd->RotatePiece( EulerAngles( 180.f, 0.f, 0.f ) );
 	}
+	pieceToAdd->TranslatePieceToCoord( coord );
 
 	if( team == TEAM_PLAYER_1 )
 	{
@@ -194,11 +198,13 @@ void ChessBoard::RemovePiece( ChessPiece*& pieceToRemove )
 
 	if( pieceTeam == TEAM_PLAYER_1 )
 	{
-		m_p1ChessPieces[ teamIndex ] = nullptr;
+		//m_p1ChessPieces[ teamIndex ] = nullptr;
+		m_p1ChessPieces.erase( m_p1ChessPieces.begin() + teamIndex);
 	}
 	else
 	{
-		m_p2ChessPieces[ teamIndex ] = nullptr;
+		//m_p2ChessPieces[ teamIndex ] = nullptr;
+		m_p2ChessPieces.erase( m_p2ChessPieces.begin() + teamIndex);
 	}
 }
 
@@ -255,16 +261,25 @@ void ChessBoard::SetPiecesOnBoard( std::string const& boardString )
 			continue;
 		}
 
+		// Removing a piece on a tile
+		if( pieceTypeToAdd == ChessPieceType::INVALID )
+		{
+			RemovePiece( currentPiece );
+			continue;
+		}
+
 		// Placing a piece on an empty tile
 		if( currentPiece == nullptr )
 		{
 			ChessPiece* piece = new ChessPiece( &defOfPieceToAdd, pieceTeamToAdd, this );
 			AddPiece( piece, coord );
+			continue;
 		}
 
-		// Removing a piece on a tile
-
 		// Replacing a piece on a tile with another piece
+		ChessPiece* piece = new ChessPiece( &defOfPieceToAdd, pieceTeamToAdd, this );
+		RemovePiece( currentPiece );
+		AddPiece( piece, coord );
 	}
 }
 

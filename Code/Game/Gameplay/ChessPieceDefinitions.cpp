@@ -232,7 +232,8 @@ ChessPieceDefinition ChessPieceDefinition::GetPieceDefFromChar( char pieceChar )
 			return s_pieceDefs[ 5 ];
 
 		default:
-			// This will totally cause an error, but it should also never happen
-			return s_pieceDefs[ -1 ];
+			ChessPieceDefinition invalid;
+			invalid.m_pieceType = ChessPieceType::INVALID;
+			return invalid;
 	}
 }
