@@ -12,7 +12,7 @@ ChessBoard::ChessBoard( ChessMatch* owner )
 {
 	m_boardBox = AABB3( Vec3(), Vec3( 8.5f, 8.5f, 1.f ) );
 	m_boardBox.Translate( Vec3( -0.25f, -0.25f, -1.10f ) );
-	AddVertsForCube( m_vertexes, m_indexes, m_boardBox, Rgba8( 220, 170, 15 ) );
+	AddVertsForCube( m_vertexes, m_indexes, m_boardBox, Rgba8( 110, 85, 0 ) );
 
 	for( int xTileIndex = 0; xTileIndex < 8; xTileIndex++ )
 	{
@@ -27,7 +27,7 @@ ChessBoard::ChessBoard( ChessMatch* owner )
 			}
 			else
 			{
-				AddVertsForCube( m_vertexes, m_indexes, tile, Rgba8( 232, 232, 232 ) );
+				AddVertsForCube( m_vertexes, m_indexes, tile, Rgba8( 242, 242, 242 ) );
 			}
 		}
 	}
@@ -58,11 +58,15 @@ void ChessBoard::Update()
 //-----------------------------------------------------------------------------------------------
 void ChessBoard::Render() const
 {
-	Texture* texture = g_engine->m_render->CreateOrGetTextureFromFile( "Data/Images/Wood.png" );
-	g_engine->m_render->RenderSetup( texture );
+	Texture* diffuseTexture = g_engine->m_render->CreateOrGetTextureFromFile( "Data/Images/Woodfloor_d.png" );
+	Texture* normalTexture = g_engine->m_render->CreateOrGetTextureFromFile( "Data/Images/Woodfloor_n.png" );
+	g_engine->m_render->RenderSetup( diffuseTexture );
+
+	g_engine->m_render->BindTexture( normalTexture, 1 );
 	Vec3 normalizedLighting = g_game->m_sunDirection.GetNormalized();
 	g_engine->m_render->SetLightConstants( normalizedLighting, g_game->m_sunIntensity, g_game->m_ambientIntensity );
 	g_engine->m_render->DrawVertexArray( m_vertexes, m_indexes );
+	g_engine->m_render->BindTexture( nullptr, 1 );
 
 	for( unsigned int pieceIndex = 0; pieceIndex < m_p1ChessPieces.size(); pieceIndex++ )
 	{

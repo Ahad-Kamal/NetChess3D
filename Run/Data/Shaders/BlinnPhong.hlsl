@@ -15,21 +15,20 @@ struct PixelInput
 	float4 clipPosition : SV_Position;
 	float4 color : COLOR;
 	float2 uv : TEXCOORD;
-	float4 worldTangent : TANGENT;
-	float4 worldBitangent : BITANGENT;
-	float4 worldNormal : NORMAL;
-    int debugId : DEBUG_ID;
+	float3 worldTangent : TANGENT;
+	float3 worldBitangent : BITANGENT;
+	float3 worldNormal : NORMAL;
 };
 
 //------------------------------------------------------------------------------------------------
-cbuffer PerFrameConstants : register(b1)
+cbuffer PerFrameConstants : register( b1 )
 {
     float Time;
     int DebugID;
 };
 
 //------------------------------------------------------------------------------------------------
-cbuffer CameraConstants : register(b2)
+cbuffer CameraConstants : register( b2 )
 {
 	float4x4 WorldToCameraTransform;	// View transform
 	float4x4 CameraToRenderTransform;	// Non-standard transform from game to DirectX conventions
@@ -37,14 +36,14 @@ cbuffer CameraConstants : register(b2)
 };
 
 //------------------------------------------------------------------------------------------------
-cbuffer ModelConstants : register(b3)
+cbuffer ModelConstants : register( b3 )
 {
 	float4x4 ModelToWorldTransform;		// Model transform
 	float4 ModelColor;
 };
 
 //------------------------------------------------------------------------------------------------
-cbuffer LightConstants : register(b8)
+cbuffer LightConstants : register( b8 )
 {
     float3 SunDirection;
     float SunIntensity;
@@ -52,25 +51,37 @@ cbuffer LightConstants : register(b8)
 };
 
 //------------------------------------------------------------------------------------------------
-Texture2D diffuseTexture : register(t0);
-Texture2D normalTexture : register(t1);
+Texture2D diffuseTexture : register( t0 );
+Texture2D normalTexture : register( t1 );
 
 //------------------------------------------------------------------------------------------------
-SamplerState samplerState : register(s0);
-SamplerState normalState : register(s1);
+SamplerState diffuseSampler : register( s0 );
+SamplerState normalSampler : register( s1 );
 
-//------------------------------------------------------------------------------------------------
-PixelInput VertexMain(VertexInput input)
+//-----------------------------------------------------------------------------------------------
+float3 EncodeXYZtoRGB( float3 xyzInput )
 {
-	float4 modelPosition = float4(input.modelPosition, 1);
-	float4 worldPosition = mul(ModelToWorldTransform, modelPosition);
-	float4 cameraPosition = mul(WorldToCameraTransform, worldPosition);
-	float4 renderPosition = mul(CameraToRenderTransform, cameraPosition);
-	float4 clipPosition = mul(RenderToClipTransform, renderPosition);
+	return ( xyzInput + 1.f ) * 0.5f;
+}
 
-	float4 worldTangent = mul(ModelToWorldTransform, float4(input.modelTangent, 0.0f));
-	float4 worldBitangent = mul(ModelToWorldTransform, float4(input.modelBitangent, 0.0f));
-	float4 worldNormal = mul(ModelToWorldTransform, float4(input.modelNormal, 0.0f));
+//-----------------------------------------------------------------------------------------------
+float3 DecodeRGBtoXYZ( float3 rgbInput )
+{
+	return ( rgbInput * 2.f ) - 1.f;
+}
+
+//------------------------------------------------------------------------------------------------
+PixelInput VertexMain( VertexInput input )
+{
+	float4 modelPosition = float4( input.modelPosition, 1 );
+	float4 worldPosition = mul( ModelToWorldTransform, modelPosition );
+	float4 cameraPosition = mul( WorldToCameraTransform, worldPosition );
+	float4 renderPosition = mul( CameraToRenderTransform, cameraPosition );
+	float4 clipPosition = mul( RenderToClipTransform, renderPosition );
+
+	float3 worldTangent = mul( ModelToWorldTransform, float4( input.modelTangent, 0.0f ) ).xyz;
+	float3 worldBitangent = mul( ModelToWorldTransform, float4( input.modelBitangent, 0.0f ) ).xyz;
+	float3 worldNormal = mul( ModelToWorldTransform, float4( input.modelNormal, 0.0f ) ).xyz;
 
 	PixelInput vsOutput;
 	vsOutput.clipPosition = clipPosition;
@@ -79,55 +90,53 @@ PixelInput VertexMain(VertexInput input)
 	vsOutput.worldTangent = worldTangent;
 	vsOutput.worldBitangent = worldBitangent;
 	vsOutput.worldNormal = worldNormal;
-    vsOutput.debugId = DebugID;
 	return vsOutput;
 }
 
 //------------------------------------------------------------------------------------------------
-float4 PixelMain(PixelInput input) : SV_Target0
+float4 PixelMain( PixelInput input ) : SV_Target0
 {
-	float ambience = AmbientIntensity;
-	float diffuseTexel = SunIntensity * saturate(dot(normalize(input.worldNormal.xyz), -SunDirection));
-	float4 lightColor = float4((ambience + diffuseTexel).xxx, 1);
-	float4 textureColor = diffuseTexture.Sample(samplerState, input.uv);
+	// Get samples
+	float4 diffuseTexel = diffuseTexture.Sample( diffuseSampler, input.uv );
+    float4 normalTexel = normalTexture.Sample( normalSampler, input.uv );
 	
+	// Diffuse color
 	float4 vertexColor = input.color;
 	float4 modelColor = ModelColor;
-	float4 color = lightColor * textureColor * vertexColor * modelColor;
-	clip(color.a - 0.01f);
-	
-	if( input.debugId == 1 )
-    {
-        color.rgb = input.worldNormal.xyz;
-        color.rgb += 1.f;
-        color.rgb *= 0.5f;
-    }
-	else if( input.debugId == 2 )
-    {
-        color.rgb = input.worldTangent.xyz;
-        color.rgb += 1.f;
-        color.rgb *= 0.5f;
-    }
-	else if( input.debugId == 3 )
-    {
-        color.rgb = input.worldBitangent.xyz;
-        color.rgb += 1.f;
-        color.rgb *= 0.5f;
-    }
-	
-	//float3 tbnMicroNormal = normalize( normalTexel.rgb * 2.0) - 1
-    float3 tangentSpaceNormal = (textureColor.rgb * 2.0) - 1;
-	// Transform
-    //float3 worldTangent = input.worldTangent;
-    //float3 worldBitangent = input.worldBitangent;
-    //float3 worldNormal = input.worldNormal;
-    //float3x3 tbnToWorld = float3x3(worldTangent, worldBitangent, worldNormal);
-	//float3 worldMicroNormal = mul( tbnToWorld, )
-	
-    float3 worldSpaceNormal = tangentSpaceNormal;
-	// Lighting only
-    float4 finalColor = float4(diffuseTexel, diffuseTexel, diffuseTexel, color.a);
+	float4 diffuseColor = diffuseTexel * vertexColor * modelColor;
 
+	// TBN to World
+    float3 worldTangent = normalize( input.worldTangent );
+    float3 worldBitangent = normalize( input.worldBitangent );
+    float3 worldNormal = normalize( input.worldNormal );
+    float3x3 tbnToWorld = float3x3( worldTangent, worldBitangent, worldNormal );
+
+	// Micro normals	
+	float3 tbnMicroNormal = normalize( DecodeRGBtoXYZ( normalTexel.rgb ) );
+    float3 worldMicroNormal = mul( tbnMicroNormal, tbnToWorld );	
 	
-    return color;
+	// Lighting
+    float ambientLight = AmbientIntensity;
+    float directionalLight = SunIntensity * saturate( dot( worldMicroNormal, -SunDirection ) );
+    float4 lightColor = float4( ( ambientLight + directionalLight ).xxx, 1 );
+	
+    // Final Color
+    float4 finalColor = diffuseColor * lightColor;
+	
+	// Debug modes
+	if( DebugID == 1 )
+    {
+		finalColor.rgb = EncodeXYZtoRGB( input.worldNormal.xyz );
+    }
+    else if ( DebugID == 2 )
+    {
+		finalColor.rgb = EncodeXYZtoRGB( input.worldTangent.xyz );
+    }
+    else if ( DebugID == 3 )
+    {
+		finalColor.rgb = EncodeXYZtoRGB( input.worldBitangent.xyz );
+    }
+	
+	clip( finalColor.a - 0.01f );
+    return finalColor;
 }

@@ -76,7 +76,7 @@ public:
 
 	Vec3 m_sunDirection = Vec3( 3.f, 1.f, -2.f );
 	float m_sunIntensity = 0.85f;
-	float m_ambientIntensity = 0.35f;
+	float m_ambientIntensity = 0.5f;
 
 private:
 	Vertex m_startVerts[ 3 ];

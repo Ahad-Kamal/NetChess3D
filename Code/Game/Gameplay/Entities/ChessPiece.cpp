@@ -78,20 +78,14 @@ void ChessPiece::Update()
 void ChessPiece::Render() const
 {
 	//Texture* texture = g_engine->m_render->CreateOrGetTextureFromFile( "Data/Images/Test_StbiFlippedAndOpenGL.png" );
-	Texture* texture = nullptr;
-	if( m_team == TEAM_PLAYER_1 )
-	{
-		texture = g_engine->m_render->CreateOrGetTextureFromFile( "Data/Images/Bricks_d.png" );
-	}
-	else
-	{
-		texture = g_engine->m_render->CreateOrGetTextureFromFile( "Data/Images/Woodfloor_d.png" );
-	}
+	Texture* diffuseTexture = g_engine->m_render->CreateOrGetTextureFromFile( "Data/Images/Bricks_d.png" );
+	Texture* normalTexture = g_engine->m_render->CreateOrGetTextureFromFile( "Data/Images/Bricks_n.png" );
 
-	g_engine->m_render->RenderSetup( texture, BlendMode::OPAQUE, GetModelToWorldTransform(), m_color );
+	g_engine->m_render->RenderSetup( diffuseTexture, BlendMode::OPAQUE, GetModelToWorldTransform(), m_color );
 	Vec3 normalizedLighting = g_game->m_sunDirection.GetNormalized();
 	g_engine->m_render->SetLightConstants( normalizedLighting, g_game->m_sunIntensity, g_game->m_ambientIntensity );
 
+	g_engine->m_render->BindTexture( normalTexture, 1 );
 	if( m_team == TEAM_PLAYER_1 )
 	{
 		g_engine->m_render->DrawVertexArray( m_vertexes, m_indexes, m_definition->GetVertexBufferP1(), m_definition->GetIndexBufferP1() );
@@ -100,6 +94,7 @@ void ChessPiece::Render() const
 	{
 		g_engine->m_render->DrawVertexArray( m_vertexes, m_indexes, m_definition->GetVertexBufferP2(), m_definition->GetIndexBufferP2() );
 	}
+	g_engine->m_render->BindTexture( nullptr, 1 );
 }
 
 //-----------------------------------------------------------------------------------------------
