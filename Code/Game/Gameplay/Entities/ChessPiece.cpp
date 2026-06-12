@@ -80,7 +80,7 @@ void ChessPiece::Render() const
 {
 	//Texture* texture = g_engine->m_render->CreateOrGetTextureFromFile( "Data/Images/Test_StbiFlippedAndOpenGL.png" );
 	Texture* texture = g_engine->m_render->CreateOrGetTextureFromFile( "Data/Images/Wood.png" );
-	g_engine->m_render->RenderSetup( texture );
+	g_engine->m_render->RenderSetup( texture, BlendMode::OPAQUE, GetModelToWorldTransform() );
 	Vec3 normalizedLighting = g_game->m_sunDirection.GetNormalized();
 	g_engine->m_render->SetLightConstants( normalizedLighting, g_game->m_sunIntensity, g_game->m_ambientIntensity );
 
@@ -99,7 +99,10 @@ void ChessPiece::TranslatePieceToCoord( IntVec2 coord )
 {
 	// NOTE: add logic to handle change in z?
 	Vec2 newPosition = m_board->GetTileCenterFromCoord( coord );
-	Vec2 translation = newPosition - Vec2( m_position );
+
+	// None of this code is necessary now cause of the model matrix now being passed in
+
+	/*Vec2 translation = newPosition - Vec2( m_position );
 
 	Mat44 translationMatrix;
 	translationMatrix.AppendTranslation2D( translation );
@@ -115,7 +118,7 @@ void ChessPiece::TranslatePieceToCoord( IntVec2 coord )
 	{
 		ChessAABB3* box = static_cast<ChessAABB3*>( m_base );
 		box->m_abb3.Translate( Vec3( translation ) );
-	}
+	}*/
 
 	m_position = Vec3( newPosition );
 }
@@ -127,9 +130,19 @@ void ChessPiece::RotatePiece( EulerAngles rotationAmt )
 	rotationMatrix.AppendXRotation( rotationAmt.m_rollDegrees );
 	rotationMatrix.AppendYRotation( rotationAmt.m_pitchDegrees );
 	rotationMatrix.AppendZRotation( rotationAmt.m_yawDegrees );
+	m_orientation = rotationMatrix.GetEulerAngles();
 
-	TransformVertexArray3D( m_vertexes, rotationMatrix );
-	RotateVertexArrayNormals3D( m_vertexes, rotationMatrix );
+	/*TransformVertexArray3D( m_vertexes, rotationMatrix );
+	RotateVertexArrayNormals3D( m_vertexes, rotationMatrix );*/
+}
+
+//-----------------------------------------------------------------------------------------------
+Mat44 ChessPiece::GetModelToWorldTransform() const
+{
+	Mat44 modelMatrix;
+	modelMatrix.AppendTranslation3D( m_position );
+	modelMatrix.Append( m_orientation.GetAsMatrix_IFwd_JLeft_KUp() );
+	return modelMatrix;
 }
 
 //-----------------------------------------------------------------------------------------------

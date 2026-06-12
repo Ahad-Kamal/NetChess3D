@@ -27,12 +27,14 @@ public:
 
 	void TranslatePieceToCoord( IntVec2 coord );
 	void RotatePiece( EulerAngles rotationAmt );
+	Mat44 GetModelToWorldTransform() const;
 
 	static ChessTeam GetTeamFromChar( char pieceChar );
 
 public:
 	ChessTeam m_team = TEAM_INAVLID;
 	Vec3 m_position;
+	EulerAngles m_orientation;
 	ChessPieceDefinition* m_definition = nullptr;
 
 private:

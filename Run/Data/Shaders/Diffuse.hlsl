@@ -52,9 +52,11 @@ cbuffer ModelConstants : register(b3)
 
 //------------------------------------------------------------------------------------------------
 Texture2D diffuseTexture : register(t0);
+Texture2D normalTexture : register(t1);
 
 //------------------------------------------------------------------------------------------------
 SamplerState samplerState : register(s0);
+SamplerState normalState : register(s1);
 
 //------------------------------------------------------------------------------------------------
 v2p_t VertexMain(vs_input_t input)
@@ -87,6 +89,7 @@ float4 PixelMain(v2p_t input) : SV_Target0
 	float directional = SunIntensity * saturate(dot(normalize(input.worldNormal.xyz), -SunDirection));
 	float4 lightColor = float4((ambient + directional).xxx, 1);
 	float4 textureColor = diffuseTexture.Sample(samplerState, input.uv);
+	
 	float4 vertexColor = input.color;
 	float4 modelColor = ModelColor;
 	float4 color = lightColor * textureColor * vertexColor * modelColor;
@@ -111,5 +114,19 @@ float4 PixelMain(v2p_t input) : SV_Target0
         color.rgb *= 0.5f;
     }
 	
-	return color;
+	//float3 tbnMicroNormal = normalize( normalTexel.rgb * 2.0) - 1
+    float3 tangentSpaceNormal = (textureColor.rgb * 2.0) - 1;
+	// Transform
+    //float3 worldTangent = input.worldTangent;
+    //float3 worldBitangent = input.worldBitangent;
+    //float3 worldNormal = input.worldNormal;
+    //float3x3 tbnToWorld = float3x3(worldTangent, worldBitangent, worldNormal);
+	//float3 worldMicroNormal = mul( tbnToWorld, )
+	
+    float3 worldSpaceNormal = tangentSpaceNormal;
+	// Lighting only
+    float4 finalColor = float4(directional, directional, directional, color.a);
+
+	
+    return color;
 }
