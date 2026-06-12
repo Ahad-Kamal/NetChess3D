@@ -86,9 +86,9 @@ PixelInput VertexMain(VertexInput input)
 //------------------------------------------------------------------------------------------------
 float4 PixelMain(PixelInput input) : SV_Target0
 {
-	float ambient = AmbientIntensity;
-	float directional = SunIntensity * saturate(dot(normalize(input.worldNormal.xyz), -SunDirection));
-	float4 lightColor = float4((ambient + directional).xxx, 1);
+	float ambience = AmbientIntensity;
+	float diffuseTexel = SunIntensity * saturate(dot(normalize(input.worldNormal.xyz), -SunDirection));
+	float4 lightColor = float4((ambience + diffuseTexel).xxx, 1);
 	float4 textureColor = diffuseTexture.Sample(samplerState, input.uv);
 	
 	float4 vertexColor = input.color;
@@ -126,7 +126,7 @@ float4 PixelMain(PixelInput input) : SV_Target0
 	
     float3 worldSpaceNormal = tangentSpaceNormal;
 	// Lighting only
-    float4 finalColor = float4(directional, directional, directional, color.a);
+    float4 finalColor = float4(diffuseTexel, diffuseTexel, diffuseTexel, color.a);
 
 	
     return color;

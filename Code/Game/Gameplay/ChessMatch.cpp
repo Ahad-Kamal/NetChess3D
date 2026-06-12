@@ -43,11 +43,11 @@ void ChessMatch::PrintBoardState()
 	g_engine->m_devConsole->AddLine( Rgba8::ORANGE, "============================================" );
 	if( m_currentPlayerTurn == TEAM_PLAYER_1 )
 	{
-		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, "It is currently player 1 (White)'s turn" );
+		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, "It is currently player 1 (Red)'s turn" );
 	}
 	else
 	{
-		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, "It is currently player 2 (Black)'s turn" );
+		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, "It is currently player 2 (Blue)'s turn" );
 	}
 
 	g_engine->m_devConsole->AddLine( DevConsole::INFO_MINOR, "  ABCDEFGH  " );
@@ -335,11 +335,11 @@ bool ChessMatch::Event_ChessMove( EventArgs& args )
 		std::string errorString;
 		if( currentPlayer == 1 )
 		{
-			errorString = "The " + fromPiece->m_definition->GetPieceName() + " at " + fromChessCoord + " belongs to player 2 (Black); it is currently player 1 (White)'s turn";
+			errorString = "The " + fromPiece->m_definition->GetPieceName() + " at " + fromChessCoord + " belongs to player 2 (Blue); it is currently player 1 (Red)'s turn";
 		}
 		else
 		{
-			errorString = "The " + fromPiece->m_definition->GetPieceName() + " at " + fromChessCoord + " belongs to player 1 (White); it is currently player 2 (Black)'s turn";
+			errorString = "The " + fromPiece->m_definition->GetPieceName() + " at " + fromChessCoord + " belongs to player 1 (Red); it is currently player 2 (Blue)'s turn";
 		}
 		
 		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, errorString );

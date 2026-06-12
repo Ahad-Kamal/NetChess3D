@@ -15,25 +15,24 @@ ChessPiece::ChessPiece( ChessPieceDefinition* definition, ChessTeam player, Ches
 {
 	std::vector<ChessGeometry*> geoList = m_definition->GetChessGeometry();
 
-	Rgba8 color;
 	if( m_team == TEAM_PLAYER_1 )
 	{
 		ChessCylinder* cylinderBase = new ChessCylinder();
 		cylinderBase->m_radius = 0.35f;
 		cylinderBase->m_height = 0.1f;
 		m_base = cylinderBase;
-		color = Rgba8( 220, 220, 220 );
+		m_color = Rgba8( 255, 25, 25 );
 
-		AddVertsForCylinder3D( m_vertexes, m_indexes, Vec3(), Vec3( 0.f, 0.f, cylinderBase->m_height ), cylinderBase->m_radius, 32, color );
+		AddVertsForCylinder3D( m_vertexes, m_indexes, Vec3(), Vec3( 0.f, 0.f, cylinderBase->m_height ), cylinderBase->m_radius, 32, Rgba8::WHITE );
 	}
 	else
 	{
 		ChessAABB3* boxBase = new ChessAABB3();
 		boxBase->m_abb3 = AABB3( -0.3f, -0.3f, 0.f, 0.3f, 0.3f, 0.1f );
 		m_base = boxBase;
-		color = Rgba8( 60, 60, 60 );
+		m_color = Rgba8( 0, 100, 255 );
 
-		AddVertsForCube( m_vertexes, m_indexes, boxBase->m_abb3, color );
+		AddVertsForCube( m_vertexes, m_indexes, boxBase->m_abb3, Rgba8::WHITE  );
 	}
 
 	for( unsigned int geoIndex = 0; geoIndex < geoList.size(); geoIndex++ )
@@ -41,23 +40,23 @@ ChessPiece::ChessPiece( ChessPieceDefinition* definition, ChessTeam player, Ches
 		if( geoList[ geoIndex ]->m_shape == "Sphere" )
 		{
 			ChessSphere* sphere = static_cast<ChessSphere*>( geoList[ geoIndex ] );
-			AddVertsForSphere( m_vertexes, m_indexes, sphere->m_center, sphere->m_radius, 32, 16, color );
+			AddVertsForSphere( m_vertexes, m_indexes, sphere->m_center, sphere->m_radius, 32, 16, Rgba8::WHITE );
 		}
 		else if( geoList[ geoIndex ]->m_shape == "Cylinder" )
 		{
 			ChessCylinder* cylinder = static_cast<ChessCylinder*>( geoList[ geoIndex ] );
 			Vec3 center = cylinder->m_center;
-			AddVertsForCylinder3D( m_vertexes, m_indexes, center, Vec3( center.x, center.y, center.z + cylinder->m_height ), cylinder->m_radius, 32, color );
+			AddVertsForCylinder3D( m_vertexes, m_indexes, center, Vec3( center.x, center.y, center.z + cylinder->m_height ), cylinder->m_radius, 32, Rgba8::WHITE  );
 		}
 		else if( geoList[ geoIndex ]->m_shape == "AABB3" )
 		{
 			ChessAABB3* box = static_cast<ChessAABB3*>( geoList[ geoIndex ] );
-			AddVertsForCube( m_vertexes, m_indexes, box->m_abb3, color );
+			AddVertsForCube( m_vertexes, m_indexes, box->m_abb3, Rgba8::WHITE  );
 		}
 		else if( geoList[ geoIndex ]->m_shape == "OBB3" )
 		{
 			ChessOBB3* box = static_cast<ChessOBB3*>( geoList[ geoIndex ] );
-			AddVertsForOBB3( m_vertexes, m_indexes, box->m_obb3, color );
+			AddVertsForOBB3( m_vertexes, m_indexes, box->m_obb3, Rgba8::WHITE  );
 		}
 	}
 }
@@ -79,8 +78,17 @@ void ChessPiece::Update()
 void ChessPiece::Render() const
 {
 	//Texture* texture = g_engine->m_render->CreateOrGetTextureFromFile( "Data/Images/Test_StbiFlippedAndOpenGL.png" );
-	Texture* texture = g_engine->m_render->CreateOrGetTextureFromFile( "Data/Images/Wood.png" );
-	g_engine->m_render->RenderSetup( texture, BlendMode::OPAQUE, GetModelToWorldTransform() );
+	Texture* texture = nullptr;
+	if( m_team == TEAM_PLAYER_1 )
+	{
+		texture = g_engine->m_render->CreateOrGetTextureFromFile( "Data/Images/Bricks_d.png" );
+	}
+	else
+	{
+		texture = g_engine->m_render->CreateOrGetTextureFromFile( "Data/Images/Woodfloor_d.png" );
+	}
+
+	g_engine->m_render->RenderSetup( texture, BlendMode::OPAQUE, GetModelToWorldTransform(), m_color );
 	Vec3 normalizedLighting = g_game->m_sunDirection.GetNormalized();
 	g_engine->m_render->SetLightConstants( normalizedLighting, g_game->m_sunIntensity, g_game->m_ambientIntensity );
 

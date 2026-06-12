@@ -68,15 +68,15 @@ void ChessPlayer::ToggleCameraMode()
 	switch( m_cameraMode )
 	{
 		case CameraMode::POV:
-			m_cameraMode = CameraMode::SPECTATOR;
-			break;
-
-		case CameraMode::SPECTATOR:
 			m_cameraMode = CameraMode::FREE;
 			break;
 
-		case CameraMode::FREE:
+		case CameraMode::SPECTATOR:
 			m_cameraMode = CameraMode::POV;
+			break;
+
+		case CameraMode::FREE:
+			m_cameraMode = CameraMode::SPECTATOR;
 			break;
 	}
 

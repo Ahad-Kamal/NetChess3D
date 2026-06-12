@@ -35,6 +35,7 @@ public:
 	ChessTeam m_team = TEAM_INAVLID;
 	Vec3 m_position;
 	EulerAngles m_orientation;
+	Rgba8 m_color;
 	ChessPieceDefinition* m_definition = nullptr;
 
 private:
