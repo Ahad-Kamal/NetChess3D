@@ -42,8 +42,8 @@ void Game::Startup()
 {
 	m_gameClock = new Clock( Clock::GetSystemClock() );
 
-	Shader* diffuseShader = g_engine->m_render->CreateOrGetShader( "Data/Shaders/BlinnPhong", VertexType::VERTEX_PCUTBN );
-	g_engine->m_render->BindShader( diffuseShader );
+	Shader* blinnPhongShader = g_engine->m_render->CreateOrGetShader( "Data/Shaders/BlinnPhong", VertexType::VERTEX_PCUTBN );
+	g_engine->m_render->BindShader( blinnPhongShader );
 
 	g_engine->m_render->SetPerFrameConstants( 0 );
 
@@ -121,7 +121,10 @@ void Game::Render() const
 		return;
 	}
 
-	RenderNonChessEntities();
+	Shader* blinnPhongShader = g_engine->m_render->CreateOrGetShader( "Data/Shaders/BlinnPhong", VertexType::VERTEX_PCUTBN );
+	g_engine->m_render->BindShader( blinnPhongShader );
+
+	//RenderNonChessEntities();
 	m_chessMatch->Render();
 }
 
@@ -186,6 +189,7 @@ void Game::RenderAttractMode() const
 
 	// Draw Start Button
 	g_engine->m_render->RenderSetup();
+	g_engine->m_render->ChangeBlendMode( BlendMode::ALPHA );
 	g_engine->m_render->DrawVertexArray( 3, m_startVerts );
 
 	// Draw Text
@@ -226,7 +230,7 @@ void Game::UpdateNonChessEntities( float deltaSeconds )
 	m_time += deltaSeconds;
 	m_startAlpha = 127.5f * cosf( m_time * 2.0f ) + 127.5f;
 
-	AABB2 positionBox = AABB2( 1.f, 784.f, 800.f, 799.f );
+	/*AABB2 positionBox = AABB2( 1.f, 784.f, 800.f, 799.f );
 	std::string positionText = Stringf( "Position: %.2f, %.2f, %.2f", m_player->m_position.x, m_player->m_position.y, m_player->m_position.z );
 	DebugAddScreenText( positionText, positionBox, 15.f, Vec2( 0.f, 1.f ), 0.f );
 
@@ -235,7 +239,7 @@ void Game::UpdateNonChessEntities( float deltaSeconds )
 	float framesPerSecond = static_cast<float>( Clock::GetSystemClock().GetFrameCount() ) / totalSeconds;
 	float timeScale = static_cast<float>( Clock::GetSystemClock().GetTimeScale() );
 	std::string timeText = Stringf( "Time: %.2f FPS: %.1f Scale: %.2f", totalSeconds, framesPerSecond, timeScale );
-	DebugAddScreenText( timeText, timeBox, 15.f, Vec2( 1.f, 0.f ), 0.f );
+	DebugAddScreenText( timeText, timeBox, 15.f, Vec2( 1.f, 0.f ), 0.f );*/
 }
 
 //-----------------------------------------------------------------------------------------------
