@@ -94,7 +94,7 @@
     </Xml>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\..\Run\Data\Shaders\Diffuse.hlsl">
+    <FxCompile Include="..\..\Run\Data\Shaders\BlinnPhong.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
   </ItemGroup>

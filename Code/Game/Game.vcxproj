@@ -284,7 +284,7 @@
     <Xml Include="..\..\Run\Data\Definitions\PieceDefinitions.xml" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="..\..\Run\Data\Shaders\Diffuse.hlsl">
+    <FxCompile Include="..\..\Run\Data\Shaders\BlinnPhong.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugInline|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugInline|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>

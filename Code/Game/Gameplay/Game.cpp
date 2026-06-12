@@ -42,7 +42,7 @@ void Game::Startup()
 {
 	m_gameClock = new Clock( Clock::GetSystemClock() );
 
-	Shader* diffuseShader = g_engine->m_render->CreateOrGetShader( "Data/Shaders/Diffuse", VertexType::VERTEX_PCUTBN );
+	Shader* diffuseShader = g_engine->m_render->CreateOrGetShader( "Data/Shaders/BlinnPhong", VertexType::VERTEX_PCUTBN );
 	g_engine->m_render->BindShader( diffuseShader );
 
 	g_engine->m_render->SetPerFrameConstants( 0 );

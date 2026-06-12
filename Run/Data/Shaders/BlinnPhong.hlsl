@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------------------------
-struct vs_input_t
+struct VertexInput
 {
 	float3 modelPosition : POSITION;
 	float4 color : COLOR;
@@ -10,7 +10,7 @@ struct vs_input_t
 };
 
 //------------------------------------------------------------------------------------------------
-struct v2p_t
+struct PixelInput
 {
 	float4 clipPosition : SV_Position;
 	float4 color : COLOR;
@@ -22,17 +22,10 @@ struct v2p_t
 };
 
 //------------------------------------------------------------------------------------------------
-cbuffer PerFrameConstants : register(b4)
+cbuffer PerFrameConstants : register(b1)
 {
+    float Time;
     int DebugID;
-};
-
-//------------------------------------------------------------------------------------------------
-cbuffer LightConstants : register(b1)
-{
-	float3 SunDirection;
-	float SunIntensity;
-	float AmbientIntensity;
 };
 
 //------------------------------------------------------------------------------------------------
@@ -51,6 +44,14 @@ cbuffer ModelConstants : register(b3)
 };
 
 //------------------------------------------------------------------------------------------------
+cbuffer LightConstants : register(b8)
+{
+    float3 SunDirection;
+    float SunIntensity;
+    float AmbientIntensity;
+};
+
+//------------------------------------------------------------------------------------------------
 Texture2D diffuseTexture : register(t0);
 Texture2D normalTexture : register(t1);
 
@@ -59,7 +60,7 @@ SamplerState samplerState : register(s0);
 SamplerState normalState : register(s1);
 
 //------------------------------------------------------------------------------------------------
-v2p_t VertexMain(vs_input_t input)
+PixelInput VertexMain(VertexInput input)
 {
 	float4 modelPosition = float4(input.modelPosition, 1);
 	float4 worldPosition = mul(ModelToWorldTransform, modelPosition);
@@ -71,7 +72,7 @@ v2p_t VertexMain(vs_input_t input)
 	float4 worldBitangent = mul(ModelToWorldTransform, float4(input.modelBitangent, 0.0f));
 	float4 worldNormal = mul(ModelToWorldTransform, float4(input.modelNormal, 0.0f));
 
-	v2p_t vsOutput;
+	PixelInput vsOutput;
 	vsOutput.clipPosition = clipPosition;
 	vsOutput.color = input.color;
 	vsOutput.uv = input.uv;
@@ -83,7 +84,7 @@ v2p_t VertexMain(vs_input_t input)
 }
 
 //------------------------------------------------------------------------------------------------
-float4 PixelMain(v2p_t input) : SV_Target0
+float4 PixelMain(PixelInput input) : SV_Target0
 {
 	float ambient = AmbientIntensity;
 	float directional = SunIntensity * saturate(dot(normalize(input.worldNormal.xyz), -SunDirection));
