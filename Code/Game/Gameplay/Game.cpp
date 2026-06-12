@@ -276,6 +276,30 @@ void Game::UpdateKeyboardInput()
 	{
 		g_engine->m_render->SetPerFrameConstants( 3 );
 	}
+	if( g_engine->m_input->WasKeyJustPressed( '4' ) )
+	{
+		g_engine->m_render->SetPerFrameConstants( 4 );
+	}
+	if( g_engine->m_input->WasKeyJustPressed( '5' ) )
+	{
+		g_engine->m_render->SetPerFrameConstants( 5 );
+	}
+	if( g_engine->m_input->WasKeyJustPressed( '6' ) )
+	{
+		g_engine->m_render->SetPerFrameConstants( 6 );
+	}
+	if( g_engine->m_input->WasKeyJustPressed( '7' ) )
+	{
+		g_engine->m_render->SetPerFrameConstants( 7 );
+	}
+	if( g_engine->m_input->WasKeyJustPressed( '8' ) )
+	{
+		g_engine->m_render->SetPerFrameConstants( 8 );
+	}
+	if( g_engine->m_input->WasKeyJustPressed( '9' ) )
+	{
+		g_engine->m_render->SetPerFrameConstants( 9 );
+	}
 
 	/*if( g_engine->m_input->WasKeyJustPressed( '1' ) )
 	{
@@ -314,12 +338,12 @@ void Game::UpdateKeyboardInput()
 			Vec3( m_player->m_position.x, m_player->m_position.y, m_player->m_position.z + 0.5f ), 0.5f, 10.f, Rgba8::WHITE, Rgba8::RED );
 	}*/
 
-	if( g_engine->m_input->WasKeyJustPressed( '7' ) )
+	/*if( g_engine->m_input->WasKeyJustPressed( '7' ) )
 	{
 		AABB2 textBox = AABB2( 1.f, 770.f, 800.f, 785.f );
 		std::string text = Stringf( "Camera Orientation: %.2f, %.2f, %.2f", m_worldCamera->GetOrientation().m_rollDegrees, m_worldCamera->GetOrientation().m_pitchDegrees, m_worldCamera->GetOrientation().m_yawDegrees );
 		DebugAddScreenText( text, textBox, 15.f, Vec2( 0.f, 1.f ), 5.f );
-	}
+	}*/
 }
 
 //-----------------------------------------------------------------------------------------------

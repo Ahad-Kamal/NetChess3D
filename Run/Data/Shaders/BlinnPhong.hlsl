@@ -101,9 +101,9 @@ float4 PixelMain( PixelInput input ) : SV_Target0
     float4 normalTexel = normalTexture.Sample( normalSampler, input.uv );
 	
 	// Diffuse color
-	float4 vertexColor = input.color;
+	float4 surfaceColor = input.color;
 	float4 modelColor = ModelColor;
-	float4 diffuseColor = diffuseTexel * vertexColor * modelColor;
+	float4 diffuseColor = diffuseTexel * surfaceColor * modelColor;
 
 	// TBN to World
     float3 worldTangent = normalize( input.worldTangent );
@@ -126,15 +126,41 @@ float4 PixelMain( PixelInput input ) : SV_Target0
 	// Debug modes
 	if( DebugID == 1 )
     {
-		finalColor.rgb = EncodeXYZtoRGB( input.worldNormal.xyz );
+		finalColor = diffuseTexel;
     }
-    else if ( DebugID == 2 )
+    else if( DebugID == 2 )
+    {
+		finalColor = normalTexel;
+    }
+    else if( DebugID == 3 )
+    {
+		finalColor.rgb = float3( input.uv.x, input.uv.y, 0 );
+    }
+    else if( DebugID == 4 )
     {
 		finalColor.rgb = EncodeXYZtoRGB( input.worldTangent.xyz );
     }
-    else if ( DebugID == 3 )
+    else if( DebugID == 5 )
     {
 		finalColor.rgb = EncodeXYZtoRGB( input.worldBitangent.xyz );
+    }
+    else if( DebugID == 6 )
+    {
+        finalColor.rgb = EncodeXYZtoRGB( input.worldNormal.xyz );
+    }
+    else if( DebugID == 7 )
+    {
+        finalColor.rgb = EncodeXYZtoRGB( tbnMicroNormal.xyz );
+    }
+    else if( DebugID == 8 )
+    {
+        float directionalLight = SunIntensity * saturate( dot( input.worldNormal, -SunDirection ) );
+        float4 lightColor = float4( ( ambientLight + directionalLight ).xxx, 1 );
+        finalColor.rgb = EncodeXYZtoRGB( lightColor.xyz );
+    }
+    else if( DebugID == 9 )
+    {
+        finalColor.rgb = EncodeXYZtoRGB( lightColor.xyz );
     }
 	
 	clip( finalColor.a - 0.01f );
