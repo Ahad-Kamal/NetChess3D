@@ -226,7 +226,7 @@ bool ChessPiece::CheckMoveForPawn( ChessPiece* pawn, IntVec2 currentCoord, IntVe
 		// Check if blocked
 		if( !isTeleporting )
 		{
-			ChessPiece* blockingPiece = pawn->m_board->GetPieceAtCoord( IntVec2( currentCoord.x, currentCoord.y + 1 ) );
+			ChessPiece* blockingPiece = pawn->m_board->GetPieceAtCoord( IntVec2( currentCoord.x, currentCoord.y - 1 ) );
 			if( blockingPiece )
 			{
 				return false;
@@ -253,11 +253,67 @@ bool ChessPiece::CheckMoveForPawn( ChessPiece* pawn, IntVec2 currentCoord, IntVe
 //-----------------------------------------------------------------------------------------------
 bool ChessPiece::CheckMoveForRook( ChessPiece* rook, IntVec2 currentCoord, IntVec2 coordToMoveTo, bool isTeleporting /*= false*/ )
 {
-	return false;
+	int xDifference = coordToMoveTo.x - currentCoord.x;
+	int yDifference = coordToMoveTo.y - currentCoord.y;
+
+	// Check for Diagonal movement
+	if( xDifference != 0 && yDifference != 0 )
+	{
+		return false;
+	}
+	if( !isTeleporting )
+	{
+		if( xDifference > 0 )
+		{
+			for( int x = 1; x <= xDifference; x++ )
+			{
+				ChessPiece* blockingPiece = rook->m_board->GetPieceAtCoord( IntVec2( currentCoord.x + x, currentCoord.y ) );
+				if( blockingPiece )
+				{
+					return false;
+				}
+			}
+		}
+		else if( xDifference < 0 )
+		{
+			for( int x = 1; x <= -xDifference; x++ )
+			{
+				ChessPiece* blockingPiece = rook->m_board->GetPieceAtCoord( IntVec2( currentCoord.x - x, currentCoord.y ) );
+				if( blockingPiece )
+				{
+					return false;
+				}
+			}
+		}
+		else if( yDifference > 0 )
+		{
+			for( int y = 1; y <= yDifference; y++ )
+			{
+				ChessPiece* blockingPiece = rook->m_board->GetPieceAtCoord( IntVec2( currentCoord.x, currentCoord.y + y ) );
+				if( blockingPiece )
+				{
+					return false;
+				}
+			}
+		}
+		else if( yDifference < 0 )
+		{
+			for( int y = 1; y <= -yDifference; y++ )
+			{
+				ChessPiece* blockingPiece = rook->m_board->GetPieceAtCoord( IntVec2( currentCoord.x, currentCoord.y - y ) );
+				if( blockingPiece )
+				{
+					return false;
+				}
+			}
+		}
+	}
+
+	return true;
 }
 
 //-----------------------------------------------------------------------------------------------
-bool ChessPiece::CheckMoveForKnight( ChessPiece* knight, IntVec2 currentCoord, IntVec2 coordToMoveTo )
+bool ChessPiece::CheckMoveForKnight( [[maybe_unused]] ChessPiece* knight, IntVec2 currentCoord, IntVec2 coordToMoveTo )
 {
 	int xDifference = coordToMoveTo.x - currentCoord.x;
 	int yDifference = coordToMoveTo.y - currentCoord.y;
