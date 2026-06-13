@@ -426,6 +426,7 @@ bool ChessMatch::Event_ChessOverride( EventArgs& args )
 
 	// Perform override
 	g_game->m_chessMatch->m_chessBoard->SetPiecesOnBoard( boardString );
+	g_game->m_chessMatch->PrintBoardState();
 
 	return true;
 }

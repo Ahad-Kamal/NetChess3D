@@ -541,7 +541,66 @@ bool ChessPiece::CheckMoveForQueen( ChessPiece* queen, IntVec2 currentCoord, Int
 //-----------------------------------------------------------------------------------------------
 bool ChessPiece::CheckMoveForKing( ChessPiece* king, IntVec2 currentCoord, IntVec2 coordToMoveTo )
 {
-	return false;
+	int xDifference = coordToMoveTo.x - currentCoord.x;
+	int yDifference = coordToMoveTo.y - currentCoord.y;
+
+	// Check if trying to move more that 1 space
+	if( abs( xDifference ) > 1 || abs( yDifference ) > 1 )
+	{
+		return false;
+	}
+
+	// Check for Kings Apart
+	// Piece +Y of coord
+	ChessPiece* adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x, coordToMoveTo.y + 1 ) );
+	if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+	{
+		return false;
+	}
+	// Piece +X, +Y of coord
+	adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x + 1, coordToMoveTo.y + 1 ) );
+	if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+	{
+		return false;
+	}
+	// Piece +X of coord
+	adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x + 1, coordToMoveTo.y ) );
+	if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+	{
+		return false;
+	}
+	// Piece +X, -Y of coord
+	adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x + 1, coordToMoveTo.y - 1 ) );
+	if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+	{
+		return false;
+	}
+	// Piece -Y of coord
+	adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x, coordToMoveTo.y - 1 ) );
+	if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+	{
+		return false;
+	}
+	// Piece -X, -Y of coord
+	adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x - 1, coordToMoveTo.y - 1 ) );
+	if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+	{
+		return false;
+	}
+	// Piece -X of coord
+	adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x - 1, coordToMoveTo.y ) );
+	if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+	{
+		return false;
+	}
+	// Piece -X, +Y of coord
+	adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x - 1, coordToMoveTo.y + 1 ) );
+	if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+	{
+		return false;
+	}
+
+	return true;
 }
 
 //-----------------------------------------------------------------------------------------------
