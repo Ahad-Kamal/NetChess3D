@@ -71,7 +71,9 @@ public:
 	VertexBuffer* GetVertexBufferP2() const;
 	IndexBuffer* GetIndexBufferP2() const;
 
+	static ChessPieceType GetTypeFromString( std::string const& pieceName );
 	static ChessPieceDefinition* GetPieceDefFromChar( char pieceChar );
+	static ChessPieceDefinition* GetPieceDefFromType( ChessPieceType pieceType );
 
 public:
 	static std::vector<ChessPieceDefinition> s_pieceDefs;

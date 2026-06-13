@@ -27,6 +27,7 @@ public:
 	void AddPiece( ChessPiece*& pieceToAdd, IntVec2 coord );
 	void RemovePiece( ChessPiece*& pieceToRemove );
 	bool CheckForCapturedKing( ChessTeam currentPlayer );
+	bool PromotePawn( ChessPiece*& pieceToPromote, ChessPieceType pieceToPromoteInto, IntVec2 coordMovingTo );
 
 	void SetPiecesOnBoard( std::string const& boardString );
 

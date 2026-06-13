@@ -253,8 +253,16 @@ bool ChessMatch::Event_ChessMove( EventArgs& args )
 	std::string fromChessCoord = args.GetValue( "from", "" );
 	std::string toChessCoord = args.GetValue( "to", "" );
 	bool isTeleporting = args.GetValue( "teleport", false );
+	std::string promotionString = args.GetValue( "promoteTo", "" );
+	ChessPieceType promotionType = ChessPieceType::INVALID;
+	bool isPromoting = false;
 
-	if( fromChessCoord == "" || toChessCoord == "" )
+	if( !promotionString.empty() )
+	{
+		isPromoting = true;
+		promotionType = ChessPieceDefinition::GetTypeFromString( promotionString );
+	}
+	if( fromChessCoord.empty() || toChessCoord.empty() )
 	{
 		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, "Illegal chess move; must have from= and to= arguments!" );
 		g_engine->m_devConsole->AddLine( Rgba8::ORANGE, " Example: ChessMove from=a2 to a4" );
@@ -367,6 +375,15 @@ bool ChessMatch::Event_ChessMove( EventArgs& args )
 	}
 
 	// Valid move logic
+	// Promote piece
+	if( isPromoting )
+	{
+		if( !chessMatch->m_chessBoard->PromotePawn( fromPiece, promotionType, toCoord ) )
+		{
+			g_engine->m_devConsole->AddLine( DevConsole::ERRORS, "Invalid promotion" );
+			return true;
+		}
+	}
 	// Capture Piece, if one was captured
 	if( isCapturing )
 	{

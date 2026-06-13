@@ -244,6 +244,51 @@ bool ChessBoard::CheckForCapturedKing( ChessTeam currentPlayer )
 }
 
 //-----------------------------------------------------------------------------------------------
+bool ChessBoard::PromotePawn( ChessPiece*& pieceToPromote, ChessPieceType pieceToPromoteInto, IntVec2 coordMovingTo )
+{
+	// Check if we're a pawn
+	if( pieceToPromote->m_definition->GetPieceType() != ChessPieceType::PAWN )
+	{
+		return false;
+	}
+
+	// Check if we're a valid promotion
+	if( pieceToPromoteInto == ChessPieceType::PAWN || pieceToPromoteInto == ChessPieceType::KING || pieceToPromoteInto == ChessPieceType::INVALID )
+	{
+		return false;
+	}
+
+	// Check if we're on the right row
+	ChessTeam team = pieceToPromote->m_team;
+	if( team == TEAM_PLAYER_1 )
+	{
+		if( coordMovingTo.y != 7 )
+		{
+			return false;
+		}
+	}
+	else
+	{
+		if( coordMovingTo.y != 0 )
+		{
+			return false;
+		}
+	}
+
+	// Promote
+	unsigned char timesMoved = pieceToPromote->m_timesMoved; 
+	ChessPieceDefinition* defOfPieceToAdd = ChessPieceDefinition::GetPieceDefFromType( pieceToPromoteInto );
+	ChessPiece* promotedPiece = new ChessPiece( defOfPieceToAdd, team, this );
+	IntVec2 currentCoord = GetCoordFromPosition( Vec2( pieceToPromote->m_position ) );
+	promotedPiece->m_timesMoved = timesMoved;
+	RemovePiece( pieceToPromote );
+	AddPiece( promotedPiece, currentCoord );
+
+	pieceToPromote = promotedPiece;
+	return true;
+}
+
+//-----------------------------------------------------------------------------------------------
 void ChessBoard::SetPiecesOnBoard( std::string const& boardString )
 {
 	for( int tileIndex = 0; tileIndex < 64; tileIndex++ )

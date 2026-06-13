@@ -192,6 +192,36 @@ IndexBuffer* ChessPieceDefinition::GetIndexBufferP2() const
 	return m_indexBufferP2;
 }
 
+ChessPieceType ChessPieceDefinition::GetTypeFromString( std::string const& pieceName )
+{
+	if( pieceName == "Pawn" || pieceName == "pawn" )
+	{
+		return ChessPieceType::PAWN;
+	}
+	if( pieceName == "Rook" || pieceName == "rook" )
+	{
+		return ChessPieceType::ROOK;
+	}
+	if( pieceName == "Knight" || pieceName == "knight" )
+	{
+		return ChessPieceType::KNIGHT;
+	}
+	if( pieceName == "Bishop" || pieceName == "bishop" )
+	{
+		return ChessPieceType::BISHOP;
+	}
+	if( pieceName == "Queen" || pieceName == "queen" )
+	{
+		return ChessPieceType::QUEEN;
+	}
+	if( pieceName == "King" || pieceName == "king" )
+	{
+		return ChessPieceType::KING;
+	}
+
+	return ChessPieceType::INVALID;
+}
+
 ChessPieceDefinition* ChessPieceDefinition::GetPieceDefFromChar( char pieceChar )
 {
 	switch( pieceChar )
@@ -230,6 +260,34 @@ ChessPieceDefinition* ChessPieceDefinition::GetPieceDefFromChar( char pieceChar 
 			return &s_pieceDefs[ 5 ];
 
 		case 'K':
+			return &s_pieceDefs[ 5 ];
+
+		default:
+			return &s_invalidDef;
+	}
+}
+
+//-----------------------------------------------------------------------------------------------
+ChessPieceDefinition* ChessPieceDefinition::GetPieceDefFromType( ChessPieceType pieceType )
+{
+	switch( pieceType )
+	{
+		case ChessPieceType::PAWN:
+			return &s_pieceDefs[ 0 ];
+
+		case ChessPieceType::ROOK:
+			return &s_pieceDefs[ 1 ];
+
+		case ChessPieceType::KNIGHT:
+			return &s_pieceDefs[ 2 ];
+
+		case ChessPieceType::BISHOP:
+			return &s_pieceDefs[ 3 ];
+
+		case ChessPieceType::QUEEN:
+			return &s_pieceDefs[ 4 ];
+
+		case ChessPieceType::KING:
 			return &s_pieceDefs[ 5 ];
 
 		default:
