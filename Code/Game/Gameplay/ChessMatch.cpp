@@ -359,7 +359,7 @@ bool ChessMatch::Event_ChessMove( EventArgs& args )
 	{
 		isCapturing = true;
 	}
-	if( !( fromPiece->CheckMoveForMe( toCoord, isCapturing ) ) )
+	if( !( fromPiece->CheckMoveForMe( toCoord, isCapturing, isTeleporting ) ) )
 	{
 		std::string errorString = "Invalid move for piece type " + fromPiece->m_definition->GetPieceName() + "!";
 		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, errorString );

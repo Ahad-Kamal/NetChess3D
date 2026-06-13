@@ -149,25 +149,25 @@ Mat44 ChessPiece::GetModelToWorldTransform() const
 }
 
 //-----------------------------------------------------------------------------------------------
-bool ChessPiece::CheckMoveForMe( IntVec2 coordToMoveTo, bool isCapturing /*= false*/ )
+bool ChessPiece::CheckMoveForMe( IntVec2 coordToMoveTo, bool isCapturing /*= false*/, bool isTeleporting /*= false*/ )
 {
 	IntVec2 currentCoord = m_board->GetCoordFromPosition( Vec2( m_position ) );
 	switch( m_definition->GetPieceType() )
 	{
 		case ChessPieceType::PAWN:
-			return CheckMoveForPawn( this, currentCoord, coordToMoveTo, isCapturing );
+			return CheckMoveForPawn( this, currentCoord, coordToMoveTo, isCapturing, isTeleporting );
 
 		case ChessPieceType::ROOK:
-			return CheckMoveForRook( this, currentCoord, coordToMoveTo );
+			return CheckMoveForRook( this, currentCoord, coordToMoveTo, isTeleporting );
 
 		case ChessPieceType::KNIGHT:
 			return CheckMoveForKnight( this, currentCoord, coordToMoveTo );
 
 		case ChessPieceType::BISHOP:
-			return CheckMoveForBishop( this, currentCoord, coordToMoveTo );
+			return CheckMoveForBishop( this, currentCoord, coordToMoveTo, isTeleporting );
 
 		case ChessPieceType::QUEEN:
-			return CheckMoveForQueen( this, currentCoord, coordToMoveTo );
+			return CheckMoveForQueen( this, currentCoord, coordToMoveTo, isTeleporting );
 
 		case ChessPieceType::KING:
 			return CheckMoveForKing( this, currentCoord, coordToMoveTo );
@@ -178,17 +178,19 @@ bool ChessPiece::CheckMoveForMe( IntVec2 coordToMoveTo, bool isCapturing /*= fal
 }
 
 //-----------------------------------------------------------------------------------------------
-bool ChessPiece::CheckMoveForPawn( ChessPiece* pawn, IntVec2 currentCoord, IntVec2 coordToMoveTo, bool isCapturing )
+bool ChessPiece::CheckMoveForPawn( ChessPiece* pawn, IntVec2 currentCoord, IntVec2 coordToMoveTo, bool isCapturing, bool isTeleporting /*= false*/ )
 {
 	int xDifference = coordToMoveTo.x - currentCoord.x;
 	int yDifference = coordToMoveTo.y - currentCoord.y;
 
 	ChessTeam team = pawn->m_team;
 
+	// Check x movement
 	if( xDifference >= 2 || xDifference <= -2 )
 	{
 		return false;
 	}
+	// Check y movement
 	if( team == TEAM_PLAYER_1 )
 	{
 		if( yDifference >= 3 )
@@ -198,6 +200,16 @@ bool ChessPiece::CheckMoveForPawn( ChessPiece* pawn, IntVec2 currentCoord, IntVe
 		if( pawn->m_timesMoved != 0 && yDifference == 2 )
 		{
 			return false;
+		}
+
+		// Check if blocked
+		if( !isTeleporting )
+		{
+			ChessPiece* blockingPiece = pawn->m_board->GetPieceAtCoord( IntVec2( currentCoord.x, currentCoord.y + 1 ) );
+			if( blockingPiece )
+			{
+				return false;
+			}
 		}
 	}
 	else
@@ -210,21 +222,36 @@ bool ChessPiece::CheckMoveForPawn( ChessPiece* pawn, IntVec2 currentCoord, IntVe
 		{
 			return false;
 		}
+
+		// Check if blocked
+		if( !isTeleporting )
+		{
+			ChessPiece* blockingPiece = pawn->m_board->GetPieceAtCoord( IntVec2( currentCoord.x, currentCoord.y + 1 ) );
+			if( blockingPiece )
+			{
+				return false;
+			}
+		}
 	}
+
+	// Check for diagonal
 	if( !isCapturing && ( xDifference == 1 || xDifference == -1 ) )
 	{
 		return false;
 	}
+
+	// Check if blocked
 	if( isCapturing && xDifference == 0 )
 	{
 		return false;
 	}
 
+
 	return true;
 }
 
 //-----------------------------------------------------------------------------------------------
-bool ChessPiece::CheckMoveForRook( ChessPiece* rook, IntVec2 currentCoord, IntVec2 coordToMoveTo )
+bool ChessPiece::CheckMoveForRook( ChessPiece* rook, IntVec2 currentCoord, IntVec2 coordToMoveTo, bool isTeleporting /*= false*/ )
 {
 	return false;
 }
@@ -232,17 +259,53 @@ bool ChessPiece::CheckMoveForRook( ChessPiece* rook, IntVec2 currentCoord, IntVe
 //-----------------------------------------------------------------------------------------------
 bool ChessPiece::CheckMoveForKnight( ChessPiece* knight, IntVec2 currentCoord, IntVec2 coordToMoveTo )
 {
+	int xDifference = coordToMoveTo.x - currentCoord.x;
+	int yDifference = coordToMoveTo.y - currentCoord.y;
+
+	if( xDifference == 1 && yDifference == 2 )
+	{
+		return true;
+	}
+	if( xDifference == 2 && yDifference == 1 )
+	{
+		return true;
+	}
+	if( xDifference == 2 && yDifference == -1 )
+	{
+		return true;
+	}
+	if( xDifference == 1 && yDifference == -2 )
+	{
+		return true;
+	}
+	if( xDifference == -1 && yDifference == -2 )
+	{
+		return true;
+	}
+	if( xDifference == -2 && yDifference == -1 )
+	{
+		return true;
+	}
+	if( xDifference == -2 && yDifference == 1 )
+	{
+		return true;
+	}
+	if( xDifference == -1 && yDifference == 2 )
+	{
+		return true;
+	}
+
 	return false;
 }
 
 //-----------------------------------------------------------------------------------------------
-bool ChessPiece::CheckMoveForBishop( ChessPiece* bishop, IntVec2 currentCoord, IntVec2 coordToMoveTo )
+bool ChessPiece::CheckMoveForBishop( ChessPiece* bishop, IntVec2 currentCoord, IntVec2 coordToMoveTo, bool isTeleporting /*= false*/ )
 {
 	return false;
 }
 
 //-----------------------------------------------------------------------------------------------
-bool ChessPiece::CheckMoveForQueen( ChessPiece* queen, IntVec2 currentCoord, IntVec2 coordToMoveTo )
+bool ChessPiece::CheckMoveForQueen( ChessPiece* queen, IntVec2 currentCoord, IntVec2 coordToMoveTo, bool isTeleporting /*= false*/ )
 {
 	return false;
 }
