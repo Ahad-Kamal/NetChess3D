@@ -353,9 +353,22 @@ bool ChessMatch::Event_ChessMove( EventArgs& args )
 		return true;
 	}
 
+	// Check for piece specific rules
+	bool isCapturing = false;
+	if( toPiece != nullptr )
+	{
+		isCapturing = true;
+	}
+	if( !( fromPiece->CheckMoveForMe( toCoord, isCapturing ) ) )
+	{
+		std::string errorString = "Invalid move for piece type " + fromPiece->m_definition->GetPieceName() + "!";
+		g_engine->m_devConsole->AddLine( DevConsole::ERRORS, errorString );
+		return true;
+	}
+
 	// Valid move logic
 	// Capture Piece, if one was captured
-	if( toPiece != nullptr )
+	if( isCapturing )
 	{
 		chessMatch->m_chessBoard->RemovePiece( toPiece );
 	}

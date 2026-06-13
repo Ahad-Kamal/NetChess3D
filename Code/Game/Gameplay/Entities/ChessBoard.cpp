@@ -136,6 +136,7 @@ void ChessBoard::MovePiece( ChessPiece*& pieceToMove, IntVec2 coord )
 	m_piecesOnBoard[ oldTileIndex ] = nullptr;
 
 	pieceToMove->TranslatePieceToCoord( coord );
+	pieceToMove->m_timesMoved++;
 }
 
 //-----------------------------------------------------------------------------------------------

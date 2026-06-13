@@ -149,6 +149,111 @@ Mat44 ChessPiece::GetModelToWorldTransform() const
 }
 
 //-----------------------------------------------------------------------------------------------
+bool ChessPiece::CheckMoveForMe( IntVec2 coordToMoveTo, bool isCapturing /*= false*/ )
+{
+	IntVec2 currentCoord = m_board->GetCoordFromPosition( Vec2( m_position ) );
+	switch( m_definition->GetPieceType() )
+	{
+		case ChessPieceType::PAWN:
+			return CheckMoveForPawn( this, currentCoord, coordToMoveTo, isCapturing );
+
+		case ChessPieceType::ROOK:
+			return CheckMoveForRook( this, currentCoord, coordToMoveTo );
+
+		case ChessPieceType::KNIGHT:
+			return CheckMoveForKnight( this, currentCoord, coordToMoveTo );
+
+		case ChessPieceType::BISHOP:
+			return CheckMoveForBishop( this, currentCoord, coordToMoveTo );
+
+		case ChessPieceType::QUEEN:
+			return CheckMoveForQueen( this, currentCoord, coordToMoveTo );
+
+		case ChessPieceType::KING:
+			return CheckMoveForKing( this, currentCoord, coordToMoveTo );
+
+		default:
+			return false;
+	}
+}
+
+//-----------------------------------------------------------------------------------------------
+bool ChessPiece::CheckMoveForPawn( ChessPiece* pawn, IntVec2 currentCoord, IntVec2 coordToMoveTo, bool isCapturing )
+{
+	int xDifference = coordToMoveTo.x - currentCoord.x;
+	int yDifference = coordToMoveTo.y - currentCoord.y;
+
+	ChessTeam team = pawn->m_team;
+
+	if( xDifference >= 2 || xDifference <= -2 )
+	{
+		return false;
+	}
+	if( team == TEAM_PLAYER_1 )
+	{
+		if( yDifference >= 3 )
+		{
+			return false;
+		}
+		if( pawn->m_timesMoved != 0 && yDifference == 2 )
+		{
+			return false;
+		}
+	}
+	else
+	{
+		if( yDifference <= -3 )
+		{
+			return false;
+		}
+		if( pawn->m_timesMoved != 0 && yDifference == -2 )
+		{
+			return false;
+		}
+	}
+	if( !isCapturing && ( xDifference == 1 || xDifference == -1 ) )
+	{
+		return false;
+	}
+	if( isCapturing && xDifference == 0 )
+	{
+		return false;
+	}
+
+	return true;
+}
+
+//-----------------------------------------------------------------------------------------------
+bool ChessPiece::CheckMoveForRook( ChessPiece* rook, IntVec2 currentCoord, IntVec2 coordToMoveTo )
+{
+	return false;
+}
+
+//-----------------------------------------------------------------------------------------------
+bool ChessPiece::CheckMoveForKnight( ChessPiece* knight, IntVec2 currentCoord, IntVec2 coordToMoveTo )
+{
+	return false;
+}
+
+//-----------------------------------------------------------------------------------------------
+bool ChessPiece::CheckMoveForBishop( ChessPiece* bishop, IntVec2 currentCoord, IntVec2 coordToMoveTo )
+{
+	return false;
+}
+
+//-----------------------------------------------------------------------------------------------
+bool ChessPiece::CheckMoveForQueen( ChessPiece* queen, IntVec2 currentCoord, IntVec2 coordToMoveTo )
+{
+	return false;
+}
+
+//-----------------------------------------------------------------------------------------------
+bool ChessPiece::CheckMoveForKing( ChessPiece* king, IntVec2 currentCoord, IntVec2 coordToMoveTo )
+{
+	return false;
+}
+
+//-----------------------------------------------------------------------------------------------
 ChessTeam ChessPiece::GetTeamFromChar( char pieceChar )
 {
 	switch( pieceChar )

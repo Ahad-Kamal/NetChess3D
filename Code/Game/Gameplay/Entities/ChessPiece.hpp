@@ -29,12 +29,24 @@ public:
 	void RotatePiece( EulerAngles rotationAmt );
 	Mat44 GetModelToWorldTransform() const;
 
+	bool CheckMoveForMe( IntVec2 coordToMoveTo, bool isCapturing = false );
+
+	static bool CheckMoveForPawn( ChessPiece* pawn, IntVec2 currentCoord, IntVec2 coordToMoveTo, bool isCapturing );
+	static bool CheckMoveForRook( ChessPiece* rook, IntVec2 currentCoord, IntVec2 coordToMoveTo );
+	static bool CheckMoveForKnight( ChessPiece* knight, IntVec2 currentCoord, IntVec2 coordToMoveTo );
+	static bool CheckMoveForBishop( ChessPiece* bishop, IntVec2 currentCoord, IntVec2 coordToMoveTo );
+	static bool CheckMoveForQueen( ChessPiece* queen, IntVec2 currentCoord, IntVec2 coordToMoveTo );
+	static bool CheckMoveForKing( ChessPiece* king, IntVec2 currentCoord, IntVec2 coordToMoveTo );
+
 	static ChessTeam GetTeamFromChar( char pieceChar );
 
 public:
 	ChessTeam m_team = TEAM_INAVLID;
+	unsigned char m_timesMoved = 0;
+
 	Vec3 m_position;
 	EulerAngles m_orientation;
+
 	Rgba8 m_color;
 	ChessPieceDefinition* m_definition = nullptr;
 
@@ -43,6 +55,5 @@ private:
 	IndexList m_indexes;
 
 	ChessGeometry* m_base = nullptr;
-
 	ChessBoard*	m_board = nullptr;
 };
