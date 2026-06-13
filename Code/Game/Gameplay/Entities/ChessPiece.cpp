@@ -428,9 +428,111 @@ bool ChessPiece::CheckMoveForQueen( ChessPiece* queen, IntVec2 currentCoord, Int
 	int xDifference = coordToMoveTo.x - currentCoord.x;
 	int yDifference = coordToMoveTo.y - currentCoord.y;
 
-	if( ( xDifference != 0 && yDifference != 0 ) || ( abs( xDifference ) != abs( yDifference ) ) )
+	// Check for moves neither cardinal to diagonal
+	if( !( xDifference == 0 && yDifference != 0 ) && !( xDifference != 0 && yDifference == 0 ) && !( abs( xDifference ) == abs( yDifference ) ) )
 	{
 		return false;
+	}
+
+	if( !isTeleporting )
+	{
+		// Check if blocked diagonally
+		if( abs( xDifference ) == abs( yDifference ) )
+		{
+			int timesMoved = abs( xDifference );
+			if( xDifference > 0 && yDifference > 0 )
+			{
+				for( int i = 1; i < timesMoved; i++ )
+				{
+					ChessPiece* blockingPiece = queen->m_board->GetPieceAtCoord( IntVec2( currentCoord.x + i, currentCoord.y + i ) );
+					if( blockingPiece )
+					{
+						return false;
+					}
+				}
+			}
+			else if( xDifference > 0 && yDifference < 0 )
+			{
+				for( int i = 1; i < timesMoved; i++ )
+				{
+					ChessPiece* blockingPiece = queen->m_board->GetPieceAtCoord( IntVec2( currentCoord.x + i, currentCoord.y - i ) );
+					if( blockingPiece )
+					{
+						return false;
+					}
+				}
+			}
+			else if( xDifference < 0 && yDifference < 0 )
+			{
+				for( int i = 1; i < timesMoved; i++ )
+				{
+					ChessPiece* blockingPiece = queen->m_board->GetPieceAtCoord( IntVec2( currentCoord.x - i, currentCoord.y - i ) );
+					if( blockingPiece )
+					{
+						return false;
+					}
+				}
+			}
+			else if( xDifference < 0 && yDifference > 0 )
+			{
+				for( int i = 1; i < timesMoved; i++ )
+				{
+					ChessPiece* blockingPiece = queen->m_board->GetPieceAtCoord( IntVec2( currentCoord.x - i, currentCoord.y + i ) );
+					if( blockingPiece )
+					{
+						return false;
+					}
+				}
+			}
+		}
+		// Check if blocked cardinally
+		else
+		{
+			if( xDifference > 0 )
+			{
+				for( int x = 1; x < xDifference; x++ )
+				{
+					ChessPiece* blockingPiece = queen->m_board->GetPieceAtCoord( IntVec2( currentCoord.x + x, currentCoord.y ) );
+					if( blockingPiece )
+					{
+						return false;
+					}
+				}
+			}
+			else if( xDifference < 0 )
+			{
+				for( int x = 1; x < -xDifference; x++ )
+				{
+					ChessPiece* blockingPiece = queen->m_board->GetPieceAtCoord( IntVec2( currentCoord.x - x, currentCoord.y ) );
+					if( blockingPiece )
+					{
+						return false;
+					}
+				}
+			}
+			else if( yDifference > 0 )
+			{
+				for( int y = 1; y < yDifference; y++ )
+				{
+					ChessPiece* blockingPiece = queen->m_board->GetPieceAtCoord( IntVec2( currentCoord.x, currentCoord.y + y ) );
+					if( blockingPiece )
+					{
+						return false;
+					}
+				}
+			}
+			else if( yDifference < 0 )
+			{
+				for( int y = 1; y < -yDifference; y++ )
+				{
+					ChessPiece* blockingPiece = queen->m_board->GetPieceAtCoord( IntVec2( currentCoord.x, currentCoord.y - y ) );
+					if( blockingPiece )
+					{
+						return false;
+					}
+				}
+			}
+		}
 	}
 
 	return true;
