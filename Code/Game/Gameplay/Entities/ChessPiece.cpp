@@ -425,7 +425,15 @@ bool ChessPiece::CheckMoveForBishop( ChessPiece* bishop, IntVec2 currentCoord, I
 //-----------------------------------------------------------------------------------------------
 bool ChessPiece::CheckMoveForQueen( ChessPiece* queen, IntVec2 currentCoord, IntVec2 coordToMoveTo, bool isTeleporting /*= false*/ )
 {
-	return false;
+	int xDifference = coordToMoveTo.x - currentCoord.x;
+	int yDifference = coordToMoveTo.y - currentCoord.y;
+
+	if( ( xDifference != 0 && yDifference != 0 ) || ( abs( xDifference ) != abs( yDifference ) ) )
+	{
+		return false;
+	}
+
+	return true;
 }
 
 //-----------------------------------------------------------------------------------------------
