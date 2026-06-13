@@ -263,9 +263,10 @@ bool ChessPiece::CheckMoveForRook( ChessPiece* rook, IntVec2 currentCoord, IntVe
 	}
 	if( !isTeleporting )
 	{
+		// Check if blocked along x
 		if( xDifference > 0 )
 		{
-			for( int x = 1; x <= xDifference; x++ )
+			for( int x = 1; x < xDifference; x++ )
 			{
 				ChessPiece* blockingPiece = rook->m_board->GetPieceAtCoord( IntVec2( currentCoord.x + x, currentCoord.y ) );
 				if( blockingPiece )
@@ -276,7 +277,7 @@ bool ChessPiece::CheckMoveForRook( ChessPiece* rook, IntVec2 currentCoord, IntVe
 		}
 		else if( xDifference < 0 )
 		{
-			for( int x = 1; x <= -xDifference; x++ )
+			for( int x = 1; x < -xDifference; x++ )
 			{
 				ChessPiece* blockingPiece = rook->m_board->GetPieceAtCoord( IntVec2( currentCoord.x - x, currentCoord.y ) );
 				if( blockingPiece )
@@ -285,9 +286,10 @@ bool ChessPiece::CheckMoveForRook( ChessPiece* rook, IntVec2 currentCoord, IntVe
 				}
 			}
 		}
+		// Check if blocked along y
 		else if( yDifference > 0 )
 		{
-			for( int y = 1; y <= yDifference; y++ )
+			for( int y = 1; y < yDifference; y++ )
 			{
 				ChessPiece* blockingPiece = rook->m_board->GetPieceAtCoord( IntVec2( currentCoord.x, currentCoord.y + y ) );
 				if( blockingPiece )
@@ -298,7 +300,7 @@ bool ChessPiece::CheckMoveForRook( ChessPiece* rook, IntVec2 currentCoord, IntVe
 		}
 		else if( yDifference < 0 )
 		{
-			for( int y = 1; y <= -yDifference; y++ )
+			for( int y = 1; y < -yDifference; y++ )
 			{
 				ChessPiece* blockingPiece = rook->m_board->GetPieceAtCoord( IntVec2( currentCoord.x, currentCoord.y - y ) );
 				if( blockingPiece )
@@ -318,6 +320,7 @@ bool ChessPiece::CheckMoveForKnight( [[maybe_unused]] ChessPiece* knight, IntVec
 	int xDifference = coordToMoveTo.x - currentCoord.x;
 	int yDifference = coordToMoveTo.y - currentCoord.y;
 
+	// Check for 'L' movement
 	if( xDifference == 1 && yDifference == 2 )
 	{
 		return true;
@@ -357,7 +360,66 @@ bool ChessPiece::CheckMoveForKnight( [[maybe_unused]] ChessPiece* knight, IntVec
 //-----------------------------------------------------------------------------------------------
 bool ChessPiece::CheckMoveForBishop( ChessPiece* bishop, IntVec2 currentCoord, IntVec2 coordToMoveTo, bool isTeleporting /*= false*/ )
 {
-	return false;
+	int xDifference = coordToMoveTo.x - currentCoord.x;
+	int yDifference = coordToMoveTo.y - currentCoord.y;
+
+	// Check for non-diagonal
+	if( abs( xDifference ) != abs( yDifference ) )
+	{
+		return false;
+	}
+
+	// Check if blocked
+	int timesMoved = abs( xDifference );
+	if( !isTeleporting )
+	{
+		if( xDifference > 0 && yDifference > 0 )
+		{
+			for( int i = 1; i < timesMoved; i++ )
+			{
+				ChessPiece* blockingPiece = bishop->m_board->GetPieceAtCoord( IntVec2( currentCoord.x + i, currentCoord.y + i ) );
+				if( blockingPiece )
+				{
+					return false;
+				}
+			}
+		}
+		else if( xDifference > 0 && yDifference < 0 )
+		{
+			for( int i = 1; i < timesMoved; i++ )
+			{
+				ChessPiece* blockingPiece = bishop->m_board->GetPieceAtCoord( IntVec2( currentCoord.x + i, currentCoord.y - i ) );
+				if( blockingPiece )
+				{
+					return false;
+				}
+			}
+		}
+		else if( xDifference < 0 && yDifference < 0 )
+		{
+			for( int i = 1; i < timesMoved; i++ )
+			{
+				ChessPiece* blockingPiece = bishop->m_board->GetPieceAtCoord( IntVec2( currentCoord.x - i, currentCoord.y - i ) );
+				if( blockingPiece )
+				{
+					return false;
+				}
+			}
+		}
+		else if( xDifference < 0 && yDifference > 0 )
+		{
+			for( int i = 1; i < timesMoved; i++ )
+			{
+				ChessPiece* blockingPiece = bishop->m_board->GetPieceAtCoord( IntVec2( currentCoord.x - i, currentCoord.y + i ) );
+				if( blockingPiece )
+				{
+					return false;
+				}
+			}
+		}
+	}
+
+	return true;
 }
 
 //-----------------------------------------------------------------------------------------------
