@@ -544,60 +544,172 @@ bool ChessPiece::CheckMoveForKing( ChessPiece* king, IntVec2 currentCoord, IntVe
 	int xDifference = coordToMoveTo.x - currentCoord.x;
 	int yDifference = coordToMoveTo.y - currentCoord.y;
 
+	bool isCastling = false;
+	int absX = abs( xDifference );
+	int absY = abs( yDifference );
+
 	// Check if trying to move more that 1 space
-	if( abs( xDifference ) > 1 || abs( yDifference ) > 1 )
+	if( absX > 1 ||	absY > 1 )
 	{
-		return false;
+		if( king->m_timesMoved == 0 && absX == 2 && absY == 0 )
+		{
+			isCastling = true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	// Check for Kings Apart
+	ChessPiece* adjacentPiece = nullptr;
 	// Piece +Y of coord
-	ChessPiece* adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x, coordToMoveTo.y + 1 ) );
-	if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+	if( coordToMoveTo.y != 7 )
 	{
-		return false;
+		adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x, coordToMoveTo.y + 1 ) );
+		if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+		{
+			return false;
+		}
 	}
 	// Piece +X, +Y of coord
-	adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x + 1, coordToMoveTo.y + 1 ) );
-	if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+	if( coordToMoveTo.x != 7 && coordToMoveTo.y != 7 )
 	{
-		return false;
+		adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x + 1, coordToMoveTo.y + 1 ) );
+		if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+		{
+			return false;
+		}
 	}
 	// Piece +X of coord
-	adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x + 1, coordToMoveTo.y ) );
-	if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+	if( coordToMoveTo.x != 7 )
 	{
-		return false;
+		adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x + 1, coordToMoveTo.y ) );
+		if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+		{
+			return false;
+		}
 	}
 	// Piece +X, -Y of coord
-	adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x + 1, coordToMoveTo.y - 1 ) );
-	if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+	if( coordToMoveTo.x != 7 && coordToMoveTo.y != 0 )
 	{
-		return false;
+		adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x + 1, coordToMoveTo.y - 1 ) );
+		if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+		{
+			return false;
+		}
 	}
 	// Piece -Y of coord
-	adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x, coordToMoveTo.y - 1 ) );
-	if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+	if( coordToMoveTo.y != 0 )
 	{
-		return false;
+		adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x, coordToMoveTo.y - 1 ) );
+		if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+		{
+			return false;
+		}
 	}
 	// Piece -X, -Y of coord
-	adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x - 1, coordToMoveTo.y - 1 ) );
-	if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+	if( coordToMoveTo.x != 0 && coordToMoveTo.y != 0 )
 	{
-		return false;
+		adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x - 1, coordToMoveTo.y - 1 ) );
+		if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+		{
+			return false;
+		}
 	}
 	// Piece -X of coord
-	adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x - 1, coordToMoveTo.y ) );
-	if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+	if( coordToMoveTo.x != 0 )
 	{
-		return false;
+		adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x - 1, coordToMoveTo.y ) );
+		if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+		{
+			return false;
+		}
 	}
 	// Piece -X, +Y of coord
-	adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x - 1, coordToMoveTo.y + 1 ) );
-	if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+	if( coordToMoveTo.x != 0 && coordToMoveTo.y != 7 )
 	{
-		return false;
+		adjacentPiece = king->m_board->GetPieceAtCoord( IntVec2( coordToMoveTo.x - 1, coordToMoveTo.y + 1 ) );
+		if( adjacentPiece != nullptr && adjacentPiece != king && adjacentPiece->m_definition->GetPieceType() == ChessPieceType::KING )
+		{
+			return false;
+		}
+	}
+
+	// Check for Castle
+	if( king->m_team == TEAM_PLAYER_1 )
+	{
+		if( isCastling && xDifference == 2 )
+		{
+			for( int x = 1; x < 2; x++ )
+			{
+				ChessPiece* blockingPiece = king->m_board->GetPieceAtCoord( IntVec2( currentCoord.x + x, currentCoord.y ) );
+				if( blockingPiece )
+				{
+					return false;
+				}
+			}
+
+			ChessPiece* blockingPiece = king->m_board->GetPieceAtCoord( IntVec2( currentCoord.x + 3, currentCoord.y ) );
+			if( blockingPiece && blockingPiece->m_definition->GetPieceType() == ChessPieceType::ROOK && blockingPiece->m_timesMoved == 0 )
+			{
+				king->m_board->MovePiece( blockingPiece, IntVec2( currentCoord.x + 1, currentCoord.y ) );
+			}
+		}
+		else if( isCastling && xDifference == -2 )
+		{
+			for( int x = 1; x < 3; x++ )
+			{
+				ChessPiece* blockingPiece = king->m_board->GetPieceAtCoord( IntVec2( currentCoord.x - x, currentCoord.y ) );
+				if( blockingPiece )
+				{
+					return false;
+				}
+			}
+
+			ChessPiece* blockingPiece = king->m_board->GetPieceAtCoord( IntVec2( currentCoord.x - 4, currentCoord.y ) );
+			if( blockingPiece && blockingPiece->m_definition->GetPieceType() == ChessPieceType::ROOK && blockingPiece->m_timesMoved == 0 )
+			{
+				king->m_board->MovePiece( blockingPiece, IntVec2( currentCoord.x - 1, currentCoord.y ) );
+			}
+		}
+	}
+	else
+	{
+		if( isCastling && xDifference == 2 )
+		{
+			for( int x = 1; x < 3; x++ )
+			{
+				ChessPiece* blockingPiece = king->m_board->GetPieceAtCoord( IntVec2( currentCoord.x + x, currentCoord.y ) );
+				if( blockingPiece )
+				{
+					return false;
+				}
+			}
+
+			ChessPiece* blockingPiece = king->m_board->GetPieceAtCoord( IntVec2( currentCoord.x + 4, currentCoord.y ) );
+			if( blockingPiece && blockingPiece->m_definition->GetPieceType() == ChessPieceType::ROOK && blockingPiece->m_timesMoved == 0 )
+			{
+				king->m_board->MovePiece( blockingPiece, IntVec2( currentCoord.x + 1, currentCoord.y ) );
+			}
+		}
+		else if( isCastling && xDifference == -2 )
+		{
+			for( int x = 1; x < 2; x++ )
+			{
+				ChessPiece* blockingPiece = king->m_board->GetPieceAtCoord( IntVec2( currentCoord.x - x, currentCoord.y ) );
+				if( blockingPiece )
+				{
+					return false;
+				}
+			}
+
+			ChessPiece* blockingPiece = king->m_board->GetPieceAtCoord( IntVec2( currentCoord.x - 3, currentCoord.y ) );
+			if( blockingPiece && blockingPiece->m_definition->GetPieceType() == ChessPieceType::ROOK && blockingPiece->m_timesMoved == 0 )
+			{
+				king->m_board->MovePiece( blockingPiece, IntVec2( currentCoord.x - 1, currentCoord.y ) );
+			}
+		}
 	}
 
 	return true;
