@@ -193,6 +193,25 @@ bool ChessPiece::CheckMoveForPawn( ChessPiece* pawn, IntVec2 currentCoord, IntVe
 	// Check y movement
 	if( team == TEAM_PLAYER_1 )
 	{
+		// Check En Passant
+		if( !isCapturing && abs( xDifference ) == 1 && yDifference == 1 )
+		{
+			IntVec2 pieceToCaptureCoord = IntVec2( currentCoord.x + xDifference, currentCoord.y );
+			ChessPiece* pieceToCapture = pawn->m_board->GetPieceAtCoord( pieceToCaptureCoord );
+			if( !pieceToCapture )
+			{
+				return false;
+			}
+			if( pieceToCapture->m_definition->GetPieceType() == ChessPieceType::PAWN && pieceToCapture->m_timesMoved == 1 && 
+				pieceToCaptureCoord.y == 4 && ( g_game->m_chessMatch->m_turnCount - pieceToCapture->m_turnLastMoved ) <= 2 )
+			{
+				pawn->m_board->RemovePiece( pieceToCapture );
+				return true;
+			}
+
+			return false;
+		}
+
 		if( yDifference >= 3 )
 		{
 			return false;
@@ -214,6 +233,25 @@ bool ChessPiece::CheckMoveForPawn( ChessPiece* pawn, IntVec2 currentCoord, IntVe
 	}
 	else
 	{
+		// Check En Passant
+		if( !isCapturing && abs( xDifference ) == 1 && yDifference == -1 )
+		{
+			IntVec2 pieceToCaptureCoord = IntVec2( currentCoord.x + xDifference, currentCoord.y );
+			ChessPiece* pieceToCapture = pawn->m_board->GetPieceAtCoord( pieceToCaptureCoord );
+			if( !pieceToCapture )
+			{
+				return false;
+			}
+			if( pieceToCapture->m_definition->GetPieceType() == ChessPieceType::PAWN && pieceToCapture->m_timesMoved == 1 && 
+			pieceToCaptureCoord.y == 3 && ( g_game->m_chessMatch->m_turnCount - pieceToCapture->m_turnLastMoved ) <= 2 )
+			{
+				pawn->m_board->RemovePiece( pieceToCapture );
+				return true;
+			}
+
+			return false;
+		}
+
 		if( yDifference <= -3 )
 		{
 			return false;

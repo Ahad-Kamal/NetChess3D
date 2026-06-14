@@ -43,6 +43,7 @@ public:
 public:
 	ChessTeam m_team = TEAM_INAVLID;
 	unsigned char m_timesMoved = 0;
+	unsigned char m_turnLastMoved = 0;
 
 	Vec3 m_position;
 	EulerAngles m_orientation;

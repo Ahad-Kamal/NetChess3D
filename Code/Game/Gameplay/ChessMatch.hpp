@@ -27,6 +27,7 @@ private:
 
 public:
 	ChessTeam m_currentPlayerTurn = TEAM_PLAYER_1;
+	unsigned char m_turnCount = 1;
 
 private:
 	ChessBoard* m_chessBoard;

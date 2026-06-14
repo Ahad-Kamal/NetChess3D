@@ -391,6 +391,7 @@ bool ChessMatch::Event_ChessMove( EventArgs& args )
 	}
 	// Move piece
 	chessMatch->m_chessBoard->MovePiece( fromPiece, toCoord );
+	fromPiece->m_turnLastMoved = chessMatch->m_turnCount;
 
 	// Check for victory state
 	if( !chessMatch->m_chessBoard->CheckForCapturedKing( chessMatch->m_currentPlayerTurn ) )
@@ -410,6 +411,7 @@ bool ChessMatch::Event_ChessMove( EventArgs& args )
 	}
 	g_game->m_player->TogglePOVSide();
 	chessMatch->PrintBoardState();
+	chessMatch->m_turnCount++;
 
 	return true;
 }
