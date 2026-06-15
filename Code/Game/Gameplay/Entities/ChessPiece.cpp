@@ -62,7 +62,7 @@ ChessPiece::ChessPiece( ChessPieceDefinition* definition, ChessTeam player, Ches
 		}
 	}
 
-	m_moveTimer = new Timer( 0.8, g_game->m_gameClock );
+	m_moveTimer = new Timer( 1.0, g_game->m_gameClock );
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -75,10 +75,19 @@ ChessPiece::~ChessPiece()
 //-----------------------------------------------------------------------------------------------
 void ChessPiece::Update()
 {
-	if( m_isMoving )
+	if( m_isMoving && m_definition->GetPieceType() != ChessPieceType::KNIGHT )
 	{
 		float moveFraction = GetClamped( static_cast<float>( m_moveTimer->GetElaspedFraction() ), 0.f, 1.f );
-		m_position = Interpolate( m_prevPosition, m_nextPosition, moveFraction );
+		float easingFraction = SmoothStep3( moveFraction );
+		m_position = Interpolate( m_prevPosition, m_nextPosition, easingFraction );
+	}
+	else if( m_isMoving && m_definition->GetPieceType() == ChessPieceType::KNIGHT )
+	{
+		float moveFraction = GetClamped( static_cast<float>( m_moveTimer->GetElaspedFraction() ), 0.f, 1.f );
+		float easingFraction = SmoothStep5( moveFraction );
+		m_position.x = Interpolate( m_prevPosition.x, m_nextPosition.x, easingFraction );
+		m_position.y = Interpolate( m_prevPosition.y, m_nextPosition.y, easingFraction );
+		m_position.z = sinf( 3.14f * easingFraction );
 	}
 	if( m_moveTimer->DecrementPeriodIfElapsed() )
 	{
