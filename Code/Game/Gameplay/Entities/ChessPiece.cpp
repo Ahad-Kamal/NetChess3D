@@ -4,7 +4,9 @@
 #include "Game/Gameplay/ChessMatch.hpp"
 #include "Game/Gameplay/Game.hpp"
 #include "Engine/Core/Engine.hpp"
+#include "Engine/Core/Timer.hpp"
 #include "Engine/Math/Mat44.hpp"
+#include "Engine/Math/MathUtils.hpp"
 
 
 //-----------------------------------------------------------------------------------------------
@@ -59,6 +61,8 @@ ChessPiece::ChessPiece( ChessPieceDefinition* definition, ChessTeam player, Ches
 			AddVertsForOBB3( m_vertexes, m_indexes, box->m_obb3, Rgba8::WHITE  );
 		}
 	}
+
+	m_moveTimer = new Timer( 0.8, g_game->m_gameClock );
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -71,7 +75,18 @@ ChessPiece::~ChessPiece()
 //-----------------------------------------------------------------------------------------------
 void ChessPiece::Update()
 {
-
+	if( m_isMoving )
+	{
+		float moveFraction = GetClamped( static_cast<float>( m_moveTimer->GetElaspedFraction() ), 0.f, 1.f );
+		m_position = Interpolate( m_prevPosition, m_nextPosition, moveFraction );
+	}
+	if( m_moveTimer->DecrementPeriodIfElapsed() )
+	{
+		m_moveTimer->Stop();
+		m_isMoving = false;
+		m_position = m_nextPosition;
+		m_prevPosition = m_nextPosition;
+	}
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -103,27 +118,19 @@ void ChessPiece::TranslatePieceToCoord( IntVec2 coord )
 	// NOTE: add logic to handle change in z?
 	Vec2 newPosition = m_board->GetTileCenterFromCoord( coord );
 
-	// None of this code is necessary now cause of the model matrix now being passed in
+	// Only need to update the position, since the translation is being done by the ModelToWorldTransfrom Matrix
+	m_nextPosition = Vec3( newPosition );
+	m_isMoving = true;
+	m_moveTimer->Start();
+}
 
-	/*Vec2 translation = newPosition - Vec2( m_position );
-
-	Mat44 translationMatrix;
-	translationMatrix.AppendTranslation2D( translation );
-
-	TransformVertexArray3D( m_vertexes, translationMatrix );
-
-	if( m_team == TEAM_PLAYER_1 )
-	{
-		ChessCylinder* cylinder = static_cast<ChessCylinder*>( m_base );
-		cylinder->m_center += Vec3( translation );
-	}
-	else
-	{
-		ChessAABB3* box = static_cast<ChessAABB3*>( m_base );
-		box->m_abb3.Translate( Vec3( translation ) );
-	}*/
-
+//-----------------------------------------------------------------------------------------------
+void ChessPiece::SetPieceAtCoord( IntVec2 coord )
+{
+	Vec2 newPosition = m_board->GetTileCenterFromCoord( coord );
 	m_position = Vec3( newPosition );
+	m_nextPosition = Vec3( newPosition );
+	m_prevPosition = Vec3( newPosition );
 }
 
 //-----------------------------------------------------------------------------------------------

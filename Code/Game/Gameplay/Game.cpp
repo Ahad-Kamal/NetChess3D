@@ -40,6 +40,7 @@ Game::~Game()
 //-----------------------------------------------------------------------------------------------
 void Game::Startup()
 {
+	g_game = this;
 	m_gameClock = new Clock( Clock::GetSystemClock() );
 
 	Shader* blinnPhongShader = g_engine->m_render->CreateOrGetShader( "Data/Shaders/BlinnPhong", VertexType::VERTEX_PCUTBN );

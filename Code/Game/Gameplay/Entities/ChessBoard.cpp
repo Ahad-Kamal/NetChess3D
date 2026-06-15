@@ -147,7 +147,7 @@ void ChessBoard::AddPiece( ChessPiece*& pieceToAdd, IntVec2 coord )
 	{
 		pieceToAdd->RotatePiece( EulerAngles( 180.f, 0.f, 0.f ) );
 	}
-	pieceToAdd->TranslatePieceToCoord( coord );
+	pieceToAdd->SetPieceAtCoord( coord );
 
 	if( team == TEAM_PLAYER_1 )
 	{
@@ -344,7 +344,7 @@ void ChessBoard::AddPiecesToBoard()
 	{
 		ChessPiece* pawn = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 0 ], TEAM_PLAYER_1, this );
 		coord = IntVec2( pawnIndex, 1 );
-		pawn->TranslatePieceToCoord( coord );
+		pawn->SetPieceAtCoord( coord );
 		m_p1ChessPieces.push_back( pawn );
 		m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = pawn;
 	}
@@ -352,53 +352,53 @@ void ChessBoard::AddPiecesToBoard()
 	// Rooks
 	ChessPiece* rook11 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 1 ], TEAM_PLAYER_1, this );
 	coord = IntVec2( 0, 0 );
-	rook11->TranslatePieceToCoord( coord );
+	rook11->SetPieceAtCoord( coord );
 	m_p1ChessPieces.push_back( rook11 );
 	m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = rook11;
 
 	ChessPiece* rook12 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 1 ], TEAM_PLAYER_1, this );
 	coord = IntVec2( 7, 0 );
-	rook12->TranslatePieceToCoord( coord );
+	rook12->SetPieceAtCoord( coord );
 	m_p1ChessPieces.push_back( rook12 );
 	m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = rook12;
 
 	// Knights
 	ChessPiece* knight11 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 2 ], TEAM_PLAYER_1, this );
 	coord = IntVec2( 1, 0 );
-	knight11->TranslatePieceToCoord( coord );
+	knight11->SetPieceAtCoord( coord );
 	m_p1ChessPieces.push_back( knight11 );
 	m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = knight11;
 
 	ChessPiece* knight12 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 2 ], TEAM_PLAYER_1, this );
 	coord = IntVec2( 6, 0 );
-	knight12->TranslatePieceToCoord( coord );
+	knight12->SetPieceAtCoord( coord );
 	m_p1ChessPieces.push_back( knight12 );
 	m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = knight12;
 
 	// Bishops
 	ChessPiece* bishop11 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 3 ], TEAM_PLAYER_1, this );
 	coord = IntVec2( 2, 0 );
-	bishop11->TranslatePieceToCoord( coord );
+	bishop11->SetPieceAtCoord( coord );
 	m_p1ChessPieces.push_back( bishop11 );
 	m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = bishop11;
 
 	ChessPiece* bishop12 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 3 ], TEAM_PLAYER_1, this );
 	coord = IntVec2( 5, 0 );
-	bishop12->TranslatePieceToCoord( coord );
+	bishop12->SetPieceAtCoord( coord );
 	m_p1ChessPieces.push_back( bishop12 );
 	m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = bishop12;
 
 	// Queen
 	ChessPiece* queen1 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 4 ], TEAM_PLAYER_1, this );
 	coord = IntVec2( 3, 0 );
-	queen1->TranslatePieceToCoord( coord );
+	queen1->SetPieceAtCoord( coord );
 	m_p1ChessPieces.push_back( queen1 );
 	m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = queen1;
 
 	// King
 	ChessPiece* king1 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 5 ], TEAM_PLAYER_1, this );
 	coord = IntVec2( 4, 0 );
-	king1->TranslatePieceToCoord( coord );
+	king1->SetPieceAtCoord( coord );
 	m_p1ChessPieces.push_back( king1 );
 	m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = king1;
 
@@ -408,7 +408,7 @@ void ChessBoard::AddPiecesToBoard()
 	{
 		ChessPiece* pawn = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 0 ], TEAM_PLAYER_2, this );
 		coord = IntVec2( pawnIndex, 6 );
-		pawn->TranslatePieceToCoord( coord );
+		pawn->SetPieceAtCoord( coord );
 		m_p2ChessPieces.push_back( pawn );
 		m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = pawn;
 	}
@@ -416,13 +416,13 @@ void ChessBoard::AddPiecesToBoard()
 	// Rooks
 	ChessPiece* rook21 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 1 ], TEAM_PLAYER_2, this );
 	coord = IntVec2( 0, 7 );
-	rook21->TranslatePieceToCoord( coord );
+	rook21->SetPieceAtCoord( coord );
 	m_p2ChessPieces.push_back( rook21 );
 	m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = rook21;
 
 	ChessPiece* rook22 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 1 ], TEAM_PLAYER_2, this );
 	coord = IntVec2( 7, 7 );
-	rook22->TranslatePieceToCoord( coord );
+	rook22->SetPieceAtCoord( coord );
 	m_p2ChessPieces.push_back( rook22 );
 	m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = rook22;
 
@@ -430,41 +430,41 @@ void ChessBoard::AddPiecesToBoard()
 	ChessPiece* knight21 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 2 ], TEAM_PLAYER_2, this );
 	knight21->RotatePiece( EulerAngles( 180.f, 0.f, 0.f ) );
 	coord = IntVec2( 1, 7 );
-	knight21->TranslatePieceToCoord( coord );
+	knight21->SetPieceAtCoord( coord );
 	m_p2ChessPieces.push_back( knight21 );
 	m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = knight21;
 
 	ChessPiece* knight22 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 2 ], TEAM_PLAYER_2, this );
 	knight22->RotatePiece( EulerAngles( 180.f, 0.f, 0.f ) );
 	coord = IntVec2( 6, 7 );
-	knight22->TranslatePieceToCoord( coord );
+	knight22->SetPieceAtCoord( coord );
 	m_p2ChessPieces.push_back( knight22 );
 	m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = knight22;
 
 	// Bishops
 	ChessPiece* bishop21 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 3 ], TEAM_PLAYER_2, this );
 	coord = IntVec2( 2, 7 );
-	bishop21->TranslatePieceToCoord( coord );
+	bishop21->SetPieceAtCoord( coord );
 	m_p2ChessPieces.push_back( bishop21 );
 	m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = bishop21;
 
 	ChessPiece* bishop22 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 3 ], TEAM_PLAYER_2, this );
 	coord = IntVec2( 5, 7 );
-	bishop22->TranslatePieceToCoord( coord );
+	bishop22->SetPieceAtCoord( coord );
 	m_p2ChessPieces.push_back( bishop22 );
 	m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = bishop22;
 
 	// Queen
 	ChessPiece* queen2 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 4 ], TEAM_PLAYER_2, this );
 	coord = IntVec2( 3, 7 );
-	queen2->TranslatePieceToCoord( coord );
+	queen2->SetPieceAtCoord( coord );
 	m_p2ChessPieces.push_back( queen2 );
 	m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = queen2;
 
 	// King
 	ChessPiece* king2 = new ChessPiece( &ChessPieceDefinition::s_pieceDefs[ 5 ], TEAM_PLAYER_2, this );
 	coord = IntVec2( 4, 7 );
-	king2->TranslatePieceToCoord( coord );
+	king2->SetPieceAtCoord( coord );
 	m_p2ChessPieces.push_back( king2 );
 	m_piecesOnBoard[ GetIndexFromCoord( coord ) ] = king2;
 }

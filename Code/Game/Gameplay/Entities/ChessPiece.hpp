@@ -6,6 +6,7 @@
 
 //-----------------------------------------------------------------------------------------------
 class ChessBoard;
+class Timer;
 
 //-----------------------------------------------------------------------------------------------
 enum ChessTeam
@@ -26,6 +27,7 @@ public:
 	void Render() const;
 
 	void TranslatePieceToCoord( IntVec2 coord );
+	void SetPieceAtCoord( IntVec2 coord );
 	void RotatePiece( EulerAngles rotationAmt );
 	Mat44 GetModelToWorldTransform() const;
 
@@ -44,12 +46,16 @@ public:
 	ChessTeam m_team = TEAM_INAVLID;
 	unsigned char m_timesMoved = 0;
 	unsigned char m_turnLastMoved = 0;
+	bool m_isMoving = false;
 
 	Vec3 m_position;
+	Vec3 m_prevPosition;
+	Vec3 m_nextPosition;
 	EulerAngles m_orientation;
 
 	Rgba8 m_color;
 	ChessPieceDefinition* m_definition = nullptr;
+	Timer* m_moveTimer = nullptr;
 
 private:
 	VertexList m_vertexes;
