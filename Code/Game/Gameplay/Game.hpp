@@ -82,6 +82,7 @@ private:
 	Vertex m_startVerts[ 3 ];
 	float m_startAlpha = 255.f;
 	float m_time = 0.f;
+	int m_debugID = 0;;
 	Rgba8 m_clearColor = Rgba8( 0, 0, 0, 1 );
 	SoundPlaybackID m_music;
 };

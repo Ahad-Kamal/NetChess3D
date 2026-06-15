@@ -34,7 +34,11 @@ void ChessMatch::Update()
 //-----------------------------------------------------------------------------------------------
 void ChessMatch::Render() const
 {
+	g_engine->m_render->BeginCamera( *g_game->m_worldCamera );
+
 	m_chessBoard->Render();
+
+	g_engine->m_render->EndCamera( *g_game->m_worldCamera );
 }
 
 //-----------------------------------------------------------------------------------------------

@@ -125,7 +125,7 @@ void Game::Render() const
 	Shader* blinnPhongShader = g_engine->m_render->CreateOrGetShader( "Data/Shaders/BlinnPhong", VertexType::VERTEX_PCUTBN );
 	g_engine->m_render->BindShader( blinnPhongShader );
 
-	//RenderNonChessEntities();
+	RenderNonChessEntities();
 	m_chessMatch->Render();
 }
 
@@ -228,8 +228,29 @@ void Game::RenderVictoryScreen() const
 //-----------------------------------------------------------------------------------------------
 void Game::UpdateNonChessEntities( float deltaSeconds )
 {
-	m_time += deltaSeconds;
-	m_startAlpha = 127.5f * cosf( m_time * 2.0f ) + 127.5f;
+	if( m_currentState == GAME_STATE_ATTRACT )
+	{
+		m_time += deltaSeconds;
+		m_startAlpha = 127.5f * cosf( m_time * 2.0f ) + 127.5f;
+	}
+
+	AABB2 debugBox = AABB2( 1.f, 780.f, 1600.f, 795.f );
+	std::string debugText;
+	switch( m_debugID )
+	{
+		case 0: debugText = "Debug ID (0); Render Mode is: Normal rendering"; break;
+		case 1: debugText = "Debug ID (1); Render Mode is: Diffuse map texel only"; break;
+		case 2: debugText = "Debug ID (2); Render Mode is: Normal map texel only"; break;
+		case 3: debugText = "Debug ID (3); Render Mode is: UV texture coordinates"; break;
+		case 4: debugText = "Debug ID (4); Render Mode is: World-space surface tangents"; break;
+		case 5: debugText = "Debug ID (5); Render Mode is: World-space surface bitangents"; break;
+		case 6: debugText = "Debug ID (6); Render Mode is: World-space surface normals"; break;
+		case 7: debugText = "Debug ID (7); Render Mode is: World-space map normals"; break;
+		case 8: debugText = "Debug ID (8); Render Mode is: Surface lighting"; break;
+		case 9: debugText = "Debug ID (9); Render Mode is: Normal-mapped lighting"; break;
+	}
+	DebugAddScreenText( debugText, debugBox, 20.f, Vec2( 0.f, 1.f ), 0.f );
+
 
 	/*AABB2 positionBox = AABB2( 1.f, 784.f, 800.f, 799.f );
 	std::string positionText = Stringf( "Position: %.2f, %.2f, %.2f", m_player->m_position.x, m_player->m_position.y, m_player->m_position.z );
@@ -246,15 +267,11 @@ void Game::UpdateNonChessEntities( float deltaSeconds )
 //-----------------------------------------------------------------------------------------------
 void Game::RenderNonChessEntities() const
 {
-	g_engine->m_render->BeginCamera( *m_worldCamera );
-
-	g_engine->m_render->BindTexture( nullptr );
-
-	m_grid->Render();
-
-	m_testObj->Render();
-
-	g_engine->m_render->EndCamera( *m_worldCamera );
+	//g_engine->m_render->BeginCamera( *m_worldCamera );
+	//g_engine->m_render->BindTexture( nullptr );
+	//m_grid->Render();
+	//m_testObj->Render();
+	//g_engine->m_render->EndCamera( *m_worldCamera );
 }
 
 //-----------------------------------------------------------------------------------------------
@@ -268,42 +285,52 @@ void Game::UpdateKeyboardInput()
 	if( g_engine->m_input->WasKeyJustPressed( '0' ) )
 	{
 		g_engine->m_render->SetPerFrameConstants( 0 );
+		m_debugID = 0;
 	}
 	if( g_engine->m_input->WasKeyJustPressed( '1' ) )
 	{
 		g_engine->m_render->SetPerFrameConstants( 1 );
+		m_debugID = 1;
 	}
 	if( g_engine->m_input->WasKeyJustPressed( '2' ) )
 	{
 		g_engine->m_render->SetPerFrameConstants( 2 );
+		m_debugID = 2;
 	}
 	if( g_engine->m_input->WasKeyJustPressed( '3' ) )
 	{
 		g_engine->m_render->SetPerFrameConstants( 3 );
+		m_debugID = 3;
 	}
 	if( g_engine->m_input->WasKeyJustPressed( '4' ) )
 	{
 		g_engine->m_render->SetPerFrameConstants( 4 );
+		m_debugID = 4;
 	}
 	if( g_engine->m_input->WasKeyJustPressed( '5' ) )
 	{
 		g_engine->m_render->SetPerFrameConstants( 5 );
+		m_debugID = 5;
 	}
 	if( g_engine->m_input->WasKeyJustPressed( '6' ) )
 	{
 		g_engine->m_render->SetPerFrameConstants( 6 );
+		m_debugID = 6;
 	}
 	if( g_engine->m_input->WasKeyJustPressed( '7' ) )
 	{
 		g_engine->m_render->SetPerFrameConstants( 7 );
+		m_debugID = 7;
 	}
 	if( g_engine->m_input->WasKeyJustPressed( '8' ) )
 	{
 		g_engine->m_render->SetPerFrameConstants( 8 );
+		m_debugID = 8;
 	}
 	if( g_engine->m_input->WasKeyJustPressed( '9' ) )
 	{
 		g_engine->m_render->SetPerFrameConstants( 9 );
+		m_debugID = 9;
 	}
 
 	/*if( g_engine->m_input->WasKeyJustPressed( '1' ) )
