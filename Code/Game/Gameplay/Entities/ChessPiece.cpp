@@ -78,7 +78,7 @@ void ChessPiece::Update()
 	if( m_isMoving && m_definition->GetPieceType() != ChessPieceType::KNIGHT )
 	{
 		float moveFraction = GetClamped( static_cast<float>( m_moveTimer->GetElaspedFraction() ), 0.f, 1.f );
-		float easingFraction = SmoothStep3( moveFraction );
+		float easingFraction = SmoothStop6( moveFraction );
 		m_position = Interpolate( m_prevPosition, m_nextPosition, easingFraction );
 	}
 	else if( m_isMoving && m_definition->GetPieceType() == ChessPieceType::KNIGHT )
