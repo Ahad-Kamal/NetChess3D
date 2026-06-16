@@ -267,11 +267,11 @@ void Game::UpdateNonChessEntities( float deltaSeconds )
 //-----------------------------------------------------------------------------------------------
 void Game::RenderNonChessEntities() const
 {
-	//g_engine->m_render->BeginCamera( *m_worldCamera );
-	//g_engine->m_render->BindTexture( nullptr );
+	g_engine->m_render->BeginCamera( *m_worldCamera );
+	g_engine->m_render->BindTexture( nullptr );
 	//m_grid->Render();
-	//m_testObj->Render();
-	//g_engine->m_render->EndCamera( *m_worldCamera );
+	m_testObj->Render();
+	g_engine->m_render->EndCamera( *m_worldCamera );
 }
 
 //-----------------------------------------------------------------------------------------------
