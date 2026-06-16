@@ -25,6 +25,7 @@ cbuffer PerFrameConstants : register( b1 )
 {
     float Time;
     int DebugID;
+    float2 PER_FRAME_EMPTY_PADDING;
 };
 
 //------------------------------------------------------------------------------------------------
@@ -48,6 +49,7 @@ cbuffer LightConstants : register( b8 )
     float3 SunDirection;
     float SunIntensity;
     float AmbientIntensity;
+	float3 LIGHT_EMPTY_PADDING;
 };
 
 //------------------------------------------------------------------------------------------------
