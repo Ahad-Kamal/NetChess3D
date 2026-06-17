@@ -34,6 +34,7 @@ Game::Game()
 //-----------------------------------------------------------------------------------------------
 Game::~Game()
 {
+	DeleteLightCBO();
 	ChessPieceDefinition::ClearPieceDefs();
 }
 
@@ -46,6 +47,8 @@ void Game::Startup()
 	Shader* blinnPhongShader = g_engine->m_render->CreateOrGetShader( "Data/Shaders/BlinnPhong", VertexType::VERTEX_PCUTBN );
 	g_engine->m_render->BindShader( blinnPhongShader );
 
+	CreateLightCBO();
+	SetLightConstants( Vec3(), 0.f, 1.f );
 	g_engine->m_render->SetPerFrameConstants( 0 );
 
 	m_worldCamera = new Camera();
@@ -270,6 +273,7 @@ void Game::RenderNonChessEntities() const
 	g_engine->m_render->BeginCamera( *m_worldCamera );
 	g_engine->m_render->BindTexture( nullptr );
 	//m_grid->Render();
+	SetLightConstants( Vec3(), 0.f, 1.f );
 	m_testObj->Render();
 	g_engine->m_render->EndCamera( *m_worldCamera );
 }

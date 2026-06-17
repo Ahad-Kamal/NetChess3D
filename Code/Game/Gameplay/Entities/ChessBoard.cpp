@@ -64,7 +64,7 @@ void ChessBoard::Render() const
 
 	g_engine->m_render->BindTexture( normalTexture, 1 );
 	Vec3 normalizedLighting = g_game->m_sunDirection.GetNormalized();
-	g_engine->m_render->SetLightConstants( normalizedLighting, g_game->m_sunIntensity, g_game->m_ambientIntensity );
+	SetLightConstants( normalizedLighting, g_game->m_sunIntensity, g_game->m_ambientIntensity );
 	g_engine->m_render->DrawVertexArray( m_vertexes, m_indexes );
 	g_engine->m_render->BindTexture( nullptr, 1 );
 

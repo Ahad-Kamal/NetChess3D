@@ -107,7 +107,7 @@ void ChessPiece::Render() const
 
 	g_engine->m_render->RenderSetup( diffuseTexture, BlendMode::OPAQUE, GetModelToWorldTransform(), m_color );
 	Vec3 normalizedLighting = g_game->m_sunDirection.GetNormalized();
-	g_engine->m_render->SetLightConstants( normalizedLighting, g_game->m_sunIntensity, g_game->m_ambientIntensity );
+	SetLightConstants( normalizedLighting, g_game->m_sunIntensity, g_game->m_ambientIntensity );
 
 	g_engine->m_render->BindTexture( normalTexture, 1 );
 	if( m_team == TEAM_PLAYER_1 )
